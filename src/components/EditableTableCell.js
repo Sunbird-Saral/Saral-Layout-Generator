@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const EditableTableCell = ({ initialValue, onSave }) => {
   const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
   const handleDoubleClick = () => {
     setEditing(true);
@@ -20,17 +24,13 @@ const EditableTableCell = ({ initialValue, onSave }) => {
   };
 
   return (
-    <div
-      onDoubleClick={handleDoubleClick}
-    >
+    <div onDoubleClick={handleDoubleClick}>
       {editing ? (
         <input
-        
           type="text"
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyPress}
-          
           onBlur={() => {
             setEditing(false);
             onSave(value);
