@@ -1,20 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './StudentQuestionTable.css';
 import DownloadPDF from './DownloadPDF';
 import EditableTableCell from './EditableTableCell';
+
 const StudentQuestionTable = () => {
   const [rows, setRows] = useState(2);
   const [cols, setCols] = useState(4);
-  const [rolls, setrolls] = useState(5);
+  const [rolls, setRolls] = useState(5);
   const [tableData, setTableData] = useState([
     ['', ...Array(cols - 1).fill('')],
     ['', ...Array(cols - 1).fill('')],
   ]);
+  const [message, setMessage] = useState('');
+  const [savedTemplates, setSavedTemplates] = useState([]);
 
-  console.log(rows);
-  console.log(cols);
-  console.log(tableData);
+  // Database initialization
+  const [database, setDatabase] = useState(null);
+  const databaseName = 'studentQuestionDB';
+  const tableName = 'templates';
 
+  useEffect(() => {
+    initializeDatabase();
+  }, []);
+
+  const initializeDatabase = () => {
+    const request = window.indexedDB.open(databaseName, 1);
+
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      const objectStore = db.createObjectStore(tableName, { keyPath: 'uniqueId' });
+      objectStore.createIndex('messageIndex', 'message', { unique: false });
+    };
+
+    request.onsuccess = (event) => {
+      const db = event.target.result;
+      setDatabase(db);
+    };
+
+    request.onerror = (event) => {
+      console.error('Failed to open IndexedDB:', event.target.error);
+    };
+  };
 
   const handleCellChange = (rowIndex, colIndex, value) => {
     const updatedTableData = [...tableData];
@@ -27,11 +53,6 @@ const StudentQuestionTable = () => {
     const newRow = Array(cols).fill('');
     setTableData([...tableData, newRow]);
   };
-
-  const handleIDchange = (event)=> {
-    setrolls(event.target.value);
-
-  }
 
   const handleRemoveRow = () => {
     if (rows > 2) {
@@ -55,13 +76,86 @@ const StudentQuestionTable = () => {
     }
   };
 
+  const handleIDChange = (event) => {
+    setRolls(event.target.value);
+  };
+
+  const handleSaveTemplate = () => {
+    if (!database) {
+      console.error('IndexedDB not initialized');
+      return;
+    }
+  
+    const transaction = database.transaction(tableName, 'readwrite');
+    const objectStore = transaction.objectStore(tableName);
+  
+    const timestamp = Date.now();
+    const uniqueId = Math.floor(Math.random() * 1000000);
+    const template = {
+      timestamp,
+      uniqueId,
+      tableData: JSON.stringify(tableData),
+      message,
+    };
+  
+    const request = objectStore.add(template);
+  
+    request.onsuccess = () => {
+      console.log('Template saved:', template);
+      alert('Template saved successfully!');
+    };
+  
+    request.onerror = (event) => {
+      console.error('Failed to save template:', event.target.error);
+    };
+  };
+  
+  
+
+  const handleOpenTemplate = () => {
+    if (!database) {
+      console.error('IndexedDB not initialized');
+      return;
+    }
+  
+    const transaction = database.transaction(tableName, 'readonly');
+    const objectStore = transaction.objectStore(tableName);
+    const index = objectStore.index('messageIndex');
+    const request = index.get(message);
+  
+    request.onsuccess = (event) => {
+      const savedTemplate = event.target.result;
+      if (savedTemplate) {
+        const parsedTableData = JSON.parse(savedTemplate.tableData);
+        setRows(parsedTableData.length);
+        setCols(parsedTableData[0].length);
+        setTableData(parsedTableData);
+        // console.log(tableData[0][0]);
+        console.log('Template opened:', savedTemplate);
+        alert('Template opened successfully!');
+      } else {
+        alert('No template found with the given commit text.');
+      }
+    };
+  
+    request.onerror = (event) => {
+      console.error('Failed to open template:', event.target.error);
+    };
+  };
+  
+  
+  
+
   const generateTable = () => {
+    console.log('Table Data:', tableData);
+  console.log('Rows:', rows);
+  console.log('Cols:', cols);
     const table = [];
 
     // Table header
     const headerRow = [];
     headerRow.push(<th key={0}>
-      <EditableTableCell className="cells" initialValue={"Sr No"} onSave={(value) => handleCellChange(0,0,value) }/>
+      <EditableTableCell className="cells" initialValue={tableData[0][0]} onSave={(value) => handleCellChange(0,0,value) }/>
 </th>);
     headerRow.push(<th key={0}>
               <EditableTableCell className="cells" initialValue={"Names"} onSave={(value) => handleCellChange(0,1,value) }/>
@@ -137,7 +231,7 @@ const StudentQuestionTable = () => {
 
   return (
     <div className="table-container">
-      <table id='tablee'>
+      <table id="tablee">
         <tbody>{generateTable()}</tbody>
       </table>
       <div className="button-container">
@@ -146,13 +240,21 @@ const StudentQuestionTable = () => {
         <button onClick={handleAddColumn}>Add Column</button>
         <button onClick={handleRemoveColumn}>Remove Column</button>
         <input
-        type="range"
-        min={2}
-        max={10}
-        value={rolls}
-        onChange={handleIDchange}
-      />
-        <DownloadPDF/>
+          type="range"
+          min={2}
+          max={10}
+          value={rolls}
+          onChange={handleIDChange}
+        />
+        <button onClick={handleSaveTemplate}>Save Template</button>
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Enter commit text"
+        />
+        <button onClick={handleOpenTemplate}>Open Template</button>
+        <DownloadPDF />
       </div>
     </div>
   );
