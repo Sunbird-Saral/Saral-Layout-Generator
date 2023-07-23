@@ -1,0 +1,159 @@
+/* PersonalDetailsForm.css */
+.form-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-boundary {
+  position: relative;
+  width: 1100px;
+  height: 600px;
+  border: 2px solid black;
+  overflow: auto;
+  background-color: #F4F2DE;
+
+}
+
+
+
+.field-box {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  /* background-color: #f0f0f0; */
+  cursor: move;
+  padding: 5px;
+  
+}
+
+
+
+.cell-box {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  /* background-color: #f0f0f0; */
+  cursor: move;
+  padding: 5px;
+}
+
+.field-name {
+  margin-bottom: 5px;
+}
+
+.field-content {
+  display: flex;
+}
+
+.box {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+  margin: 2px;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: red;
+  color: white;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease;
+}
+
+.add-cell-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: green;
+  color: white;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease;
+  font-size:x-large;
+
+}
+
+
+.remove-cell-btn {
+  position: absolute;
+  bottom: 0;
+  right: 25px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: blue;
+  color: white;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease;
+  font-size:x-large;
+
+}
+
+
+.remove-btn:hover {
+  opacity: 1; /* Show on hover */
+}
+.add-cell-btn:hover {
+  opacity: 1; /* Show on hover */
+}
+
+.remove-cell-btn:hover {
+  opacity: 1; /* Show on hover */
+}
+
+.add-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 8px;
+  cursor: pointer;
+  background-color: green;
+  color: white;
+}
+
+.add-box-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 100px;
+  padding: 8px;
+  cursor: pointer;
+  background-color: green;
+  color: white;
+}
+
+.roll {
+  margin: 10px auto;
+}
+
+.roll td {
+  height: 15px;
+  width: 15px;
+}
+

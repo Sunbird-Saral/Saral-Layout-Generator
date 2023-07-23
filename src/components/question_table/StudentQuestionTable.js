@@ -12,7 +12,6 @@ const StudentQuestionTable = () => {
     ['', ...Array(cols - 1).fill('')],
   ]);
   const [message, setMessage] = useState('');
-  const [savedTemplates, setSavedTemplates] = useState([]);
 
   // Database initialization
   const [database, setDatabase] = useState(null);
@@ -155,10 +154,10 @@ const StudentQuestionTable = () => {
     // Table header
     const headerRow = [];
     headerRow.push(<th key={0}>
-      <EditableTableCell className="cells" initialValue={tableData[0][0]} onSave={(value) => handleCellChange(0,0,value) }/>
+      <EditableTableCell className="cells" initialValue={tableData[0][0]===""?"Sr":tableData[0][0]} onSave={(value) => handleCellChange(0,0,value) }/>
 </th>);
     headerRow.push(<th key={0}>
-              <EditableTableCell className="cells" initialValue={"Names"} onSave={(value) => handleCellChange(0,1,value) }/>
+              <EditableTableCell className="cells" initialValue={tableData[0][1]===""?"Name":tableData[0][1]} onSave={(value) => handleCellChange(0,1,value) }/>
     </th>);
     headerRow.push(<th key={1}>
 
@@ -235,10 +234,18 @@ const StudentQuestionTable = () => {
         <tbody>{generateTable()}</tbody>
       </table>
       <div className="button-container">
-        <button onClick={handleAddRow}>Add Row</button>
-        <button onClick={handleRemoveRow}>Remove Row</button>
-        <button onClick={handleAddColumn}>Add Column</button>
-        <button onClick={handleRemoveColumn}>Remove Column</button>
+        <button className="button" onClick={handleAddRow}>
+          Add Row
+        </button>
+        <button className="button" onClick={handleRemoveRow}>
+          Remove Row
+        </button>
+        <button className="button" onClick={handleAddColumn}>
+          Add Column
+        </button>
+        <button className="button" onClick={handleRemoveColumn}>
+          Remove Column
+        </button>
         <input
           type="range"
           min={2}
@@ -246,14 +253,18 @@ const StudentQuestionTable = () => {
           value={rolls}
           onChange={handleIDChange}
         />
-        <button onClick={handleSaveTemplate}>Save Template</button>
+        <button className="button" onClick={handleSaveTemplate}>
+          Save Template
+        </button>
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Enter commit text"
         />
-        <button onClick={handleOpenTemplate}>Open Template</button>
+        <button className="button" onClick={handleOpenTemplate}>
+          Open Template
+        </button>
         <DownloadPDF />
       </div>
     </div>
