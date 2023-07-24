@@ -1,11 +1,19 @@
 import React from 'react';
-import StudentQuestionTable from './components/StudentQuestionTable';
+import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
 
+import StudentQuestionTable from './components/question_table/StudentQuestionTable';
+import PersonDetailsForm from './components/personal_details/PersonalDetailsForm'
 const App = () => {
   return (
-    <div>
-      <StudentQuestionTable />
-    </div>
+    <Router>
+      <Routes>
+      <Route exact path="/" element={<PersonDetailsForm/>} />
+      <Route exact path="/home" element={<StudentQuestionTable/>} />
+
+      </Routes>
+       
+    {/* Add more routes for other pages */}
+  </Router>
   );
 };
 
