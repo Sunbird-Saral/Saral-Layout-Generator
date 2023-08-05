@@ -1,19 +1,19 @@
 import React from 'react';
-import { BrowserRouter as Router, Route,Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+// import HomePage from './components/HomePage';
 import StudentQuestionTable from './components/question_table/StudentQuestionTable';
-import PersonDetailsForm from './components/personal_details/PersonalDetailsForm'
+import PersonDetailsForm from './components/personal_details/PersonalDetailsForm';
+
 const App = () => {
   return (
     <Router>
       <Routes>
-      <Route exact path="/" element={<PersonDetailsForm/>} />
-      <Route exact path="/home" element={<StudentQuestionTable/>} />
-
+        {/* <Route path="/" element={<HomePage />} /> */}
+        <Route path="/" element={<StudentQuestionTable />} />
+        <Route path="/personal" element={<PersonDetailsForm />} />
       </Routes>
-       
-    {/* Add more routes for other pages */}
-  </Router>
+    </Router>
   );
 };
 
