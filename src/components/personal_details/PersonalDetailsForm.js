@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import './PersonalDetailsForm.css';
 import EditableField from './EditableField';
+import DownloadPDF from './DownloadPDF'; 
 const PersonalDetailsForm = () => {
   const [fields, setFields] = useState([
     { id: Date.now() + 1, top: 100, left: 100, name: 'Field 1' },
@@ -115,8 +116,9 @@ const [inputs,setinputs]= useState([
   }
 
   return (
+    
     <div className="form-container">
-      <div ref={boundaryRef} className="form-boundary">
+      <div ref={boundaryRef} id="print-this" className="form-boundary">
         {fields.map((field) => (
           <div
             key={field.id}
@@ -200,6 +202,7 @@ const [inputs,setinputs]= useState([
       <button onClick={addBox} className="add-box-btn">
         Add InputBox
       </button>
+      <DownloadPDF />
     </div>
   );
 };
