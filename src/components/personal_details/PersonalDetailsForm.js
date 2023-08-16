@@ -15,13 +15,13 @@ const [inputs,setinputs]= useState([
 {id:Date.now()+4 ,top:250,left:250,name:'input1',size:5},
 {id:Date.now()+5 ,top:300,left:300,name:'input2',size:5}
 
-])
+]);
 
 
 const [omrs,setOmrs]= useState([
   {id:Date.now()+6 ,top:400,left:250,name:'omrs1'},
   
-  ])
+  ]);
 
 
   const boundaryRef = React.useRef(null);
