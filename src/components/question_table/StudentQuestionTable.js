@@ -13,7 +13,7 @@ const StudentQuestionTable = () => {
   ]);
   const [message, setMessage] = useState('');
   const [coltypes , setColtypes] = useState([1]);
-
+  const [idColumnLengths, setIdColumnLengths] = useState([rolls]);
   // Database initialization
   const [database, setDatabase] = useState(null);
   const databaseName = 'studentQuestionDB';
@@ -71,7 +71,7 @@ const StudentQuestionTable = () => {
     }
   };
 
-  const handleAddColumn = () => {
+  const handleAddOmrColumn = () => {
     setCols(cols + 1);
     let ar = coltypes;
     ar.push(1);
@@ -80,13 +80,84 @@ const StudentQuestionTable = () => {
     setTableData(updatedTableData);
   };
 
+  const handleAddIdColumn = () => {
+    setCols(cols + 1);
+    let ar = coltypes;
+    ar.push(2);
+    setColtypes(ar);
+
+    // Add the initial length for the new ID column
+    setIdColumnLengths(prevLengths => [...prevLengths, rolls]);
+    
+    const updatedTableData = tableData.map((row) => [...row, '']);
+    setTableData(updatedTableData);
+  };
+
+  const handleAddIdColumnLength = (colIndex) => {
+    setIdColumnLengths((prevLengths) => {
+      const newLengths = [...prevLengths];
+      newLengths[colIndex] += 1;
+      return newLengths;
+    });
+  };
+
+  const handleRemoveIdColumnLength = (colIndex) => {
+    setIdColumnLengths((prevLengths) => {
+      const newLengths = [...prevLengths];
+      newLengths[colIndex] = Math.max(newLengths[colIndex] - 1, 1);
+      return newLengths;
+    });
+  };
+
   const handleRemoveColumn = () => {
     if (cols > 2) {
       setCols(cols - 1);
       setColtypes(coltypes.slice(0,-1));
+
+      // Remove the length for the removed ID column
+      setIdColumnLengths((prevLengths) => prevLengths.slice(0, -1));
+
       const updatedTableData = tableData.map((row) => row.slice(0, -1));
       setTableData(updatedTableData);
     }
+  };
+
+  // ... handleCellChange, handleAddOmrColumn, and other functions ...
+
+  const IdColumn = ({ length, colIndex }) => {
+    const [showButtons, setShowButtons] = useState(false);
+
+    return (
+      <td
+        key={`idColumn_${colIndex}`}
+        onMouseEnter={() => setShowButtons(true)}
+        onMouseLeave={() => setShowButtons(false)}
+      >
+        <table className="roll">
+          <tr>
+            {Array.from({ length }, (_, index) => (
+              <td key={index}></td>
+            ))}
+          </tr>
+        </table>
+        {/* {showButtons && (
+          <div className="length-buttons">
+            <button onClick={() => handleRemoveIdColumnLength(colIndex)}>-</button>
+            <span>{length}</span>
+            <button onClick={() => handleAddIdColumnLength(colIndex)}>+</button>
+          </div>
+        )} */}
+      </td>
+    );
+  };
+
+  const handleAddTextColumn = () => {
+    setCols(cols + 1);
+    let ar = coltypes;
+    ar.push(3);
+    setColtypes(ar);
+    const updatedTableData = tableData.map((row) => [...row, '']);
+    setTableData(updatedTableData);
   };
 
   const handleIDChange = (event) => {
@@ -104,9 +175,10 @@ const StudentQuestionTable = () => {
     const timestamp = Date.now();
     const uniqueId = Math.floor(Math.random() * 1000000);
     const template = {
-      timestamp,
+      timestamp,  
       uniqueId,
       tableData: JSON.stringify(tableData),
+      columnType: JSON.stringify(coltypes),
       message,
     };
   
@@ -183,6 +255,7 @@ const StudentQuestionTable = () => {
         setRows(parsedTableData.length);
         setCols(parsedTableData[0].length);
         setTableData(parsedTableData);
+        setColtypes(JSON.parse(savedTemplate.columnType));
         // console.log(tableData[0][0]);
         console.log('Template opened:', savedTemplate);
         alert('Template opened successfully!');
@@ -197,7 +270,12 @@ const StudentQuestionTable = () => {
   };
   
   
-  
+
+
+
+
+
+
 
   const generateTable = () => {
     console.log('Table Data:', tableData);
@@ -240,94 +318,23 @@ const StudentQuestionTable = () => {
         }
         else if(coltypes[j]===2){
           row.push(
-            <td key={i+" "+j}>
-              <div className='circle'></div>
-            </td>
-          )
+            <IdColumn
+              key={`idColumn_${j}`}
+              length={5}
+              colIndex={j}
+            />
+          );
         }
         else{
           row.push(
             <td key={i+" "+j}>
-              <div className='circle'></div>
+              <EditableTableCell className="cells" initialValue={""} onSave={(value) => handleCellChange(i,j,value) }/>
             </td>
           )
         }
       }
       table.push(<tr>{row}</tr>)
     }
-
-
-//     headerRow.push(<th key={0}>
-//       <EditableTableCell className="cells" initialValue={tableData[0][0]===""?"Sr":tableData[0][0]} onSave={(value) => handleCellChange(0,0,value) }/>
-// </th>);
-//     headerRow.push(<th key={0}>
-//               <EditableTableCell className="cells" initialValue={tableData[0][1]===""?"Name":tableData[0][1]} onSave={(value) => handleCellChange(0,1,value) }/>
-//     </th>);
-//     headerRow.push(<th key={1}>
-
-//             <EditableTableCell initialValue={tableData[0][2]===""?"Roll No":tableData[0][2]} onSave={(value) => handleCellChange(0,2,value) }/>
-//     </th>);
-//     for (let j = 2; j < cols; j++) {
-//       headerRow.push(<th key={j}>
-
-//               <EditableTableCell className="cells" initialValue={"Q"+(j-1)} onSave={(value) => handleCellChange(0,j,value) }/>
-        
-        
-//         </th>);
-//     }
-//     table.push(<tr key={-1}>{headerRow}</tr>);
-    
-//     // Table body
-//     for (let i = 1; i < rows; i++) {
-//       const row = [];
-//       row.push(
-//         <td key={i}>
-//         <EditableTableCell className="cells" initialValue={i} onSave={(value) => handleCellChange(i,0,value) }/>
-//         </td>
-//       );
-//       for (let j = 0; j < cols; j++) {
-//         if (j === 0) {
-//           // Student name and roll number columns
-//           row.push(
-//             <td key={j}>
-
-//             <EditableTableCell className="cells" initialValue={tableData[i][j]===""?"":tableData[i][j]} onSave={(value) => handleCellChange(i,j,value) }/>
-
-//             </td>
-//           );
-//         }
-        
-//         else if(j===1){
-//           const ids=[];
-//           for(let r=0;r<rolls;r++){
-//             ids.push(
-//               <td></td>
-//             )
-//           }
-//           row.push(
-//             <td key={j}>
-
-//               <table className='roll'>
-//                 <tr>
-//                   {ids}
-//                 </tr>
-//               </table>
-//             </td>
-//           );
-
-//         }
-//         else {
-//           // Question number tickbox columns
-//           row.push(
-//             <td key={j}>
-
-//               <div className='circle'></div>
-//             </td>
-//           );
-//         }
-//       }
-//       table.push(<tr key={i}>{row}</tr>);
-//     }
 
     return table;
   };
@@ -344,19 +351,25 @@ const StudentQuestionTable = () => {
         <button className="button" onClick={handleRemoveRow}>
           Remove Row
         </button>
-        <button className="button" onClick={handleAddColumn}>
-          Add Column
+        <button className="button" onClick={handleAddOmrColumn}>
+          Add OMR-Column
+        </button>
+        <button className="button" onClick={handleAddIdColumn}>
+          Add ID-Column
+        </button>
+        <button className="button" onClick={handleAddTextColumn}>
+          Add Text-Column
         </button>
         <button className="button" onClick={handleRemoveColumn}>
           Remove Column
         </button>
-        <input
+        {/* <input
           type="range"
           min={2}
           max={10}
           value={rolls}
           onChange={handleIDChange}
-        />
+        /> */}
         <button className="button" onClick={handleSaveTemplate}>
           Save Template
         </button>

@@ -18,9 +18,16 @@ const [inputs,setinputs]= useState([
 ])
 
 
+const [omrs,setOmrs]= useState([
+  {id:Date.now()+6 ,top:400,left:250,name:'omrs1'},
+  
+  ])
+
+
   const boundaryRef = React.useRef(null);
   const fieldRefs = React.useRef({});
   const inputRefs = React.useRef({});
+  const omrRefs = React.useRef({});
   const addField = () => {
     setFields((prevFields) => [
       ...prevFields,
@@ -34,10 +41,23 @@ const [inputs,setinputs]= useState([
     ]);
   };
 
+  const addOmr = () => {
+    setOmrs((prevomrs) => [
+      ...prevomrs,
+      { id: Date.now(), top: 300, left: 300,name: `omrs ${prevomrs.length + 1}`},
+    ]);
+  };
+
   const removeField = (setFields,fieldId) => {
     setFields((prevFields) => prevFields.filter((field) => field.id !== fieldId));
   };
 
+  const removeOmr = (setOmrs,fieldId) => {
+    setOmrs((prevomrs) => prevomrs.filter((field) => field.id !== fieldId));
+  };
+
+
+  
   const handleFieldDrag = (fieldId, e, data) => {
     const boundaryRect = boundaryRef.current.getBoundingClientRect();
     const boundaryX = boundaryRect.left;
@@ -45,24 +65,48 @@ const [inputs,setinputs]= useState([
     const fieldRect = fieldRefs.current[fieldId].getBoundingClientRect();
     const fieldX = fieldRect.left;
     const fieldY = fieldRect.top;
-    const newX = data.x + fieldX - boundaryX;
-    const newY = data.y + fieldY - boundaryY;
+    let newX = data.x + fieldX - boundaryX;
+    let newY = data.y + fieldY - boundaryY;
+    newX = Math.floor(newX/20);
+    newX = newX*20;
+    newY = Math.floor(newY/20);
+    newY = newY*20;
 
     setFields((prevFields) =>
       prevFields.map((field) => (field.id === fieldId ? { ...field, top: newY, left: newX } : field))
     );
   };
   const handleInputDrag = (inputId, e, data) => {
+
     const boundaryRect = boundaryRef.current.getBoundingClientRect();
     const boundaryX = boundaryRect.left;
     const boundaryY = boundaryRect.top;
     const fieldRect = inputRefs.current[inputId].getBoundingClientRect();
     const fieldX = fieldRect.left;
     const fieldY = fieldRect.top;
-    const newX = data.x + fieldX - boundaryX;
-    const newY = data.y + fieldY - boundaryY;
+    let newX = data.x + fieldX - boundaryX;
+    let newY = data.y + fieldY - boundaryY;
 
     setinputs((prevFields) =>
+      prevFields.map((inputs) => (inputs.id === inputId ? { ...inputs, top: newY, left: newX } : inputs))
+    );
+  };
+
+  const handleOmrDrag = (inputId, e, data) => {
+
+    const boundaryRect = boundaryRef.current.getBoundingClientRect();
+    const boundaryX = boundaryRect.left;
+    const boundaryY = boundaryRect.top;
+    const fieldRect = omrRefs.current[inputId].getBoundingClientRect();
+    const fieldX = fieldRect.left;
+    const fieldY = fieldRect.top;
+    let newX = data.x + fieldX - boundaryX;
+    let newY = data.y + fieldY - boundaryY;
+    newX = Math.floor(newX/20);
+    newX = newX*20;
+    newY = Math.floor(newY/20);
+    newY = newY*20;
+    setOmrs((prevFields) =>
       prevFields.map((inputs) => (inputs.id === inputId ? { ...inputs, top: newY, left: newX } : inputs))
     );
   };
@@ -190,6 +234,32 @@ const [inputs,setinputs]= useState([
         ))}
 
 
+{omrs.map((omr) => (
+          <div
+            key={omr.id}
+            ref={(element) => (omrRefs.current[omr.id] = element)}
+            style={{ position: 'absolute', left: omr.left, top: omr.top }}
+            className="field-container"
+          >
+            <Draggable
+              position={{ x: 0, y: 0 }}
+              onStop={(e, data) => handleOmrDrag(omr.id, e, data)}
+            >
+              <div className="omr-box">
+              <div className='circle'></div>
+              </div>
+            </Draggable>
+            <div
+              className="remove-btn"
+              onClick={() => removeOmr(setOmrs,omr.id)}
+              title="Remove omr"
+            >
+              &#10005;
+            </div>
+          </div>
+        ))}
+
+
 
 
 
@@ -201,6 +271,9 @@ const [inputs,setinputs]= useState([
       </button>
       <button onClick={addBox} className="add-box-btn">
         Add InputBox
+      </button>
+      <button onClick={addOmr} className="add-omr-btn">
+        Add OMR Btn
       </button>
       <DownloadPDF />
     </div>
