@@ -1,7 +1,16 @@
-
+.form-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6528F7;
+}
 .area{
+  position: relative;
   width: 1200px;
-  height: 600px;
+  height: 650px;
   background-color:lightgray;
   margin: 0 auto;
 }
@@ -62,10 +71,10 @@
   background: rgba(1, 1, 1, 0.2);
 
   cursor: col-resize;
-  height: 10px;
-  width: 10px;
+  height: 15px;
+  width: 15px;
   position: absolute;
-  top: 80%;
+  top: 100%;
   opacity: 0;
   left: 100%;
   z-index: 2;
@@ -80,8 +89,8 @@
   background: rgba(1, 1, 1, 0.2);
 
   cursor: col-resize;
-  height: 10px;
-  width: 10px;
+  height: 15px;
+  width: 15px;
   position: absolute;
   top: 100%;
   opacity: 0;
@@ -91,4 +100,54 @@
 
 #Draggable2:hover{
   opacity: 1;
+}
+
+
+
+.roll {
+  margin: 10px auto;
+}
+
+.roll td {
+  height: 15px;
+  width: 15px;
+}
+
+.circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 auto;
+}
+.omr-box{
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  /* background-color: #f0f0f0; */
+  cursor: move;
+  padding: 5px;
+}
+
+.add-box-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 100px;
+  padding: 8px;
+  cursor: pointer;
+  background-color: green;
+  color: white;
+}
+
+.add-omr-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 210px;
+  padding: 8px;
+  cursor: pointer;
+  background-color: green;
+  color: white;
 }
