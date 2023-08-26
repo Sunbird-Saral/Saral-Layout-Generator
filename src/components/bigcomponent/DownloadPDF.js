@@ -3,29 +3,42 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 const DownloadPDF = ({ boxes }) => {
-  console.log(boxes);
-
-  const [captureHeight,setCaptureHeight] = useState(0);
-  const [captureWidth,setCaptureWidth] = useState(0);
-
-  for(let i=0;i<boxes.length;i++){
-    if(boxes[i].x+boxes[i].height > captureHeight){
-      setCaptureHeight(boxes[i].x+boxes[i].height);
-    }
   
-    if(boxes[i].y+boxes[i].width > captureWidth){
-      setCaptureWidth(boxes[i].y+boxes[i].width);
-    }
-    
-  }
-  
-   console.log(captureHeight,captureWidth);
+
+  // let [captureHeight,setCaptureHeight] = useState(0);
+  // let [captureWidth,setCaptureWidth] = useState(0);
+
+
 
   const generatePDF = () => {
+    let captureHeight=0;
+    let captureWidth=0;
+    console.log(boxes);
+    for(let i=0;i<boxes.length;i++){
+      console.log(boxes[i].x+boxes[i].height);
+      console.log(boxes[i].y+boxes[i].width);
+      console.log(captureHeight);
+      if(boxes[i].x+boxes[i].height > captureHeight){
+        console.log("a");
+        captureHeight=boxes[i].x+boxes[i].height+50;
+        // setCaptureHeight(boxes[i].x+boxes[i].height);
+      }
+    
+      if(boxes[i].y+boxes[i].width > captureWidth){
+        captureWidth= boxes[i].y+boxes[i].width+50;
+        // setCaptureWidth(boxes[i].y+boxes[i].width);
+      }
+      
+    }
+    
+     console.log(captureHeight,captureWidth);
+     setTimeout(() => {
+
+    }, 2000);
     const reportElement = document.getElementById('print-this');
 
     const pdfWidth = 1300; // A4 width in points (landscape mode)
-    const pdfHeight = 700; // A4 height in points (landscape mode)
+    const pdfHeight = 800; // A4 height in points (landscape mode)
     const spaceWidth = 50; // Desired space width on both sides in points
 
     const posX = (pdfWidth - captureWidth) / 2; // Center the image horizontally
@@ -49,7 +62,7 @@ const DownloadPDF = ({ boxes }) => {
 
   return (
     <div>
-      <button onClick={generatePDF} type="button">
+      <button onClick={()=>generatePDF()} type="button">
         Export PDF
       </button>
     </div>

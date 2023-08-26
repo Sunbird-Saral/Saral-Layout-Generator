@@ -37,7 +37,7 @@ const EditableField = ({ initialValue, onSave }) => {
           }}
           onKeyDown={handleKeyPress}
           autoFocus
-          style={{ border: 'none', outline: 'none', fontSize: '16px' ,background:'lightgrey' }}
+          style={{ width:'100%', border: 'none', outline: 'none', fontSize: '16px' ,background:'lightgrey' }}
         />
       ) : (
         <span>{value}</span>

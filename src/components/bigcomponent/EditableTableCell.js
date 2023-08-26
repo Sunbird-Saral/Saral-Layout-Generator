@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-const EditableTableCell = ({ initialValue }) => {
+const EditableTableCell = ({ initialValue}) => {
+  // setBoxes(boxer);
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState('');
   const [isBold, setIsBold] = useState(false); // State to track if text is bold
@@ -29,12 +30,11 @@ const EditableTableCell = ({ initialValue }) => {
 
   const textStyle = {
     fontWeight: isBold ? 'bold' : 'normal',
-
-
-
-
+    
 
   };
+
+
 
   return (
     <div
@@ -55,7 +55,7 @@ const EditableTableCell = ({ initialValue }) => {
             setEditing(false);
           }}
           autoFocus
-          style={{   border: 'none', outline: 'none', ...textStyle }}
+          style={{ backgroundColor:"grey",   width:'100%', border: 'none', outline: 'none', ...textStyle }}
         />
       ) : (
         <div style={textStyle}>
