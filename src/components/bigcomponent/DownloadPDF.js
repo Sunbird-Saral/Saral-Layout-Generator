@@ -1,45 +1,64 @@
-import React,{useState} from 'react';
+import React from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
-const DownloadPDF = ({ boxes }) => {
-  
-
-  // let [captureHeight,setCaptureHeight] = useState(0);
-  // let [captureWidth,setCaptureWidth] = useState(0);
+const DownloadPDF = ({ boxes,blackdots,setBlackdots }) => {
 
 
 
-  const generatePDF = () => {
+  const addOmr = (t,l) => {
+    setBlackdots((prevomrs) => [
+      ...prevomrs,
+      { id: Date.now(), top: t, left: l,name: `omrs ${prevomrs.length + 1}`,size:40,color:"black"},
+    ]);
+
+
+  };
+
+
+  const start = () => {
+    
+
+
     let captureHeight=0;
     let captureWidth=0;
-    console.log(boxes);
     for(let i=0;i<boxes.length;i++){
-      console.log(boxes[i].x+boxes[i].height);
-      console.log(boxes[i].y+boxes[i].width);
-      console.log(captureHeight);
+
       if(boxes[i].x+boxes[i].height > captureHeight){
-        console.log("a");
-        captureHeight=boxes[i].x+boxes[i].height+50;
+        captureHeight=boxes[i].x+boxes[i].height;
         // setCaptureHeight(boxes[i].x+boxes[i].height);
       }
     
       if(boxes[i].y+boxes[i].width > captureWidth){
-        captureWidth= boxes[i].y+boxes[i].width+50;
+        captureWidth= boxes[i].y+boxes[i].width;
         // setCaptureWidth(boxes[i].y+boxes[i].width);
       }
       
     }
     
-     console.log(captureHeight,captureWidth);
-     setTimeout(() => {
+     addOmr(0,0);
+     addOmr(0,captureWidth);
+     addOmr(captureHeight,0);
+     addOmr(captureHeight,captureWidth);
+     captureHeight+=50;
+     captureWidth+=50;
+    setTimeout(() => {
+      generatePDF(captureHeight,captureWidth); // Generate PDF after adding OMR
+    }, 1000);
+    
+  };
 
-    }, 2000);
+
+  const generatePDF = (captureHeight,captureWidth) => {
+  
+
+
+
     const reportElement = document.getElementById('print-this');
 
     const pdfWidth = 1300; // A4 width in points (landscape mode)
     const pdfHeight = 800; // A4 height in points (landscape mode)
-    const spaceWidth = 50; // Desired space width on both sides in points
+    // const spaceWidth = 50; // Desired space width on both sides in points
 
     const posX = (pdfWidth - captureWidth) / 2; // Center the image horizontally
     const posY = (pdfHeight - captureHeight) / 2; // Center the image vertically
@@ -58,11 +77,13 @@ const DownloadPDF = ({ boxes }) => {
       pdf.addImage(imgData, 'PNG', posX, posY, captureWidth, captureHeight);
       pdf.save('report.pdf');
     });
+
+    setBlackdots([]);
   };
 
   return (
     <div>
-      <button onClick={()=>generatePDF()} type="button">
+      <button onClick={()=>start()} className="download-button" type="button">
         Export PDF
       </button>
     </div>

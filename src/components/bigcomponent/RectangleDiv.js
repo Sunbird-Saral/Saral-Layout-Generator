@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
 import './RectangleDiv.css';
 import DownloadPDF from './DownloadPDF';
-import EditableTableCell from './EditableTableCell';
 import OmrComponent from './OmrComponent';
 import IdComponent from './IdComponent';
 import FreeTextComponent from './FreeTextComponent';
+import BlackDotComponent from './BlackDotComponent';
 const RectangleDiv = () => {
-  const [boxes, setBoxes] = useState([{ key:Date.now(), x: 20, y: 20, width: 60, height: 30,textsize:20 }]);
+  const [boxes, setBoxes] = useState([{ key:Date.now(), x: 40, y: 40, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
 
 
 
+  const [blackdots,setBlackdots]= useState([
 
+    
+    ]);
 
-
+    const updateSharedState = (newValue) => {
+      setBlackdots(newValue);
+    };
 
 
 // main table
@@ -22,6 +27,7 @@ const RectangleDiv = () => {
   const addbox = (oldbox,where) => {
     const newbox = {key:Date.now(), x:oldbox.x,y:oldbox.y,width:oldbox.width,height:oldbox.height,textsize:20};
     if(where==="right"){
+
       newbox.y +=oldbox.width;
     }
     if(where==="bottom"){
@@ -56,10 +62,15 @@ const RectangleDiv = () => {
   
   const resize = (e,box) => {
       let resizable = document.getElementsByClassName('box '+box.key)[0];
+
       resizable.style.width = `${parseInt(initialSize) + parseInt(e.clientX - initialPos)}px`;
       let ne = parseInt(resizable.style.width);
+      
       ne = Math.floor(ne/10);
       ne = ne*10;
+      if(box.y+ne>1230){
+        ne = 1230-box.y;
+      }
       resizable.style.width =  `${ne}px`;
       for(let i=0;i<boxes.length;i++){
         if(boxes[i]===box){boxes[i].width = ne}
@@ -98,10 +109,11 @@ const resizedown = (e,box) => {
 
   return (
     <div className='form-container'>
+      <div className='outer-area'>
       <div ref={boundaryRef} id="print-this" className='area'>
       {boxes.map((box) => (
         <div id="Resizable" key={box.key} className={'box ' + box.key} style={{ width:box.width,height:box.height,top: box.x, left: box.y }}>
-                <EditableTableCell initialValue={"a"} box={box}  boxes={boxes}/>
+                
                 
                 
                 <div id = 'Draggable'
@@ -132,10 +144,13 @@ const resizedown = (e,box) => {
       <OmrComponent boundaryRef={boundaryRef}/>
       <IdComponent boundaryRef={boundaryRef}/>
       <FreeTextComponent boundaryRef={boundaryRef}/>
-    </div>  
+      <BlackDotComponent  blackdots={blackdots} updateblackdots={updateSharedState}/>
+    </div>
+      </div>
+  
 
 
-      <DownloadPDF boxes={boxes}/>
+      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots}/>
     </div>
     
   );

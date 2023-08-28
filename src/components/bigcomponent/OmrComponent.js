@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 const OmrComponent = ({boundaryRef}) =>{
 
     const [omrs,setOmrs]= useState([
-    {id:Date.now()+6 ,top:400,left:250,name:'omrs1',size:16,color:"white"},
+
     
     ]);
     const omrRefs = React.useRef({});
@@ -57,7 +57,6 @@ const OmrComponent = ({boundaryRef}) =>{
 
       const handleDoubleClickOmr =(input) =>{
 
-        console.log(input);
         const newInputs = omrs.map((prevInput) => {
           if (prevInput.id === input.id) {
             let col="white";

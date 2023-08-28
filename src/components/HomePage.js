@@ -10,18 +10,18 @@ const HomePage = () => {
         <div className="dropdown-menu">
           <select>
             <option value="">Select a Page</option>
-            <option value="/student">Student Question Table</option>
+            <option value="/attendance">Student Question Table</option>
             <option value="/personal">Personal Details Form</option>
             <option value="/main">Main</option>
           </select>
-          <Link to="/student">
-            <button>Go to Student Question Table</button>
+          <Link to="/attendance">
+            <button className='others'>Go to Student Question Table</button>
           </Link>
           <Link to="/personal">
-            <button>Go to Personal Details Form</button>
+            <button className='others'>Go to Personal Details Form</button>
           </Link>
           <Link to="/main">
-            <button>Go to User configurable </button>
+            <button className='others'>Go to User configurable </button>
           </Link>
         </div>
       </div>
