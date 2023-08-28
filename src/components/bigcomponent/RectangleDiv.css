@@ -17,14 +17,12 @@
 
 .box {
   position:absolute;
-  width: 100px;
-  height: 100px;
+
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  font-weight: bold;
 }
 
 
@@ -129,9 +127,9 @@
 }
 
 .add-box-btn {
-  position: absolute;
-  bottom: 10px;
-  right: 100px;
+  position: relative;
+  top: 10%;
+  left: 97%;
   padding: 8px;
   cursor: pointer;
   background-color: green;
@@ -139,9 +137,9 @@
 }
 
 .add-omr-btn {
-  position: absolute;
+  position: relative;
   bottom: 10px;
-  right: 210px;
+  left: 105%;
   padding: 8px;
   cursor: pointer;
   background-color: green;
