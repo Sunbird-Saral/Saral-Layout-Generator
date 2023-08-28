@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './RectangleDiv.css';
 import Draggable from 'react-draggable';
-
+import DownloadPDF from './DownloadPDF';
 import EditableTableCell from './EditableTableCell';
 const RectangleDiv = () => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 20, y: 20, width: 60, height: 30 }]);
 
   const [inputs,setinputs]= useState([
-    {id:Date.now()+4 ,top:250,left:250,name:'input1',size:5},
-    {id:Date.now()+5 ,top:300,left:300,name:'input2',size:5}
+    {id:Date.now()+4 ,top:250,left:250,name:'input1',size:5 , width:20,height:20},
+    {id:Date.now()+5 ,top:300,left:300,name:'input2',size:5, width:20,height:20}
     
     ]);
     
@@ -76,11 +76,11 @@ const RectangleDiv = () => {
           prevFields.map((inputs) => (inputs.id === inputId ? { ...inputs, top: newY, left: newX } : inputs))
         );
       };
-      const generate = (size)=>{
+      const generate = (size,box)=>{
         const inx=[];
     
         for(let x=0;x<size;x++){
-          inx.push(<td></td>)
+          inx.push(<td  style={{width:box.width , height:box.height ,transition: 'width 0.3s, height 0.3s'}}  ></td>)
         }
         return inx;
       }
@@ -119,6 +119,27 @@ const RectangleDiv = () => {
       }
 
 
+  const scaleFactor = 0.1;
+  const handleWheel = (event, input) => {
+    event.preventDefault();
+
+    const newInputs = inputs.map((prevInput) => {
+      if (prevInput.id === input.id) {
+        const newWidth = event.deltaY < 0 ? prevInput.width * (1 + scaleFactor) : prevInput.width * (1 - scaleFactor);
+        const newHeight = event.deltaY < 0 ? prevInput.height * (1 + scaleFactor) : prevInput.height * (1 - scaleFactor);
+
+        return { ...prevInput, width: newWidth, height: newHeight };
+      } else {
+        return prevInput;
+      }
+    });
+
+    setinputs(newInputs);
+  };
+
+
+
+  
 
 
 
@@ -132,8 +153,7 @@ const RectangleDiv = () => {
 
 
 
-
-
+// main table
 
   const addbox = (oldbox,where) => {
     console.log(oldbox);
@@ -151,7 +171,6 @@ const RectangleDiv = () => {
     ]);
   };
   const removeDiv = (currentbox) => {
-    // console.log(oldbox);
     let newlist=[];
     for(let i=0;i<boxes.length;i++){
       if(currentbox.key===boxes[i].key)continue;
@@ -216,7 +235,7 @@ const resizedown = (e,box) => {
 
   return (
     <div className='form-container'>
-      <div ref={boundaryRef} className='area'>
+      <div ref={boundaryRef} id="print-this" className='area'>
       {boxes.map((box) => (
         <div id="Resizable" key={box.key} className={'box ' + box.key} style={{ width:box.width,height:box.height,top: box.x, left: box.y }}>
                 <EditableTableCell initialValue={"a"}/>
@@ -256,14 +275,15 @@ const resizedown = (e,box) => {
               position={{ x: 0, y: 0 }}
               onStop={(e, data) => handleInputDrag(inputs.id, e, data)}
             >
-              <div className="cell-box" >
+              <div className="cell-box"  >
                 <table className='roll '>
-                  <tr>
-                    {generate(inputs.size)}
+                  <tr onWheel={(event)=> handleWheel(event,inputs)}>
+                    {generate(inputs.size,inputs)}
                   </tr>
                 </table>
               </div>
             </Draggable>
+            <div className='input-feat-buttons'>
             <div
               className="remove-btn"
               onClick={() => removeField(setinputs,inputs.id)}
@@ -284,6 +304,8 @@ const resizedown = (e,box) => {
             >
               &#10005;
             </div>
+            </div>
+            
           </div>
         ))}
 
@@ -326,6 +348,7 @@ const resizedown = (e,box) => {
       <button onClick={addOmr} className="add-omr-btn">
         Add OMR Btn
       </button>
+      <DownloadPDF onClick={()=>setBoxes(boxes)} boxes={boxes} />
     </div>
     
   );

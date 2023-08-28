@@ -11,7 +11,7 @@
   position: relative;
   width: 1200px;
   height: 650px;
-  background-color:lightgray;
+  background-color:white;
   margin: 0 auto;
 }
 
@@ -71,10 +71,9 @@
   background: rgba(1, 1, 1, 0.2);
 
   cursor: col-resize;
-  height: 15px;
-  width: 15px;
+  height: 100%;
+  width: 5px;
   position: absolute;
-  top: 100%;
   opacity: 0;
   left: 100%;
   z-index: 2;
@@ -89,8 +88,8 @@
   background: rgba(1, 1, 1, 0.2);
 
   cursor: col-resize;
-  height: 15px;
-  width: 15px;
+  height: 5px;
+  width: 100%;
   position: absolute;
   top: 100%;
   opacity: 0;
@@ -108,16 +107,13 @@
   margin: 10px auto;
 }
 
-.roll td {
-  height: 15px;
-  width: 15px;
-}
+
 
 .circle {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: white;
   margin: 0 auto;
 }
 .omr-box{
@@ -151,3 +147,7 @@
   background-color: green;
   color: white;
 }
+
+
+
+

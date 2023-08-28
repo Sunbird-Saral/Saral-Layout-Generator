@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react';
 const EditableTableCell = ({ initialValue }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState('');
+  const [isBold, setIsBold] = useState(false); // State to track if text is bold
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
   const handleDoubleClick = () => {
-    setEditing(true);
+    setIsBold(!isBold);
   };
 
   const handleChange = (event) => {
@@ -22,8 +23,28 @@ const EditableTableCell = ({ initialValue }) => {
     }
   };
 
+  const handleTripleClick = () => {
+    setEditing(true);
+  };
+
+  const textStyle = {
+    fontWeight: isBold ? 'bold' : 'normal',
+
+
+
+
+
+  };
+
   return (
-    <div onDoubleClick={handleDoubleClick}>
+    <div
+      onDoubleClick={handleDoubleClick}
+      onClick={(event) => {
+        if (event.detail === 3) {
+          handleTripleClick(); // Triple-click to toggle bold
+        }
+      }}
+    >
       {editing ? (
         <input
           type="text"
@@ -34,10 +55,13 @@ const EditableTableCell = ({ initialValue }) => {
             setEditing(false);
           }}
           autoFocus
-          style={{ border: 'none', outline: 'none' }}
+          style={{   border: 'none', outline: 'none', ...textStyle }}
         />
       ) : (
-        <span>&nbsp;{value}</span>
+        <div style={textStyle}>
+          
+          &nbsp;{value}
+        </div>
       )}
     </div>
   );
