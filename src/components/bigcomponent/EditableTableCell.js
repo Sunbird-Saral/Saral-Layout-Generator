@@ -2,19 +2,21 @@ import React, { useState, useEffect } from 'react';
 
 const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
   const [selectedWeight, setSelectedWeight] = useState('normal');
-  const [customSize, setCustomSize] = useState('16px');
+  const [customSize, setCustomSize] = useState(16);
 
   const handleWeightChange = (weight) => {
     setSelectedWeight(weight);
   };
 
   const handleSizeChange = (size) => {
-    setCustomSize(size);
+    const newSize = parseInt(size, 10); // Parse the input as an integer
+    setCustomSize(isNaN(newSize) ? 16 : newSize); // Use a default value of 16 if parsing fails
   };
+  
 
   const handleSubmit = () => {
-    const finalSize = customSize.trim() !== '' ? customSize : '16px';
-    onChangeWeightAndSize(selectedWeight, finalSize);
+    const finalSize = customSize.toString() !== '' ? customSize.toString() : '16';
+    onChangeWeightAndSize(selectedWeight, finalSize + 'px');
     onClose();
   };
 
@@ -44,7 +46,7 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
           <label>
             Custom Font Size:
             <input
-              type="text"
+              type="number" // Use type "number" for numeric input
               value={customSize}
               onChange={(e) => handleSizeChange(e.target.value)}
             />
@@ -94,6 +96,7 @@ const EditableTableCell = ({ initialValue }) => {
   const textStyle = {
     fontWeight: isBold ? 'bold' : selectedWeight,
     fontSize: selectedSize,
+
   };
 
   return (
@@ -122,7 +125,7 @@ const EditableTableCell = ({ initialValue }) => {
         <div style={textStyle}>&nbsp;{value}</div>
       )}
       <div className='popup'>
-      <WeightPopup
+      <WeightPopup 
       
       isOpen={isWeightPopupOpen}
       onClose={() => setWeightPopupOpen(false)}

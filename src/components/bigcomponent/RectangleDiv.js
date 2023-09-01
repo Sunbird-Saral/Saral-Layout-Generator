@@ -5,6 +5,7 @@ import OmrComponent from './OmrComponent';
 import IdComponent from './IdComponent';
 import FreeTextComponent from './FreeTextComponent';
 import BlackDotComponent from './BlackDotComponent';
+import EditableTableCell from './EditableTableCell';
 const RectangleDiv = () => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 40, y: 40, width: 40, height: 30,textsize:20 }]);
 
@@ -114,7 +115,7 @@ const resizedown = (e,box) => {
       {boxes.map((box) => (
         <div id="Resizable" key={box.key} className={'box ' + box.key} style={{ width:box.width,height:box.height,top: box.x, left: box.y }}>
                 
-                
+                <EditableTableCell initialValue={""}/>
                 
                 <div id = 'Draggable'
                 draggable   = 'true'

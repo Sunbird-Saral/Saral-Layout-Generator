@@ -11,7 +11,7 @@ const IdComponent = ({boundaryRef}) =>{
         const addBoxes = () => {
             setinputs((previnputs) => [
               ...previnputs,
-              { id: Date.now(), top: 575, left: 900,name: `input ${previnputs.length + 1}`, size: 5, width:20,height:20 },
+              { id: Date.now(), top: 575, left: 900,name: `input ${previnputs.length + 1}`, size: 1, width:20,height:20 },
             ]);
           };
           const removeField = (setFields,fieldId) => {
