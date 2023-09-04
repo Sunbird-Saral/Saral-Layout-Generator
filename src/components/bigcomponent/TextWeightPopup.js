@@ -8,7 +8,7 @@ const TextWeightPopup = ({ initialValue, onSave, onCancel }) => {
   };
 
   return (
-    <div className="text-weight-popup">
+    <div >
       <input
         type="text"
         value={textWeight}

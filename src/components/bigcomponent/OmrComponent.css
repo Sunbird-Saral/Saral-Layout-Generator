@@ -1,0 +1,51 @@
+.remove-omr-btn {
+    position: absolute;
+    top: 0;
+    left: -10px;
+    z-index: 2;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    opacity: 0; /* Initially hidden */
+    z-index:20;
+    transition: opacity 0.2s ease;
+  }
+
+
+.remove-omr-btn:hover{
+  opacity: 1;
+}
+
+  .vertical-omr-line {
+    position: absolute;
+    background-color: #000; /* Change this to the color you desire */
+    opacity: 1; /* Start with 0 opacity */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect */
+    width: 300px;
+    height: 1px;
+    top:0%;
+    left:0%; 
+  
+  }
+  
+  
+  
+  
+  
+  .horizontal-omr-line {
+    position: absolute;
+    background-color: #000; /* Change this to the color you desire */
+    opacity: 1; /* Start with 0 opacity */
+    transition: opacity 0.3s ease; /* Add a smooth transition effect */
+    width: 1px;
+    height: 400px;
+    bottom:100%;
+    left:0%; 
+  
+  }
+  

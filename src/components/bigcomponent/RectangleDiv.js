@@ -96,6 +96,9 @@ const resizedown = (e,box) => {
     let ne = parseInt(resizable.style.height);
     ne = Math.floor(ne/10);
     ne = ne*10;
+    if(box.x+ne>670){
+      ne = 670-box.x;
+    }
     resizable.style.height =  `${ne}px`;
     // let curr;
     for(let i=0;i<boxes.length;i++){
@@ -110,8 +113,8 @@ const resizedown = (e,box) => {
 
   return (
     <div className='form-container'>
-      <div className='outer-area'>
-      <div ref={boundaryRef} id="print-this" className='area'>
+      <div ref={boundaryRef} className='outer-area'>
+      <div  id="print-this" className='area'>
       {boxes.map((box) => (
         <div id="Resizable" key={box.key} className={'box ' + box.key} style={{ width:box.width,height:box.height,top: box.x, left: box.y }}>
                 
