@@ -9,8 +9,8 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
   };
 
   const handleSizeChange = (size) => {
-    const newSize = parseInt(size, 10); // Parse the input as an integer
-    setCustomSize(isNaN(newSize) ? 0 : newSize); // Use a default value of 16 if parsing fails
+    const newSize = parseInt(size, 10); 
+    setCustomSize(isNaN(newSize) ? 0 : newSize); 
   };
   
 
@@ -46,7 +46,7 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
           <label>
             Custom Font Size:
             <input
-              type="text" // Use type "number" for numeric input
+              type="text" 
               value={customSize}
               onChange={(e) => handleSizeChange(e.target.value)}
             />

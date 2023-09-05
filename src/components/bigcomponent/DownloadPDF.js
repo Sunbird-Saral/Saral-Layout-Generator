@@ -26,12 +26,10 @@ const DownloadPDF = ({ boxes,blackdots,setBlackdots }) => {
 
       if(boxes[i].x+boxes[i].height > captureHeight){
         captureHeight=boxes[i].x+boxes[i].height;
-        // setCaptureHeight(boxes[i].x+boxes[i].height);
       }
     
       if(boxes[i].y+boxes[i].width > captureWidth){
         captureWidth= boxes[i].y+boxes[i].width;
-        // setCaptureWidth(boxes[i].y+boxes[i].width);
       }
       
     }
