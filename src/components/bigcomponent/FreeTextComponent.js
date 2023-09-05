@@ -66,7 +66,7 @@ const FreeTextComponent = ({ boundaryRef }) => {
               ...field,
               textStyle: {
                 fontWeight: weight === 'bold' ? 'bold' : 'normal',
-                fontSize: size,
+                fontSize: size==='undefined'?'16px':size,
               },
             }
           : field
