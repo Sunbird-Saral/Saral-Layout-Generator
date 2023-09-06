@@ -48,7 +48,7 @@ const FreeTextComponent=({boundaryRef})=>{
       return (
         <>
 {fields.map((field) => (
-            <div
+            <div 
               key={field.id}
               ref={(element) => (fieldRefs.current[field.id] = element)}
               style={{ position: 'absolute', left: field.left, top: field.top }}

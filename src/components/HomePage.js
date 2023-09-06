@@ -8,12 +8,7 @@ const HomePage = () => {
       <div className="home-container">
         <h1 style={{color:'white'}}>Sunbird Saral</h1>
         <div className="dropdown-menu">
-          <select>
-            <option value="">Select a Page</option>
-            <option value="/attendance">Student Question Table</option>
-            <option value="/personal">Personal Details Form</option>
-            <option value="/main">Main</option>
-          </select>
+
           <Link to="/attendance">
             <button className='others'>Go to Student Question Table</button>
           </Link>
