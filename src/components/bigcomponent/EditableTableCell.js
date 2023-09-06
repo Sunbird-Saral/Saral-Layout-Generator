@@ -10,7 +10,7 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
 
   const handleSizeChange = (size) => {
     const newSize = parseInt(size, 10); // Parse the input as an integer
-    setCustomSize(isNaN(newSize) ? 16 : newSize); // Use a default value of 16 if parsing fails
+    setCustomSize(isNaN(newSize) ? 0 : newSize); // Use a default value of 16 if parsing fails
   };
   
 
@@ -46,7 +46,7 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
           <label>
             Custom Font Size:
             <input
-              type="number" // Use type "number" for numeric input
+              type="text" // Use type "number" for numeric input
               value={customSize}
               onChange={(e) => handleSizeChange(e.target.value)}
             />
@@ -102,7 +102,7 @@ const EditableTableCell = ({ initialValue }) => {
   return (
     <div
       onDoubleClick={handleDoubleClick}
-      
+      className="text-weight-popup"
       onClick={(event) => {
         if (event.detail === 3) {
           handleTripleClick();
@@ -124,7 +124,7 @@ const EditableTableCell = ({ initialValue }) => {
       ) : (
         <div style={textStyle}>&nbsp;{value}</div>
       )}
-      <div className='popup'>
+      <div className="text-weight-popup">
       <WeightPopup 
       
       isOpen={isWeightPopupOpen}

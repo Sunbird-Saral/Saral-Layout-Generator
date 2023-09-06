@@ -9,7 +9,7 @@ const DownloadPDF = ({ boxes,blackdots,setBlackdots }) => {
   const addOmr = (t,l) => {
     setBlackdots((prevomrs) => [
       ...prevomrs,
-      { id: Date.now(), top: t, left: l,name: `omrs ${prevomrs.length + 1}`,size:40,color:"black"},
+      { id: Date.now(), top: t, left: l,name: `omrs ${prevomrs.length + 1}`,size:50,color:"black"},
     ]);
 
 
@@ -40,8 +40,8 @@ const DownloadPDF = ({ boxes,blackdots,setBlackdots }) => {
      addOmr(0,captureWidth);
      addOmr(captureHeight,0);
      addOmr(captureHeight,captureWidth);
-     captureHeight+=50;
-     captureWidth+=50;
+     captureHeight+=60;
+     captureWidth+=60;
     setTimeout(() => {
       generatePDF(captureHeight,captureWidth); // Generate PDF after adding OMR
     }, 1000);
