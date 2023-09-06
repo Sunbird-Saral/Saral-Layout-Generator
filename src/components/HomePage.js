@@ -9,12 +9,12 @@ const HomePage = () => {
         <h1 style={{color:'white'}}>Sunbird Saral</h1>
         <div className="dropdown-menu">
 
-          <Link to="/attendance">
+          {/* <Link to="/attendance">
             <button className='others'>Go to Student Question Table</button>
           </Link>
           <Link to="/personal">
             <button className='others'>Go to Personal Details Form</button>
-          </Link>
+          </Link> */}
           <Link to="/main">
             <button className='others'>Go to User configurable </button>
           </Link>

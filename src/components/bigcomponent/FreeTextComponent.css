@@ -1,12 +1,12 @@
 .vertical {
-    position: fixed; /* Use fixed positioning so it doesn't scroll with the content */
-    background-color: #000; /* Change this to the color you desire */
+    position: fixed; 
+    background-color:rgb(78, 186, 78); 
     opacity: 1;
     transition: opacity 0.3s ease;
-    width: 20vw; /* Set width to 100% of viewport width */
-    height: 1px;
-    bottom:5%;
-    left: 0; /* Position it at the left edge of the viewport */
+    width: 600px; 
+    height: 0.5px;
+    bottom:15%;
+    left: -300px; 
 }
   
   
@@ -15,12 +15,12 @@
   
   .horizontal {
     position: absolute;
-    background-color: #000; /* Change this to the color you desire */
-    opacity: 1; /* Start with 0 opacity */
-    transition: opacity 0.3s ease; /* Add a smooth transition effect */
-    width: 1px;
-    height: 50vh;
-    left:0%; 
+    background-color:rgb(78, 186, 78); 
+    opacity: 1; 
+    transition: opacity 0.3s ease; 
+    width: 0.5px;
+    height: 600px;
+    left:10%; 
   
   }
   .field-box{
@@ -40,6 +40,6 @@
     cursor: pointer;
     background-color: red;
     color: white;
-    opacity: 0; /* Initially hidden */
+    opacity: 0;
     transition: opacity 0.2s ease;
   }

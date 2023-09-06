@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import './IdComponent.css'
+import './IdComponent.css';
+import IdPopup from './IdPopup';
 const IdComponent = ({ boundaryRef }) => {
   const [inputs, setInputs] = useState([]);
   const inputRefs = React.useRef({});
   const [draggingInputId, setDraggingInputId] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupInputId, setPopupInputId] = useState(null);
 
   const addBoxes = () => {
     setInputs((prevInputs) => [
       ...prevInputs,
       {
         id: Date.now(),
-        top: 200, left: 1230,
+        top: 200,
+        left: 1230,
         name: `input ${prevInputs.length + 1}`,
         size: 1,
         width: 20,
@@ -24,9 +28,9 @@ const IdComponent = ({ boundaryRef }) => {
     setFields((prevFields) => prevFields.filter((field) => field.id !== fieldId));
   };
 
-  const handleInputDragStart = (inputId,input) => {
+  const handleInputDragStart = (inputId, input) => {
     setDraggingInputId(inputId);
-    handleMouseLeaveID(input)
+    handleMouseLeaveID(input);
   };
 
   const handleInputDragStop = (inputId, e, data) => {
@@ -66,7 +70,7 @@ const IdComponent = ({ boundaryRef }) => {
       prevFields.map((input) => {
         if (input.id === inputId) {
           if (input.size + 1 > 20) {
-            alert("The maximum value of input box size is 20!");
+            alert('The maximum value of input box size is 20!');
             return { ...input, size: 20 };
           } else {
             return { ...input, size: input.size + 1 };
@@ -83,7 +87,7 @@ const IdComponent = ({ boundaryRef }) => {
       prevFields.map((input) => {
         if (input.id === inputId) {
           if (input.size - 2 < 0) {
-            alert("The minimum value of input box size is 1!");
+            alert('The minimum value of input box size is 1!');
             return { ...input, size: 1 };
           } else {
             return { ...input, size: input.size - 1 };
@@ -115,7 +119,6 @@ const IdComponent = ({ boundaryRef }) => {
     setInputs(newInputs);
   };
 
-
   const handleMouseEnterID = (omr) => {
     const IDContainer = inputRefs.current[omr.id];
     const removeButton = IDContainer.querySelector('.remove-id-btn');
@@ -124,7 +127,6 @@ const IdComponent = ({ boundaryRef }) => {
     removeID.style.opacity = 1;
     const addID = IDContainer.querySelector('.remove-cell-btn');
     addID.style.opacity = 1;
-
   };
 
   const handleMouseLeaveID = (omr) => {
@@ -137,6 +139,32 @@ const IdComponent = ({ boundaryRef }) => {
     addID.style.opacity = 0;
   };
 
+  const handleBoxTripleClick = (inputId) => {
+    setIsPopupOpen(true);
+    setPopupInputId(inputId);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setPopupInputId(null);
+  };
+
+  const handleWidthChange = (newWidth) => {
+    setInputs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.id === popupInputId ? { ...input, width: parseInt(newWidth) } : input
+      )
+    );
+  };
+
+  const handleHeightChange = (newHeight) => {
+    setInputs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.id === popupInputId ? { ...input, height: parseInt(newHeight) } : input
+      )
+    );
+  };
+
   return (
     <>
       {inputs.map((input) => (
@@ -145,30 +173,24 @@ const IdComponent = ({ boundaryRef }) => {
           ref={(element) => (inputRefs.current[input.id] = element)}
           style={{ position: 'absolute', left: input.left, top: input.top }}
           className="field-container"
+          onDoubleClick={() => handleBoxTripleClick(input.id)}
         >
           <Draggable
             position={{ x: 0, y: 0 }}
-            onStart={() => handleInputDragStart(input.id,input)}
+            onStart={() => handleInputDragStart(input.id, input)}
             onStop={(e, data) => handleInputDragStop(input.id, e, data)}
           >
-            <div
-              className="cell-box"
-              
-            >
-              <table className='roll ' 
-              
-              onMouseEnter={() => handleMouseEnterID(input)}
-              onMouseLeave={() => handleMouseLeaveID(input)}
-              >
+            <div className="cell-box">
+              <table className="roll " onMouseEnter={() => handleMouseEnterID(input)} onMouseLeave={() => handleMouseLeaveID(input)}>
                 <tr onWheel={(event) => handleWheel(event, input)}>
                   {generate(input.size, input)}
                 </tr>
               </table>
-              <div style={{ opacity: draggingInputId === input.id ? 1 : 0 }} className='horizontal-id'></div>
-              <div style={{ opacity: draggingInputId === input.id ? 1 : 0 }} className='vertical-id'></div>
+              <div style={{ opacity: draggingInputId === input.id ? 1 : 0 }} className="horizontal-id"></div>
+              <div style={{ opacity: draggingInputId === input.id ? 1 : 0 }} className="vertical-id"></div>
             </div>
           </Draggable>
-          <div className='input-feat-buttons'>
+          <div className="input-feat-buttons">
             <div
               className="remove-id-btn"
               onClick={() => removeField(setInputs, input.id)}
@@ -178,7 +200,6 @@ const IdComponent = ({ boundaryRef }) => {
             >
               &#10005;
             </div>
-
             <div
               className="add-cell-btn"
               onClick={() => addCells(setInputs, input.id)}
@@ -198,6 +219,14 @@ const IdComponent = ({ boundaryRef }) => {
           </div>
         </div>
       ))}
+{isPopupOpen && (
+        <IdPopup
+          input={inputs.find((input) => input.id === popupInputId)}
+          onClose={closePopup}
+          onWidthChange={(newWidth) => handleWidthChange(newWidth)}
+          onHeightChange={(newHeight) => handleHeightChange(newHeight)}
+        />
+      )}
       <button onClick={addBoxes} className="add-box-btn">
         Add InputBox
       </button>
