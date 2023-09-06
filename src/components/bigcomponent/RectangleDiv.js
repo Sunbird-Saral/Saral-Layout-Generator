@@ -7,7 +7,7 @@ import FreeTextComponent from './FreeTextComponent';
 import BlackDotComponent from './BlackDotComponent';
 import EditableTableCell from './EditableTableCell';
 const RectangleDiv = () => {
-  const [boxes, setBoxes] = useState([{ key:Date.now(), x: 40, y: 40, width: 40, height: 30,textsize:20 }]);
+  const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
 

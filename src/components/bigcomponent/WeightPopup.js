@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 
 const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize, textStyle }) => {
-    console.log(textStyle);
-  const [selectedWeight, setSelectedWeight] = useState(typeof textStyle!=='undefined'? textStyle.fontWeight : 'normal');
-  const [customSize, setCustomSize] = useState(typeof textStyle!=='undefined'?parseInt(textStyle.fontSize.slice(0, -1),10) : 16);
+  console.log(textStyle);
+  const [selectedWeight, setSelectedWeight] = useState(typeof textStyle !== 'undefined' ? textStyle.fontWeight : 'normal');
+  const [customSize, setCustomSize] = useState(
+    typeof textStyle !== 'undefined' && !isNaN(parseInt(textStyle.fontSize?.slice(0, -1), 10))
+      ? parseInt(textStyle.fontSize?.slice(0, -1), 10)
+      : 16
+  );
 
   const handleWeightChange = (weight) => {
     setSelectedWeight(weight);
@@ -11,7 +15,7 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize, textStyle }) => {
 
   const handleSizeChange = (size) => {
     const newSize = parseInt(size, 10);
-    setCustomSize(isNaN(newSize) ? 0 : newSize);
+    setCustomSize(isNaN(newSize) ? 16 : newSize);
   };
 
   const handleSubmit = () => {
