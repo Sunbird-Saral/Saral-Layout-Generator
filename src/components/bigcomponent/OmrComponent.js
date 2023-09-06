@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import './OmrComponent.css'
+import OmrResizePopup from './OmrResizePopup';
 const OmrComponent = ({ boundaryRef }) => {
   const [omrs, setOmrs] = useState([]);
   const omrRefs = React.useRef({});
-
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupInputId, setPopupInputId] = useState(null);
   const [draggingOmrId, setDraggingOmrId] = useState(null);
 
   const addOmr = () => {
@@ -66,18 +68,18 @@ const OmrComponent = ({ boundaryRef }) => {
     setOmrs(newInputs);
   };
 
-  const handleDoubleClickOmr = (input) => {
-    const newInputs = omrs.map((prevInput) => {
-      if (prevInput.id === input.id) {
-        let col = "white";
-        if (input.color === "white") col = "black";
-        return { ...prevInput, color: col };
-      } else {
-        return prevInput;
-      }
-    });
-    setOmrs(newInputs);
-  };
+  // const handleDoubleClickOmr = (input) => {
+  //   const newInputs = omrs.map((prevInput) => {
+  //     if (prevInput.id === input.id) {
+  //       let col = "white";
+  //       if (input.color === "white") col = "black";
+  //       return { ...prevInput, color: col };
+  //     } else {
+  //       return prevInput;
+  //     }
+  //   });
+  //   setOmrs(newInputs);
+  // };
 
 
   const handleMouseEnterOmr = (omr) => {
@@ -91,6 +93,28 @@ const OmrComponent = ({ boundaryRef }) => {
     const omrContainer = omrRefs.current[omr.id];
     const removeButton = omrContainer.querySelector('.remove-omr-btn');
     removeButton.style.opacity = 0;
+  };
+  const handleBoxTripleClick = (inputId) => {
+    setIsPopupOpen(true);
+    setPopupInputId(inputId);
+  };
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setPopupInputId(null);
+  };
+  const handleSizeChange = (newSize) => {
+    setOmrs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.id === popupInputId ? { ...input, size: parseInt(newSize) } : input
+      )
+    );
+  };
+  const handleColorChange = (color) => {
+    setOmrs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.id === popupInputId ? { ...input, color: color } : input
+      )
+    );
   };
 
   return (
@@ -109,7 +133,7 @@ const OmrComponent = ({ boundaryRef }) => {
             onStop={(e, data) => handleOmrDragStop(omr.id, e, data)}
           >
             <div
-              onDoubleClick={() => handleDoubleClickOmr(omr)}
+              onDoubleClick={() => handleBoxTripleClick(omr.id)}
               onWheel={(event) => handleWheelOmr(event, omr)}
               className="omr-box"
               onMouseEnter={() => handleMouseEnterOmr(omr)}
@@ -131,6 +155,14 @@ const OmrComponent = ({ boundaryRef }) => {
           </div>
         </div>
       ))}
+{isPopupOpen && (
+        <OmrResizePopup
+          input={omrs.find((input) => input.id === popupInputId)}
+          onClose={closePopup}
+          onSizeChange={(newSize) => handleSizeChange(newSize)}
+          onColorChange={(color)=>handleColorChange(color)}
+        />
+      )}
 
       <button onClick={addOmr} className="add-omr-btn">
         Add OMR Btn
