@@ -1,18 +1,80 @@
 import React, { useState, useEffect } from 'react';
 
-const EditableTableCell = ({ initialValue}) => {
-  // setBoxes(boxer);
+const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
+  const [selectedWeight, setSelectedWeight] = useState('normal');
+  const [customSize, setCustomSize] = useState('16px');
+
+  const handleWeightChange = (weight) => {
+    setSelectedWeight(weight);
+  };
+
+  const handleSizeChange = (size) => {
+    setCustomSize(size);
+  };
+
+  const handleSubmit = () => {
+    const finalSize = customSize.trim() !== '' ? customSize : '16px';
+    onChangeWeightAndSize(selectedWeight, finalSize);
+    onClose();
+  };
+
+  return (
+    isOpen && (
+      <div className="popup-overlay">
+        <div className="weight-popup">
+          <label>
+            <input
+              type="radio"
+              value="normal"
+              checked={selectedWeight === 'normal'}
+              onChange={() => handleWeightChange('normal')}
+            />
+            Normal
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="bold"
+              checked={selectedWeight === 'bold'}
+              onChange={() => handleWeightChange('bold')}
+            />
+            Bold
+          </label>
+          <p></p>
+          <label>
+            Custom Font Size:
+            <input
+              type="text"
+              value={customSize}
+              onChange={(e) => handleSizeChange(e.target.value)}
+            />
+          </label>
+          <button onClick={handleSubmit}>Apply</button>
+        </div>
+      </div>
+    )
+  );
+};
+
+
+const EditableTableCell = ({ initialValue }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState('');
-  const [isBold, setIsBold] = useState(false); // State to track if text is bold
+  const [isBold, setIsBold] = useState(false);
+  const [isWeightPopupOpen, setWeightPopupOpen] = useState(false);
+  const [selectedWeight, setSelectedWeight] = useState('normal');
+  const [selectedSize, setSelectedSize] = useState('16px');
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
   const handleDoubleClick = () => {
-    setIsBold(!isBold);
+    setEditing(true);
+
   };
+
+
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -25,23 +87,22 @@ const EditableTableCell = ({ initialValue}) => {
   };
 
   const handleTripleClick = () => {
-    setEditing(true);
+    setEditing(false);
+    setWeightPopupOpen(true);
   };
 
   const textStyle = {
-    fontWeight: isBold ? 'bold' : 'normal',
-    
-
+    fontWeight: isBold ? 'bold' : selectedWeight,
+    fontSize: selectedSize,
   };
-
-
 
   return (
     <div
       onDoubleClick={handleDoubleClick}
+      
       onClick={(event) => {
         if (event.detail === 3) {
-          handleTripleClick(); // Triple-click to toggle bold
+          handleTripleClick();
         }
       }}
     >
@@ -55,14 +116,24 @@ const EditableTableCell = ({ initialValue}) => {
             setEditing(false);
           }}
           autoFocus
-          style={{ backgroundColor:"grey",   width:'100%', border: 'none', outline: 'none', ...textStyle }}
+          style={{ backgroundColor: 'grey', width: '100%', border: 'none', outline: 'none', ...textStyle }}
         />
       ) : (
-        <div style={textStyle}>
-          
-          &nbsp;{value}
-        </div>
+        <div style={textStyle}>&nbsp;{value}</div>
       )}
+      <div className='popup'>
+      <WeightPopup
+      
+      isOpen={isWeightPopupOpen}
+      onClose={() => setWeightPopupOpen(false)}
+      onChangeWeightAndSize={(weight, size) => {
+        setIsBold(weight === 'bold');
+        setSelectedWeight(weight);
+        setSelectedSize(size);
+      }}
+    />
+      </div>
+
     </div>
   );
 };

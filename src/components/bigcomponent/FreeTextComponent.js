@@ -6,14 +6,13 @@ import EditableTableCell from './EditableTableCell';
 const FreeTextComponent=({boundaryRef})=>{
 
     const [fields, setFields] = useState([
-        { id: Date.now() + 1, top: 100, left: 100, name: 'Field 1' },
       ]);
 
       const fieldRefs = React.useRef({});
       const addField = () => {
         setFields((prevFields) => [
           ...prevFields,
-          { id: Date.now(), top: 100, left: 100, name: `Field ${prevFields.length + 1}`, numBoxes: 5 },
+          { id: Date.now(), top: 600, left: 1100, name: `Field ${prevFields.length + 1}`, numBoxes: 5 },
         ]);
       };
 
@@ -59,7 +58,7 @@ const FreeTextComponent=({boundaryRef})=>{
                 position={{ x: 0, y: 0 }}
                 onStop={(e, data) => handleFieldDrag(field.id, e, data)}
               >
-                <div className="field-box">
+                <div className="field-box" style={{width:"fit-content"}} >
                   <EditableTableCell
                     initialValue={field.name}
                     onSave={(newName) => handleFieldNameChange(field.id, newName)}
@@ -76,7 +75,7 @@ const FreeTextComponent=({boundaryRef})=>{
             </div>
           ))}
 
-<button onClick={addField} className="add-btn">
+<button onClick={addField} className="add-free-btn">
         Add FreeText
       </button>
         </>

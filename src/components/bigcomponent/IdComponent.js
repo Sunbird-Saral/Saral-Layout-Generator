@@ -5,15 +5,13 @@ import Draggable from 'react-draggable';
 const IdComponent = ({boundaryRef}) =>{
 
     const [inputs,setinputs]= useState([
-        {id:Date.now()+1 ,top:250,left:250,name:'input1',size:5 , width:20,height:20},
-        {id:Date.now()+2 ,top:300,left:300,name:'input2',size:5, width:20,height:20}
-        
+
         ]);
         const inputRefs = React.useRef({});
         const addBoxes = () => {
             setinputs((previnputs) => [
               ...previnputs,
-              { id: Date.now(), top: 300, left: 300,name: `input ${previnputs.length + 1}`, size: 5, width:20,height:20 },
+              { id: Date.now(), top: 575, left: 900,name: `input ${previnputs.length + 1}`, size: 5, width:20,height:20 },
             ]);
           };
           const removeField = (setFields,fieldId) => {

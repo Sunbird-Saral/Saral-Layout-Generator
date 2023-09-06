@@ -9,11 +9,13 @@
 }
 .area{
   position: relative;
-  width: 1200px;
-  height: 650px;
+  width: 1300px;
+  height: 690px;
   background-color:white;
   margin: 0 auto;
 }
+
+
 
 .box {
   position:absolute;
@@ -33,6 +35,8 @@
   align-items: center;
   align-content: center;
   border: none;
+  line-height: 10px; /* Added line-height to vertically center the content */
+
   background-color: #27ae60;
   color: white;
   cursor: pointer;
@@ -127,9 +131,11 @@
 }
 
 .add-box-btn {
-  position: relative;
+  position: absolute;
+  height: 40px;
+  width: 100px;
   top: 10%;
-  left: 97%;
+  left: 88vw;
   padding: 8px;
   cursor: pointer;
   background-color: green;
@@ -137,15 +143,63 @@
 }
 
 .add-omr-btn {
-  position: relative;
-  bottom: 10px;
-  left: 105%;
+  position: absolute;
+  height: 40px;
+  width: 100px;
+  top: 0;
+  left: 88vw;
   padding: 8px;
   cursor: pointer;
   background-color: green;
   color: white;
 }
 
+.add-free-btn {
+  position: absolute;
+  height: 40px;
+  width: 100px;
+  top: 10vw;
+  left: 88vw;
+  padding: 8px;
+  cursor: pointer;
+  background-color: green;
+  color: white;
+}
+
+.download-button{
+  position: relative;
+  height: 40px;
+  width: 100px;
+  top: 10vw;
+  left:3vw;
+  padding: 8px;
+  cursor: pointer;
+  background-color: #E7B10A;
+  color: white;
+}
 
 
 
+
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Translucent black background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure the overlay is above other content */
+}
+
+.weight-popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Additional styling as needed */
