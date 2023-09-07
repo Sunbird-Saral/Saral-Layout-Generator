@@ -16,7 +16,7 @@ Project Sunbird Saral addresses the challenges of manual layout design by offeri
 
 ## Technical Overview
 
-The project is developed using a combination of JavaScript, React, and basic HTML/CSS. The frontend is built with React to ensure a dynamic and responsive user interface. The utilization of Electron allows the creation of a standalone web application, thus elevating the overall user experience. The template creation logic is orchestrated using JavaScript and ReactJS. The project incorporates various libraries and technologies to streamline template customization and generation.
+The project is developed using a combination of JavaScript, React, and basic HTML/CSS. The frontend is built with React to ensure a dynamic and responsive user interface. The template creation logic is orchestrated using JavaScript and ReactJS. The project incorporates various libraries and technologies to streamline template customization and generation.
 
 ## Getting Started
 
