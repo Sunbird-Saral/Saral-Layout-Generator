@@ -51,7 +51,8 @@ Key points to note:
 1. The central white canvas is where the primary template is constructed.
 2. A small box at the top left corner marks the initial cell of the template.
 3. Three buttons on the right facilitate the addition of various objects.
-4. The 'Export PDF' option generates a downloadable PDF of the template.
+4. Horizontal and vertical lines while dragging the components to help in alignment .
+5. The 'Export PDF' option generates a downloadable PDF of the template.
 
 ### How It Works
 
@@ -79,7 +80,8 @@ Click to insert an OMR filling component. Features:
 \- Red cross button for removal (on hover).
 \- Drag the OMR anywhere on the canvas.
 \- Scroll to adjust pixel size.
-\- Double-click to toggle filled/unfilled status.
+\- Double Click to open a popup asking to resize and change color of the circle.
+
 
 ![OMR](readme_images/gif1.gif)
 
@@ -90,6 +92,9 @@ This creates a horizontal row for ID, Class, Section, etc. Features:
 \- Delete button (top right) for component removal.
 \- Increase/decrease the number of cells in the row.
 \- Scroll to adjust pixel size.
+\- Double Click to open a popup asking to resize the width and height of Id Box.
+
+![ID](readme_images/gif3.gif)
 
 - **Add Free Text**
 
@@ -97,7 +102,10 @@ Create free text components for headlines, text fields, etc. Features:
 
 \- Drag the text field.
 \- Double-click to edit text.
-\- Triple-click for advanced text options.
+\- Triple-click for advanced text options like fontsize , fontweight.
+
+![Text](readme_images/gif4.gif)
+
 
 - **Export PDF**
 
