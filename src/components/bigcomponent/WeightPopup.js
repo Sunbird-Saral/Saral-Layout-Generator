@@ -15,7 +15,7 @@ const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize, textStyle }) => {
 
   const handleSizeChange = (size) => {
     const newSize = parseInt(size, 10);
-    setCustomSize(isNaN(newSize) ? 16 : newSize);
+    setCustomSize(isNaN(newSize) ? 0 : newSize);
   };
 
   const handleSubmit = () => {
