@@ -1,0 +1,36 @@
+.step-button{
+  position: relative;
+  left:23vw;
+  padding-top: 5px;
+  color: white;
+}
+
+.roi-container {
+  position: relative;
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6528F7;
+}
+
+.roi-edit-button button {
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    margin: 5px;
+}
+
+.roi-edit-button button:hover {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.roi-edit-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6528F7;
+}

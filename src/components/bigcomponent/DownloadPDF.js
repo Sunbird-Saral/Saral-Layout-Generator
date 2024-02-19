@@ -1,11 +1,9 @@
-import React from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import React, { useRef, useState } from 'react';
+import cv from "@techstark/opencv-js";
 
-const DownloadPDF = ({ boxes,blackdots,setBlackdots }) => {
-
-
-
+const DownloadPDF = ({ boxes,blackdots,setBlackdots, handleDesignComplete}) => {
   const addOmr = (t,l) => {
     setBlackdots((prevomrs) => [
       ...prevomrs,
@@ -69,22 +67,114 @@ const DownloadPDF = ({ boxes,blackdots,setBlackdots }) => {
       height: captureHeight,
     }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
+      console.log('imgData', imgData)
+      let image = new Image()
+      image.src = imgData
+      image.onload = () => {
+        processImage(image, imgData)
+      };
 
       const pdf = new jsPDF('l', 'pt', [pdfWidth, pdfHeight]);
 
       pdf.addImage(imgData, 'PNG', posX, posY, captureWidth, captureHeight);
-      pdf.save('report.pdf');
+      //pdf.save('report.pdf');
     });
 
     setBlackdots([]);
   };
+
+  const processImage = (image, imgData) => {
+    // Load the image
+    const src = cv.imread(image);
+    console.log('imageSrc', src)
+    //const dst = new cv.Mat.zeros(src.rows, src.cols, cv.CV_8U);
+    const circles = new cv.Mat();
+    const gray = new cv.Mat();
+    cv.cvtColor(src, gray, cv.COLOR_BGR2GRAY);
+    cv.medianBlur(gray, gray, 5);
+
+    // Detect circles
+    cv.HoughCircles(gray, circles, cv.HOUGH_GRADIENT,
+        1.5,50, 50, 30.0, 40, 50);
+
+    console.log("circles", circles.cols)
+
+    // Find circles that correspond to corners (for simplicity, assuming there are 4 circles)
+    let cornerCircles = [];
+    for (let i = 0; i < circles.cols; ++i) {
+        let x = circles.data32F[i * 3];
+        let y = circles.data32F[i * 3 + 1];
+        let radius = circles.data32F[i * 3 + 2];
+        // Check if circle is near the corners
+        //if (x < radius || y < radius || x > src.cols - radius || y > src.rows - radius) {
+            cornerCircles.push({ x, y, radius });
+        //}
+    }
+    //setcornerCircles(cornerCircles);
+    mark(cornerCircles, src, imgData);
+    
+    // Clean up
+    
+  };
+
+  const mark = (cornerCircle, dst, imgData) => {
+    // Draw bounding boxes around the corner circles
+    const color = new cv.Scalar(255, 0, 0);
+    console.log("cornerCircle", cornerCircle)
+    cornerCircle.forEach(circle => {
+        let topLeft = new cv.Point(circle.x - circle.radius, circle.y - circle.radius);
+        let bottomRight = new cv.Point(circle.x + circle.radius, circle.y + circle.radius);
+        //cv.rectangle(dst, topLeft, bottomRight, color);
+    });
+
+    let circles = cornerCircle;
+
+    // Assuming circles is an array containing objects with properties x, y, and radius
+
+// Sort circles based on their x-coordinate to find the leftmost and rightmost circles
+circles.sort((a, b) => a.x - b.x);
+
+// Sort the first two circles based on their y-coordinate to find the top left and bottom left circles
+const topLeftCircle = circles[0].y < circles[1].y ? circles[0] : circles[1];
+const bottomLeftCircle = circles[0].y < circles[1].y ? circles[1] : circles[0];
+
+// Sort the last two circles based on their y-coordinate to find the top right and bottom right circles
+const topRightCircle = circles[2].y < circles[3].y ? circles[2] : circles[3];
+const bottomRightCircle = circles[2].y < circles[3].y ? circles[3] : circles[2];
+
+// Calculate the top-left and bottom-right points of the rectangle
+const topLeft = new cv.Point(topLeftCircle.x, topLeftCircle.y);
+const bottomRight = new cv.Point(bottomRightCircle.x, bottomRightCircle.y);
+
+
+const width = bottomRight.x - topLeft.x;
+const height = bottomRight.y - topLeft.y;
+
+// Create a region of interest (ROI) object
+const roi = new cv.Rect(topLeft.x, topLeft.y, width, height);
+
+// Extract the rectangular region from the source image
+const croppedImage = dst.roi(roi);
+
+let fdst = new cv.Mat();
+let dsize = new cv.Size(640, 480);
+// You can try more different parameters
+cv.resize(croppedImage, fdst, dsize, 0, 0, cv.INTER_AREA);
+
+// Draw the rectangle
+cv.rectangle(dst, topLeft, bottomRight, [255, 0, 0, 255]); // Change [255, 0, 0, 255] to the desired color
+handleDesignComplete(fdst, imgData)
+
+    // Display the processed image
+    //cv.imshow('outputCanvas', fdst);
+  }
 
   return (
     <div>
       <button onClick={()=>start()} className="download-button" type="button">
         Export PDF
       </button>
-    </div>
+      </div>
   );
 };
 

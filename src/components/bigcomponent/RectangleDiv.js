@@ -6,7 +6,7 @@ import IdComponent from './IdComponent';
 import FreeTextComponent from './FreeTextComponent';
 import BlackDotComponent from './BlackDotComponent';
 import EditableTableCell from './EditableTableCell';
-const RectangleDiv = () => {
+const RectangleDiv = ({handleDesignComplete}) => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
@@ -154,7 +154,7 @@ const resizedown = (e,box) => {
   
 
 
-      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots}/>
+      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots} handleDesignComplete={handleDesignComplete}/>
     </div>
     
   );
