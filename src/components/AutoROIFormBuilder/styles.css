@@ -34,3 +34,11 @@
   align-items: center;
   background-color: #6528F7;
 }
+
+.weight-popup label {
+  display: block;
+}
+
+.weight-popup label input{
+  float: right;
+}

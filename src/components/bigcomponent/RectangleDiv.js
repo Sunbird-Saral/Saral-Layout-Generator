@@ -147,7 +147,8 @@ const resizedown = (e,box) => {
 
       <OmrComponent boundaryRef={boundaryRef}/>
       <IdComponent boundaryRef={boundaryRef}/>
-      <FreeTextComponent boundaryRef={boundaryRef}/>
+      <FreeTextComponent boundaryRef={boundaryRef} type="FreeText"/>
+      <FreeTextComponent boundaryRef={boundaryRef} type="InputField"/>
       <BlackDotComponent  blackdots={blackdots} updateblackdots={updateSharedState}/>
     </div>
       </div>

@@ -147,12 +147,50 @@ const ROIMarker = ({srcImage, imgData}) => {
     setMode('EDIT')
   }
 
+  const finishROIMarking = () => {
+     let finalRoiList = []
+     roiList.sort((a,b)=>{
+      return a['x'] - b['x']
+     })
+     roiList.sort((a,b)=>{
+      return a['y'] - b['y']
+     })
+
+     for(let roi of roiList){
+      let rectangle_coords = {
+          "top": parseInt(roi.y),
+          "left": parseInt(roi.x),
+          "bottom": parseInt(parseInt(roi.y)+parseInt(roi.height)),
+          "right": parseInt(parseInt(roi.x)+parseInt(roi.width))
+      }
+      finalRoiList.push(rectangle_coords)
+     }
+
+     finalRoiList.sort((a,b)=>{
+      if(a['top'] !== b['top'] && !((a['top'] - b['top']) >=-5 && (a['top'] - b['top'])<=5)){
+        return a['top'] - b['top']
+      }
+    else {
+        return a['right'] - b['right']
+      }
+     });
+
+     console.log('finalRoiList', finalRoiList)
+  }
+
   return (
     <div>
     <div className='roi-edit-button'>
     <button onClick={detectContours}>Mark ROI</button>
     <button onClick={deleteROI}>Delte ROIs</button>
     <button onClick={editROI}>Add ROIs</button>
+    <button onClick={finishROIMarking}>Finish ROI Marking</button>
+    </div>
+    <div>
+    <p>"Welcome to the Auto ROI marking!"</p>
+    <p>"Step1: Mark initial select and press 'Mark ROI' to start auto select"</p>
+    <p>"Step2: Review selected ROIs and press 'Delte ROIs' to deselect unwanted ROIs by clicking on right corner of the ROI marked box."</p>
+    <p>"Step3: Press 'Add ROIs' to add ROI not marked"</p>
     </div>
     <div className='roi-container'>
       <canvas ref={canvasRef} id="srcImgCanvas" width="500" height="500" onMouseDown={handleMouseDown}

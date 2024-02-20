@@ -5,7 +5,7 @@ import HomePage from './components/HomePage';
 import StudentQuestionTable from './components/question_table/StudentQuestionTable';
 import PersonDetailsForm from './components/personal_details/PersonalDetailsForm';
 import RectangleDiv from './components/bigcomponent/RectangleDiv';
-import FormBuilderRoiGen from './components/opecv/formBuilderRoiGen';
+import FormBuilderRoiGen from './components/AutoROIFormBuilder/formBuilderRoiGen';
 
 const App = () => {
   return (

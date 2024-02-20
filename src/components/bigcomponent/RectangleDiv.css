@@ -151,7 +151,9 @@
 }
 
 .add-free-btn {
-  position: absolute;
+  position: relative;
+  display: list-item;
+  margin-bottom: 20px;
   height: 40px;
   width: 100px;
   top: 10vw;
