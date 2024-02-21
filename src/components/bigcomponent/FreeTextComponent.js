@@ -22,7 +22,7 @@ const FreeTextComponent = ({ boundaryRef, type}) => {
     }
     setFields((prevFields) => [
       ...prevFields,
-      { id: id, top: 150, left: 1230, name: `Field ${prevFields.length + 1}` },
+      { id: id, top: 150, left: 1110, name: `Field ${prevFields.length + 1}` },
     ]);
     setIsFieldSetPopupOpen(true);
   };

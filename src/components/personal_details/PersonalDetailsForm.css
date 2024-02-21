@@ -6,7 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #6528F7;
+  background-color: #4DEEED;
 }
 
 .form-boundary {
@@ -139,7 +139,7 @@
   color: white;
 }
 
-.add-box-btn {
+/* .add-box-btn {
   position: absolute;
   bottom: 10px;
   right: 100px;
@@ -147,9 +147,9 @@
   cursor: pointer;
   background-color: green;
   color: white;
-}
+} */
 
-.add-omr-btn {
+/* .add-omr-btn {
   position: absolute;
   bottom: 10px;
   right: 210px;
@@ -157,7 +157,7 @@
   cursor: pointer;
   background-color: green;
   color: white;
-}
+} */
 
 .roll {
   margin: 10px auto;

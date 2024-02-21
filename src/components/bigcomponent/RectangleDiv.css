@@ -2,19 +2,25 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #6528F7;
+  background-color: #4DEEED;
 }
 .area{
   position: relative;
   width: 1300px;
   height: 690px;
   background-color:white;
+  border: 1px solid #CCCCCC;
   margin: 0 auto;
 }
 
+.tool-area{
+  width: 130px;
+  height: 690px;
+  background-color: #bcbcbc;
+  float: right;
+}
 
 
 .box {
@@ -126,54 +132,43 @@
   cursor: move;
 }
 
-.add-box-btn {
-  position: absolute;
-  height: 40px;
+.download-button {
+  height: 50px;
+  width: 100px;
+  top: 5vw;
+  padding: 8px;
+  cursor: pointer;
+  background-color: #E7B10A;
+  color: white;
+  margin: 20px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.button-disabled {
+  height: 50px;
+  width: 100px;
+  top: 5vw;
+  padding: 8px;
+  margin: 20px;
+  border-radius: 5px;
+  position: relative;
+  background-color: #CCCCCC; 
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.tool-area > button {
+  height: 50px;
   width: 100px;
   top: 10%;
   left: 88vw;
   padding: 8px;
   cursor: pointer;
-  background-color: green;
-  color: white;
-}
-
-.add-omr-btn {
-  position: absolute;
-  height: 40px;
-  width: 100px;
-  top: 0;
-  left: 88vw;
-  padding: 8px;
-  cursor: pointer;
-  background-color: green;
-  color: white;
-}
-
-.add-free-btn {
-  position: relative;
-  display: list-item;
-  margin-bottom: 20px;
-  height: 40px;
-  width: 100px;
-  top: 10vw;
-  left: 88vw;
-  padding: 8px;
-  cursor: pointer;
-  background-color: green;
-  color: white;
-}
-
-.download-button{
-  position: relative;
-  height: 40px;
-  width: 100px;
-  top: 10vw;
-  left:3vw;
-  padding: 8px;
-  cursor: pointer;
-  background-color: #E7B10A;
-  color: white;
+  background-color: #52A08D;
+  color: #FFFFFF;
+  margin: 20px;
+  border-radius: 5px;
 }
 
 .popup-overlay {

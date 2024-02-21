@@ -15,7 +15,7 @@ const IdComponent = ({ boundaryRef }) => {
       {
         id: Date.now(),
         top: 200,
-        left: 1230,
+        left: 1110,
         name: `input ${prevInputs.length + 1}`,
         size: 1,
         width: 20,

@@ -6,7 +6,7 @@ import IdComponent from './IdComponent';
 import FreeTextComponent from './FreeTextComponent';
 import BlackDotComponent from './BlackDotComponent';
 import EditableTableCell from './EditableTableCell';
-const RectangleDiv = ({handleDesignComplete}) => {
+const RectangleDiv = ({handleDesignComplete, setActiveStep}) => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
@@ -51,6 +51,7 @@ const RectangleDiv = ({handleDesignComplete}) => {
 
   const [initialPos,   setInitialPos] = React.useState(null);
   const [initialSize, setInitialSize] = React.useState(null);
+  const [isDesignComplete, setDesignComplete] = useState(false);
 
   const initial = (e,box) => {
       
@@ -108,8 +109,10 @@ const resizedown = (e,box) => {
   
 }
 
-
-
+const handleExportComplete = (dstImg, imgData) => {
+      setDesignComplete(true);
+      handleDesignComplete(dstImg, imgData);
+}
 
   return (
     <div className='form-container'>
@@ -142,20 +145,17 @@ const resizedown = (e,box) => {
           <button onClick={() => addbox(box,"bottom")} className='add-button bottom'>+</button>
         </div>
       ))}
-
-
-
+      <div className='tool-area'>
       <OmrComponent boundaryRef={boundaryRef}/>
       <IdComponent boundaryRef={boundaryRef}/>
       <FreeTextComponent boundaryRef={boundaryRef} type="FreeText"/>
       <FreeTextComponent boundaryRef={boundaryRef} type="InputField"/>
+      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots} handleDesignComplete={handleExportComplete}/>
+      <div><button className={isDesignComplete ? 'download-button': 'button-disabled'} onClick={setActiveStep} disabled={!isDesignComplete}>Generate ROI</button></div>
+      </div>
       <BlackDotComponent  blackdots={blackdots} updateblackdots={updateSharedState}/>
     </div>
       </div>
-  
-
-
-      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots} handleDesignComplete={handleDesignComplete}/>
     </div>
     
   );

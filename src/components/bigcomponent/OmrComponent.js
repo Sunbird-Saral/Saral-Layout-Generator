@@ -14,7 +14,7 @@ const OmrComponent = ({ boundaryRef }) => {
       ...prevomrs,
       {
         id: Date.now(),
-        top: 100, left: 1250,
+        top: 100, left: 1110,
         name: `omrs ${prevomrs.length + 1}`,
         size: 16,
         color: "white",

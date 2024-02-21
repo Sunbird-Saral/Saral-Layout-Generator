@@ -6,7 +6,7 @@ import './styles.css'
 
 function FormBuilderRoiGen() {
   const [ activeStep, setActiveStep ] = useState(0);
-  const [isDesignComplete, setDesignComplete] = useState(false);
+  // const [isDesignComplete, setDesignComplete] = useState(false);
   const [dst, setdstImage] = useState('');
   const [imgData, setimgData] = useState('');
 
@@ -14,7 +14,10 @@ function FormBuilderRoiGen() {
     console.log("inside design complete")
     setdstImage(dstImg);
     setimgData(imgData);
-    setDesignComplete(true);
+  }
+
+  function setNextStep() {
+    setActiveStep(activeStep + 1);
   }
 
   const steps = [
@@ -24,7 +27,7 @@ function FormBuilderRoiGen() {
 
   function getSectionComponent() {
     switch(activeStep) {
-      case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete}/>;
+      case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep}/>;
       case 1: return <ROIMarker srcImage={dst} imgData={imgData}/>;
       default: return null;
     }
@@ -34,24 +37,17 @@ function FormBuilderRoiGen() {
     <div>
       <Stepper
         activeColor="green"
-        defaultColor="yellow"
+        defaultColor="orange"
         completeColor="green"
-        activeTitleColor="white"
+        activeTitleColor="black"
         titleFontSize = "20px"
-        completeTitleColor="#B3FF26"
-        defaultTitleColor="white"
+        completeTitleColor="black"
+        defaultTitleColor="black"
         circleFontColor="#000"
-        completeBarColor="#B3FF26"
+        completeBarColor="black"
+        defaultBarColor="black"
         steps={steps}
         activeStep={activeStep}/>
-      <div className="step-button">
-        { (activeStep !== 0 && activeStep !== steps.length - 1)
-            && <button onClick={ () => setActiveStep(activeStep - 1) }>Previous</button>
-        }
-        { isDesignComplete
-          && <button onClick={ () => setActiveStep(activeStep + 1) }>Process Image</button>
-        }
-      </div>
       { getSectionComponent()  }
     </div>
   );

@@ -8,7 +8,7 @@ const ROIMarker = ({srcImage, imgData}) => {
   const [startX, setStartX] = useState(null);
   const [startY, setStartY] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [imageData, setImageData] = useState(null);
+  const [isFinalRoiListReady, setIsFinalRoiListReady] = useState(false);
   const [roiDim, setRoiDim] = useState([]);
   const [roiList, setRoiList] = useState([]);
   const [mode, setMode] = useState('SELECT');
@@ -175,24 +175,87 @@ const ROIMarker = ({srcImage, imgData}) => {
       }
      });
 
-     console.log('finalRoiList', finalRoiList)
+     setRoiList(finalRoiList);
+     console.log('finalRoiList', finalRoiList);
+     setIsFinalRoiListReady(true);
+  }
+
+  const generateROIJson = () => {
+      const roiJson = {
+        "subject": {
+          "count": 1,
+          "cellIndex": 0,
+          "extractionMethod": "NUMERIC_CLASSIFICATION"
+        }
+      }
+    let mroi_list = {
+      "cells":[]
+    }
+    let index;
+    let roiIndex = 0;
+    for(let key in roiJson) {
+        let val = roiJson[key];
+        let extractionMethod = val["extractionMethod"];
+        let cellData = {
+            "cellId": (val["cellIndex"]).toString(),
+            "page": "1",
+            "rois": [],
+            "render": {
+                "index": val["cellIndex"]
+            },
+            "format": {
+                "name": key,
+                "value": key
+            },
+            "validate": {
+                "regExp": ""
+            }
+        }
+        
+        let previousi = roiIndex;
+        let newVal = val["count"] + roiIndex
+        for(let i=0; i<roiList.length; i++){
+            if(roiIndex < newVal && roiIndex >= previousi){
+                let roiData = {
+                    "annotationTags": key+"_"+i.toString(),
+                    "extractionMethod": extractionMethod,
+                    "roiId": index + 1,
+                    "index": i,
+                    "rect": roiList[roiIndex]
+                }
+                cellData["rois"].push(roiData);
+                roiIndex = roiIndex + 1;
+                index = index + 1;
+            }
+        }
+        mroi_list["cells"].splice(val["cellIndex"], 0, cellData)
+      }
+
+      console.log('json final', mroi_list)
   }
 
   return (
-    <div>
-    <div className='roi-edit-button'>
-    <button onClick={detectContours}>Mark ROI</button>
-    <button onClick={deleteROI}>Delte ROIs</button>
-    <button onClick={editROI}>Add ROIs</button>
-    <button onClick={finishROIMarking}>Finish ROI Marking</button>
-    </div>
-    <div>
-    <p>"Welcome to the Auto ROI marking!"</p>
-    <p>"Step1: Mark initial select and press 'Mark ROI' to start auto select"</p>
-    <p>"Step2: Review selected ROIs and press 'Delte ROIs' to deselect unwanted ROIs by clicking on right corner of the ROI marked box."</p>
-    <p>"Step3: Press 'Add ROIs' to add ROI not marked"</p>
-    </div>
     <div className='roi-container'>
+    <div className='roi-edit-button'>
+    <h2>"Welcome to the Auto ROI marking!"</h2>
+    <ul>
+    <li>Mark Reference ROI
+    <ul>
+      <li>Dragging mouse pointer from one corner to another</li>
+      <li>Press<button onClick={detectContours}>Mark ROI</button>to start auto select</li>
+    </ul>
+    </li>
+    <li>Review selected ROIs
+    <ul>
+      <li>Press<button onClick={deleteROI}>Delte ROIs</button>.Click on right corner of the marked boxs to deselect ROI.</li>
+      <li>Press<button onClick={editROI}>Add ROIs</button>to add ROI not marked</li>
+    </ul>
+    </li>
+    <li>Finalize ROI<button onClick={finishROIMarking}>Finish ROI Marking</button> </li>
+    </ul>
+    <p>Generate ROI Json<button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={generateROIJson} disabled={!isFinalRoiListReady}>Generate</button></p>
+    </div>
+    <div>
       <canvas ref={canvasRef} id="srcImgCanvas" width="500" height="500" onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}></canvas>
