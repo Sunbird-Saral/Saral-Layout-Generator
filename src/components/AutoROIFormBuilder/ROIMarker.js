@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import cv from "@techstark/opencv-js";
 
-const ROIMarker = ({srcImage, imgData}) => {
+const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
   const canvasRef = useRef(null);
   const [img, setImage] = useState('');
   const [isImgLoaded, setImgLoaded] = useState(false);
@@ -180,21 +180,27 @@ const ROIMarker = ({srcImage, imgData}) => {
      setIsFinalRoiListReady(true);
   }
 
+  const downloadJSON = (data) => {
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'roi.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   const generateROIJson = () => {
-      const roiJson = {
-        "subject": {
-          "count": 1,
-          "cellIndex": 0,
-          "extractionMethod": "NUMERIC_CLASSIFICATION"
-        }
-      }
     let mroi_list = {
       "cells":[]
     }
     let index;
     let roiIndex = 0;
-    for(let key in roiJson) {
-        let val = roiJson[key];
+    for(let key in formConfigJson) {
+        let val = formConfigJson[key];
         let extractionMethod = val["extractionMethod"];
         let cellData = {
             "cellId": (val["cellIndex"]).toString(),
@@ -232,6 +238,7 @@ const ROIMarker = ({srcImage, imgData}) => {
       }
 
       console.log('json final', mroi_list)
+      downloadJSON(mroi_list)
   }
 
   return (

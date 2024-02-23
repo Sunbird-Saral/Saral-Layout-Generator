@@ -6,7 +6,7 @@ import './styles.css'
 
 function FormBuilderRoiGen() {
   const [ activeStep, setActiveStep ] = useState(0);
-  // const [isDesignComplete, setDesignComplete] = useState(false);
+  const [formConfig, setFormConfig] = useState({});
   const [dst, setdstImage] = useState('');
   const [imgData, setimgData] = useState('');
 
@@ -20,6 +20,12 @@ function FormBuilderRoiGen() {
     setActiveStep(activeStep + 1);
   }
 
+  const setFormJson = (json) => {
+    console.log('json', json, formConfig)
+    setFormConfig({...formConfig, ...json})
+    console.log('forconf', formConfig)
+  }
+
   const steps = [
     { title: 'Design Layout' },
     { title: 'Mark ROI' }
@@ -27,8 +33,8 @@ function FormBuilderRoiGen() {
 
   function getSectionComponent() {
     switch(activeStep) {
-      case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep}/>;
-      case 1: return <ROIMarker srcImage={dst} imgData={imgData}/>;
+      case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson}/>;
+      case 1: return <ROIMarker srcImage={dst} imgData={imgData} formConfigJson={formConfig}/>;
       default: return null;
     }
   }

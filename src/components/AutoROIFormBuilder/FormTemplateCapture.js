@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
 const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, setFormJson, fieldOrder }) => {
-  console.log(textStyle);
   const [selectedWeight, setSelectedWeight] = useState(typeof textStyle !== 'undefined' ? textStyle.fontWeight : 'normal');
-  const [fieldStyle, setFieldStyle] = useState({});
+  const [fieldStyle, setFieldStyle] = useState({'extractionMethod':'BLOCK_LETTER_CLASSIFICATION', 'cellIndex': fieldOrder});
   const [customSize, setCustomSize] = useState(
     typeof textStyle !== 'undefined' && !isNaN(parseInt(textStyle.fontSize?.slice(0, -1), 10))
       ? parseInt(textStyle.fontSize?.slice(0, -1), 10)
@@ -15,9 +14,11 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
   };
 
   const handleFieldStyle = (value, type) => {
+    console.log('value', value, type);
     let obj = {};
     obj[type] = value;
     setFieldStyle({...fieldStyle, ...obj})
+    console.log('fieldStyle', fieldStyle);
   }
 
   const handleSizeChange = (size) => {
@@ -27,9 +28,14 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
 
   const handleSubmit = () => {
     const finalSize = customSize.toString() !== '' ? customSize.toString() : '16';
-    onChangeTextStyle(selectedWeight, finalSize + 'px', fieldStyle["name"]);
+    onChangeTextStyle(selectedWeight, finalSize + 'px', fieldStyle["fieldName"]);
     onClose();
-    setFormJson(fieldStyle)
+    let config = {}
+    let {fieldName, ...robj} = fieldStyle;
+    config[fieldName] = robj
+
+    console.log('config',config)
+    setFormJson(config)
   };
 
   return (
@@ -40,32 +46,54 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
             Field Name:
             <input
               type="text"
-              value={fieldStyle["name"]}
-              onChange={(e) => handleFieldStyle(e.target.value, 'name')}
+              value={fieldStyle["fieldName"]}
+              onChange={(e) => handleFieldStyle(e.target.value, 'fieldName')}
             />
           </label>
           <label>
             Field Type:
+            <label>
             <input
-              type="text"
-              value={fieldStyle["type"]}
-              onChange={(e) => handleFieldStyle(e.target.value, 'type')}
+              type="radio"
+              value="BLOCK_LETTER_CLASSIFICATION"
+              checked={fieldStyle["extractionMethod"] === 'BLOCK_LETTER_CLASSIFICATION'}
+              onChange={() => handleWeightChange('BLOCK_LETTER_CLASSIFICATION', 'extractionMethod')}
             />
+            Text Only
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="NUMERIC_CLASSIFICATION"
+              checked={fieldStyle["extractionMethod"] === 'NUMERIC_CLASSIFICATION'}
+              onChange={() => handleWeightChange('NUMERIC_CLASSIFICATION', 'extractionMethod')}
+            />
+            Numerical
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="CELL_OMR"
+              checked={fieldStyle["extractionMethod"] === 'CELL_OMR'}
+              onChange={() => handleWeightChange('CELL_OMR', 'extractionMethod')}
+            />
+            OMR
+          </label>
           </label>
           <label>
             Input length:
             <input
               type="text"
-              value={fieldStyle["length"]}
-              onChange={(e) => handleFieldStyle(e.target.value, 'length')}
+              value={fieldStyle["count"]}
+              onChange={(e) => handleFieldStyle(e.target.value, 'count')}
             />
           </label>
           <label>
             Field Order:
             <input
-              type="text"
-              value={fieldStyle["order"] || fieldOrder}
-              onChange={(e) => handleFieldStyle(e.target.value, 'order')}
+              type="number"
+              value={fieldStyle["cellIndex"] || fieldOrder}
+              onChange={(e) => handleFieldStyle(e.target.value, 'cellIndex')}
             />
           </label>
           <label>

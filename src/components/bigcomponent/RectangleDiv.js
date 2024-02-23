@@ -6,7 +6,7 @@ import IdComponent from './IdComponent';
 import FreeTextComponent from './FreeTextComponent';
 import BlackDotComponent from './BlackDotComponent';
 import EditableTableCell from './EditableTableCell';
-const RectangleDiv = ({handleDesignComplete, setActiveStep}) => {
+const RectangleDiv = ({handleDesignComplete, setActiveStep, setFormJson}) => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
@@ -149,7 +149,7 @@ const handleExportComplete = (dstImg, imgData) => {
       <OmrComponent boundaryRef={boundaryRef}/>
       <IdComponent boundaryRef={boundaryRef}/>
       <FreeTextComponent boundaryRef={boundaryRef} type="FreeText"/>
-      <FreeTextComponent boundaryRef={boundaryRef} type="InputField"/>
+      <FreeTextComponent boundaryRef={boundaryRef} setFormJson={setFormJson} type="InputField"/>
       <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots} handleDesignComplete={handleExportComplete}/>
       <div><button className={isDesignComplete ? 'download-button': 'button-disabled'} onClick={setActiveStep} disabled={!isDesignComplete}>Generate ROI</button></div>
       </div>

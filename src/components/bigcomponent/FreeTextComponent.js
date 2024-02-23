@@ -5,7 +5,7 @@ import WeightPopup from './WeightPopup';
 import './FreeTextComponent.css';
 import FormTemplateCapture from '../AutoROIFormBuilder/FormTemplateCapture';
 
-const FreeTextComponent = ({ boundaryRef, type}) => {
+const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
   const [fields, setFields] = useState([]);
   const [InputFieldCount, setInputFieldCount] = useState(0);
   const fieldRefs = React.useRef({});
@@ -30,10 +30,6 @@ const FreeTextComponent = ({ boundaryRef, type}) => {
   const closeFieldSetPopup = () => {
     setIsFieldSetPopupOpen(false);
   };
-
-  const setFormJson = (json) => {
-      console.log('json', json)
-  }
 
   const removeField = (setFields, fieldId) => {
     setFields((prevFields) => prevFields.filter((field) => field.id !== fieldId));
