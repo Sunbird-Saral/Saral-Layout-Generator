@@ -3,7 +3,7 @@ import jsPDF from 'jspdf';
 import React, { useRef, useState } from 'react';
 import cv from "@techstark/opencv-js";
 
-const DownloadPDF = ({ boxes,blackdots,setBlackdots, handleDesignComplete}) => {
+const DownloadPDF = ({ boxes,blackdots,setBlackdots, handleDesignComplete, orientationOfForm}) => {
   const addOmr = (t,l) => {
     setBlackdots((prevomrs) => [
       ...prevomrs,
@@ -77,7 +77,7 @@ const DownloadPDF = ({ boxes,blackdots,setBlackdots, handleDesignComplete}) => {
       const pdf = new jsPDF('l', 'pt', [pdfWidth, pdfHeight]);
 
       pdf.addImage(imgData, 'PNG', posX, posY, captureWidth, captureHeight);
-      //pdf.save('report.pdf');
+      pdf.save('report.pdf');
     });
 
     setBlackdots([]);
@@ -118,56 +118,45 @@ const DownloadPDF = ({ boxes,blackdots,setBlackdots, handleDesignComplete}) => {
   };
 
   const mark = (cornerCircle, dst, imgData) => {
-    // Draw bounding boxes around the corner circles
-    const color = new cv.Scalar(255, 0, 0);
-    console.log("cornerCircle", cornerCircle)
-    cornerCircle.forEach(circle => {
-        let topLeft = new cv.Point(circle.x - circle.radius, circle.y - circle.radius);
-        let bottomRight = new cv.Point(circle.x + circle.radius, circle.y + circle.radius);
-        //cv.rectangle(dst, topLeft, bottomRight, color);
-    });
-
     let circles = cornerCircle;
 
     // Assuming circles is an array containing objects with properties x, y, and radius
 
-// Sort circles based on their x-coordinate to find the leftmost and rightmost circles
-circles.sort((a, b) => a.x - b.x);
+  // Sort circles based on their x-coordinate to find the leftmost and rightmost circles
+  circles.sort((a, b) => a.x - b.x);
 
-// Sort the first two circles based on their y-coordinate to find the top left and bottom left circles
-const topLeftCircle = circles[0].y < circles[1].y ? circles[0] : circles[1];
-const bottomLeftCircle = circles[0].y < circles[1].y ? circles[1] : circles[0];
+  // Sort the first two circles based on their y-coordinate to find the top left and bottom left circles
+  const topLeftCircle = circles[0].y < circles[1].y ? circles[0] : circles[1];
 
-// Sort the last two circles based on their y-coordinate to find the top right and bottom right circles
-const topRightCircle = circles[2].y < circles[3].y ? circles[2] : circles[3];
-const bottomRightCircle = circles[2].y < circles[3].y ? circles[3] : circles[2];
+  // Sort the last two circles based on their y-coordinate to find the top right and bottom right circles
+  const bottomRightCircle = circles[2].y < circles[3].y ? circles[3] : circles[2];
 
-// Calculate the top-left and bottom-right points of the rectangle
-const topLeft = new cv.Point(topLeftCircle.x, topLeftCircle.y);
-const bottomRight = new cv.Point(bottomRightCircle.x, bottomRightCircle.y);
+  // Calculate the top-left and bottom-right points of the rectangle
+  const topLeft = new cv.Point(topLeftCircle.x, topLeftCircle.y);
+  const bottomRight = new cv.Point(bottomRightCircle.x, bottomRightCircle.y);
 
 
-const width = bottomRight.x - topLeft.x;
-const height = bottomRight.y - topLeft.y;
+  const width = bottomRight.x - topLeft.x;
+  const height = bottomRight.y - topLeft.y;
 
-// Create a region of interest (ROI) object
-const roi = new cv.Rect(topLeft.x, topLeft.y, width, height);
+  // Create a region of interest (ROI) object
+  const roi = new cv.Rect(topLeft.x, topLeft.y, width, height);
 
-// Extract the rectangular region from the source image
-const croppedImage = dst.roi(roi);
+  // Extract the rectangular region from the source image
+  const croppedImage = dst.roi(roi);
 
-let fdst = new cv.Mat();
-let dsize = new cv.Size(640, 480);
-// You can try more different parameters
-cv.resize(croppedImage, fdst, dsize, 0, 0, cv.INTER_AREA);
-
-// Draw the rectangle
-cv.rectangle(dst, topLeft, bottomRight, [255, 0, 0, 255]); // Change [255, 0, 0, 255] to the desired color
-handleDesignComplete(fdst, imgData)
-
-    // Display the processed image
-    //cv.imshow('outputCanvas', fdst);
+  let fdst = new cv.Mat();
+  let dsize = new cv.Size(640, 480);
+  if(orientationOfForm == 'Potrait') {
+    dsize = new cv.Size(480, 640);
   }
+  // You can try more different parameters
+  cv.resize(croppedImage, fdst, dsize, 0, 0, cv.INTER_AREA);
+
+  // Draw the rectangle
+  cv.rectangle(dst, topLeft, bottomRight, [255, 0, 0, 255]); // Change [255, 0, 0, 255] to the desired color
+  handleDesignComplete(fdst, imgData)
+}
 
   return (
     <div>

@@ -6,6 +6,7 @@ import IdComponent from './IdComponent';
 import FreeTextComponent from './FreeTextComponent';
 import BlackDotComponent from './BlackDotComponent';
 import EditableTableCell from './EditableTableCell';
+import Dropdown from '../AutoROIFormBuilder/Dropdown/Dropdown.component';
 const RectangleDiv = ({handleDesignComplete, setActiveStep, setFormJson}) => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
@@ -52,6 +53,13 @@ const RectangleDiv = ({handleDesignComplete, setActiveStep, setFormJson}) => {
   const [initialPos,   setInitialPos] = React.useState(null);
   const [initialSize, setInitialSize] = React.useState(null);
   const [isDesignComplete, setDesignComplete] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('Landscape');
+
+  const options = ['Landscape', 'Potrait'];
+
+  const handleSelect = (option) => {
+    setSelectedOption(option);
+  };
 
   const initial = (e,box) => {
       
@@ -146,11 +154,14 @@ const handleExportComplete = (dstImg, imgData) => {
         </div>
       ))}
       <div className='tool-area'>
+      <strong>Form orientation:</strong>
+      <p className={`${selectedOption=='Landscape' ? 'rotate' : 'none'} orientation`}>📝</p>
+      <Dropdown options={options} onSelect={handleSelect}></Dropdown>
       <OmrComponent boundaryRef={boundaryRef}/>
       <IdComponent boundaryRef={boundaryRef}/>
       <FreeTextComponent boundaryRef={boundaryRef} type="FreeText"/>
       <FreeTextComponent boundaryRef={boundaryRef} setFormJson={setFormJson} type="InputField"/>
-      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots} handleDesignComplete={handleExportComplete}/>
+      <DownloadPDF boxes={boxes} blackdots={blackdots} setBlackdots={setBlackdots} handleDesignComplete={handleExportComplete} orientationOfForm={selectedOption}/>
       <div><button className={isDesignComplete ? 'download-button': 'button-disabled'} onClick={setActiveStep} disabled={!isDesignComplete}>Generate ROI</button></div>
       </div>
       <BlackDotComponent  blackdots={blackdots} updateblackdots={updateSharedState}/>

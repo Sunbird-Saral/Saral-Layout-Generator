@@ -197,11 +197,12 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
     let mroi_list = {
       "cells":[]
     }
-    let index;
+    let index = 0;
     let roiIndex = 0;
     for(let key in formConfigJson) {
         let val = formConfigJson[key];
-        let extractionMethod = val["extractionMethod"];
+        let extractionMethods = val["extractionMethod"];
+        let j=0;
         let cellData = {
             "cellId": (val["cellIndex"]).toString(),
             "page": "1",
@@ -210,8 +211,8 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
                 "index": val["cellIndex"]
             },
             "format": {
-                "name": key,
-                "value": key
+                "name": val["formate"],
+                "value": val["formate"]
             },
             "validate": {
                 "regExp": ""
@@ -222,9 +223,15 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
         let newVal = val["count"] + roiIndex
         for(let i=0; i<roiList.length; i++){
             if(roiIndex < newVal && roiIndex >= previousi){
+                j = j +1;
+                let extractionMethod = Object.keys(extractionMethods)[0]
+                if(j > extractionMethods[extractionMethod]) {
+                  j = 0;
+                  delete extractionMethods[extractionMethod]
+                }
                 let roiData = {
                     "annotationTags": key+"_"+i.toString(),
-                    "extractionMethod": extractionMethod,
+                    "extractionMethod": Object.keys(extractionMethods)[0],
                     "roiId": index + 1,
                     "index": i,
                     "rect": roiList[roiIndex]
@@ -238,14 +245,25 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
       }
 
       console.log('json final', mroi_list)
+      finaliseRoIIndex(mroi_list)
       downloadJSON(mroi_list)
+  }
+
+  function finaliseRoIIndex(mroi_list) {
+  let roiindex = 0;
+  for(let cells in mroi_list["cells"]){
+    for(let roi in cells["rois"]){
+      roiindex = roiindex + 1;
+      roi["roiId"] = roiindex.toString();
+    }
+  }
   }
 
   return (
     <div className='roi-container'>
     <div className='roi-edit-button'>
-    <h2>"Welcome to the Auto ROI marking!"</h2>
-    <ul>
+    <h2>Steps for Auto ROI marking!</h2>
+    <ol>
     <li>Mark Reference ROI
     <ul>
       <li>Dragging mouse pointer from one corner to another</li>
@@ -259,7 +277,7 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
     </ul>
     </li>
     <li>Finalize ROI<button onClick={finishROIMarking}>Finish ROI Marking</button> </li>
-    </ul>
+    </ol>
     <p>Generate ROI Json<button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={generateROIJson} disabled={!isFinalRoiListReady}>Generate</button></p>
     </div>
     <div>

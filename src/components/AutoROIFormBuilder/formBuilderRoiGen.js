@@ -41,6 +41,7 @@ function FormBuilderRoiGen() {
 
   return (
     <div>
+      <h1 className='title'>Welcome to FormROIzen</h1>
       <Stepper
         activeColor="green"
         defaultColor="orange"
