@@ -27,6 +27,11 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
     setIsFieldSetPopupOpen(true);
   };
 
+  const handleFieldCancel = (fieldId) => {
+    setInputFieldCount((preCount)=>preCount-1);
+    removeField(setFields, fieldId)
+  }
+
   const closeFieldSetPopup = () => {
     setIsFieldSetPopupOpen(false);
   };
@@ -157,6 +162,7 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
               textStyle={field.textStyle}
               setFormJson={setFormJson}
               fieldOrder = {InputFieldCount}
+              handleFieldCancel = {() => handleFieldCancel(field.id)}
             />
           )}
         </div>

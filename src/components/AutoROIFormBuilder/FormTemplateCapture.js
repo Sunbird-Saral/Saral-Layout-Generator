@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, setFormJson, fieldOrder }) => {
+const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, setFormJson, fieldOrder, handleFieldCancel}) => {
   const [selectedWeight, setSelectedWeight] = useState(typeof textStyle !== 'undefined' ? textStyle.fontWeight : 'normal');
   const [fieldStyle, setFieldStyle] = useState({'extractionMethod':{}, 'cellIndex': fieldOrder});
   const [customSize, setCustomSize] = useState(
@@ -49,6 +49,11 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
     console.log('config',config)
     setFormJson(config)
   };
+
+  const handleCancel = () => {
+    handleFieldCancel();
+    onClose();
+  }
 
   return (
     isOpen && (
@@ -182,6 +187,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
             />
           </label>
           <button onClick={handleSubmit}>Apply</button>
+          <button onClick={handleCancel}>Cancel</button>
         </div>
       </div>
     )

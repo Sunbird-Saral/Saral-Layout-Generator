@@ -59,14 +59,11 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
       const height = currentY - startY;
       const ctx = canvasRef.current.getContext('2d');
       drawROI(ctx, startX, startY, width, height);
-      console.log('width', width, height, currentX, currentY)
       setRoiDim([width+5, height+5]);
       setIsDragging(false);
       if(mode == 'DELETE') {
         for(let [i,roi] of roiList.entries()) {
-          console.log('deleted-----', currentX, currentY, roiList, currentX - roi.x, currentY - roi.y, roi)
           if ((0 <= currentX - roi.x) && (currentX - roi.x <=10) && (0 <= currentY - roi.y) && (currentY - roi.y <=10)) {
-            console.log('deleted')
             const point1 = new cv.Point(roi.x, roi.y);
             const point2 = new cv.Point(roi.x + roi.width, roi.y + roi.height);
             cv.rectangle(img, point1, point2, [255, 0, 0, 255], -1);
@@ -90,7 +87,7 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
   }, [srcImage]);
 
   const detectContours = () => {
-    let img = srcImage
+    let img = srcImage.clone()
     setImage(img);
       const gray = new cv.Mat();
       cv.cvtColor(img, gray, cv.COLOR_BGR2GRAY);
@@ -102,7 +99,6 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
       const contours = new cv.MatVector();
       const hierarchy = new cv.Mat();
       cv.findContours(thresh, contours, hierarchy, cv.RETR_TREE, cv.CHAIN_APPROX_NONE);
-      console.log('inside read', contours)
       drawContours(contours, img);
 
       // Clean up
@@ -123,10 +119,7 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
       let rect = cv.boundingRect(contour)
       let min_width = roiDim[0] - 10;
       let min_height = roiDim[1] - 10;
-      console.log('mins before', rect, min_height, min_width)
         if ((min_width <= rect.width && rect.width <= roiDim[0]) && (min_height <= rect.height && rect.height <= roiDim[1])){
-          console.log('mins', min_height, min_width, rect)
-          console.log('----------------------')
           const point1 = new cv.Point(rect.x, rect.y);
           const point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
           cv.rectangle(dst, point1, point2, [0, 255, 0, 255], 2);
@@ -138,13 +131,19 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
   };
 
   const deleteROI = () => {
-    console.log('rois', roiList)
     setMode('DELETE')
   }
 
   const editROI = () => {
-    console.log('edit rois', roiList)
     setMode('EDIT')
+  }
+
+  const resetROI = () => {
+    const canvas = document.getElementById('srcImgCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    cv.imshow('srcImgCanvas', srcImage)
+    setRoiList([])
   }
 
   const finishROIMarking = () => {
@@ -266,14 +265,16 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
     <ol>
     <li>Mark Reference ROI
     <ul>
-      <li>Dragging mouse pointer from one corner to another</li>
+      <li>Drag mouse pointer from one corner to another to mark ROI</li>
       <li>Press<button onClick={detectContours}>Mark ROI</button>to start auto select</li>
+      <li>Repeat above till all different input box ROIs are marked</li>
     </ul>
     </li>
     <li>Review selected ROIs
     <ul>
       <li>Press<button onClick={deleteROI}>Delte ROIs</button>.Click on right corner of the marked boxs to deselect ROI.</li>
-      <li>Press<button onClick={editROI}>Add ROIs</button>to add ROI not marked</li>
+      <li>Press<button onClick={editROI}>Add ROIs</button>.Drag mouse pointer from one corner to another to mark ROI</li>
+      <li>Press<button onClick={resetROI}>Reset ROIs</button>. to start over</li>
     </ul>
     </li>
     <li>Finalize ROI<button onClick={finishROIMarking}>Finish ROI Marking</button> </li>
