@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Stepper from 'react-stepper-horizontal';
 import RectangleDiv from '../bigcomponent/RectangleDiv';
+import Alert from './Alert/Alert.component';
 import ROIMarker from './ROIMarker';
 import './styles.css'
 
@@ -9,11 +10,17 @@ function FormBuilderRoiGen() {
   const [formConfig, setFormConfig] = useState({});
   const [dst, setdstImage] = useState('');
   const [imgData, setimgData] = useState('');
+  const [alert, setAlert] = useState('')
 
-  function handleDesignComplete (dstImg, imgData) {
-    console.log("inside design complete")
-    setdstImage(dstImg);
-    setimgData(imgData);
+  function handleDesignComplete (dstImg, imgData, callBack) {
+    if(Object.keys(formConfig).length == 0) {
+      callBack("Invalid Form design")
+      setAlert('Invalid Form design')
+    } else {
+      callBack(true)
+      setdstImage(dstImg);
+      setimgData(imgData);
+    }
   }
 
   function setNextStep() {
@@ -21,9 +28,11 @@ function FormBuilderRoiGen() {
   }
 
   const setFormJson = (json) => {
-    console.log('json', json, formConfig)
     setFormConfig({...formConfig, ...json})
-    console.log('forconf', formConfig)
+  }
+
+  const closeAlertBox = () => {
+    setAlert('')
   }
 
   const steps = [
@@ -34,7 +43,7 @@ function FormBuilderRoiGen() {
   function getSectionComponent() {
     switch(activeStep) {
       case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson}/>;
-      case 1: return <ROIMarker srcImage={dst} imgData={imgData} formConfigJson={formConfig}/>;
+      case 1: return <ROIMarker srcImage={dst} imgData={imgData} formConfigJson={formConfig} notifyError={setAlert}/>;
       default: return null;
     }
   }
@@ -55,6 +64,7 @@ function FormBuilderRoiGen() {
         defaultBarColor="black"
         steps={steps}
         activeStep={activeStep}/>
+      <Alert alertText={alert} closeAlertBox={closeAlertBox}></Alert>
       { getSectionComponent()  }
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import cv from "@techstark/opencv-js";
 
-const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
+const ROIMarker = ({srcImage, imgData, formConfigJson, notifyError}) => {
   const canvasRef = useRef(null);
   const [img, setImage] = useState('');
   const [isImgLoaded, setImgLoaded] = useState(false);
@@ -59,7 +59,7 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
       const height = currentY - startY;
       const ctx = canvasRef.current.getContext('2d');
       drawROI(ctx, startX, startY, width, height);
-      setRoiDim([width+5, height+5]);
+      setRoiDim([width+2, height+2]);
       setIsDragging(false);
       if(mode == 'DELETE') {
         for(let [i,roi] of roiList.entries()) {
@@ -117,8 +117,8 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
       const color = new cv.Scalar(0, 255, 0, 255); // Blue color
       const contour = contours.get(i);
       let rect = cv.boundingRect(contour)
-      let min_width = roiDim[0] - 10;
-      let min_height = roiDim[1] - 10;
+      let min_width = roiDim[0] - 5;
+      let min_height = roiDim[1] - 5;
         if ((min_width <= rect.width && rect.width <= roiDim[0]) && (min_height <= rect.height && rect.height <= roiDim[1])){
           const point1 = new cv.Point(rect.x, rect.y);
           const point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
@@ -243,9 +243,12 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
         mroi_list["cells"].splice(val["cellIndex"], 0, cellData)
       }
 
-      console.log('json final', mroi_list)
-      finaliseRoIIndex(mroi_list)
-      downloadJSON(mroi_list)
+      if(roiList.length !== roiIndex) {
+        notifyError('ROI marking is not correct. please reset and mark properly again')
+      } else {
+        finaliseRoIIndex(mroi_list)
+        downloadJSON(mroi_list)
+      }
   }
 
   function finaliseRoIIndex(mroi_list) {
@@ -282,7 +285,7 @@ const ROIMarker = ({srcImage, imgData, formConfigJson}) => {
     <p>Generate ROI Json<button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={generateROIJson} disabled={!isFinalRoiListReady}>Generate</button></p>
     </div>
     <div>
-      <canvas ref={canvasRef} id="srcImgCanvas" width="500" height="500" onMouseDown={handleMouseDown}
+      <canvas ref={canvasRef} id="srcImgCanvas" onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}></canvas>
     </div>

@@ -118,8 +118,11 @@ const resizedown = (e,box) => {
 }
 
 const handleExportComplete = (dstImg, imgData) => {
-      setDesignComplete(true);
-      handleDesignComplete(dstImg, imgData);
+      handleDesignComplete(dstImg, imgData, (isNoError)=> {
+        if(typeof isNoError == 'boolean') {
+          setDesignComplete(true)
+        }
+      });
 }
 
   return (

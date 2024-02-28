@@ -82,3 +82,10 @@
   display: flex;
   justify-content: center;
 }
+
+.error-msg {
+  display: block;
+  margin-left: 180px;
+  color: red;
+  font-size: small;
+}

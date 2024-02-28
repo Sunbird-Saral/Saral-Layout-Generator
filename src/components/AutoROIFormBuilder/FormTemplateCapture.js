@@ -8,6 +8,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
       ? parseInt(textStyle.fontSize?.slice(0, -1), 10)
       : 16
   );
+  const [errors, setErrors] = useState({})
 
   const handleWeightChange = (weight) => {
     setSelectedWeight(weight);
@@ -38,16 +39,33 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
     setCustomSize(isNaN(newSize) ? 0 : newSize);
   };
 
-  const handleSubmit = () => {
-    const finalSize = customSize.toString() !== '' ? customSize.toString() : '16';
-    onChangeTextStyle(selectedWeight, finalSize + 'px', fieldStyle["formate"]);
-    onClose();
-    let config = {}
-    let {fieldName, ...robj} = fieldStyle;
-    config[fieldName] = robj
+  const validateForm = () => {
+      const errors = {}
+      if(!fieldStyle['formate'] || fieldStyle['formate']==' ') {
+          errors['formate'] = 'Field Name is required'
+      }
+      if(!fieldStyle['extractionMethod'] || Object.keys(fieldStyle['extractionMethod']).length == 0) {
+        errors['extractionMethod'] = 'Field Type is required'
+      }
+      if(!fieldStyle['cellIndex'] || fieldStyle['cellIndex']== 0) {
+        errors['cellIndex'] = 'Field Order is required'
+      }
 
-    console.log('config',config)
-    setFormJson(config)
+      return errors;
+  }
+
+  const handleSubmit = () => {
+    const errors = validateForm();
+    setErrors(errors);
+    if(Object.keys(errors).length == 0 ){
+      const finalSize = customSize.toString() !== '' ? customSize.toString() : '16';
+      onChangeTextStyle(selectedWeight, finalSize + 'px', fieldStyle["formate"]);
+      onClose();
+      let config = {}
+      let {fieldName, ...robj} = fieldStyle;
+      config[fieldName] = robj
+      setFormJson(config)
+    }
   };
 
   const handleCancel = () => {
@@ -66,6 +84,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
               value={fieldStyle["formate"]}
               onChange={(e) => handleFieldStyle(e.target.value, 'formate')}
             />
+            {errors.formate && <span className='error-msg'>{errors.formate}</span>}
           </label>
           <label>
             Field Type:
@@ -81,7 +100,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
             />
           </label>
           <label>
-            Field Count:
+            Field Length:
             <input
               className='checkboxOption'
               type="number"
@@ -100,7 +119,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
               onChange={() => handleFieldStyle('NUMERIC_CLASSIFICATION', 'extractionMethod', 1)}
             />
             <label>
-            Field Count:
+            Field Length:
             <input
               className='checkboxOption'
               type="number"
@@ -120,7 +139,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
               onChange={() => handleFieldStyle('CELL_OMR', 'extractionMethod', 1)}
             />
             <label>
-            Field Count:
+            Field Length:
             <input
               className='checkboxOption'
               type="number"
@@ -140,7 +159,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
               onChange={() => handleFieldStyle('BLOCK_ALPHANUMERIC_CLASSIFICATION', 'extractionMethod', 1)}
             />
             <label>
-            Field Count:
+            Field Length:
             <input
               className='checkboxOption'
               type="number"
@@ -148,6 +167,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
               onChange={(e) => handleFieldStyle('BLOCK_ALPHANUMERIC_CLASSIFICATION', 'extractionMethod', e.target.value)}
             />
           </label>
+          {errors.extractionMethod && <span className='error-msg'>{errors.extractionMethod}</span>}
           </label>
           </li>
           </ol>
@@ -159,6 +179,7 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
               value={fieldStyle["cellIndex"] || fieldOrder}
               onChange={(e) => handleFieldStyle(e.target.value, 'cellIndex')}
             />
+            {errors.cellIndex && <span className='error-msg'>{errors.cellIndex}</span>}
           </label>
           <label>
             <input
