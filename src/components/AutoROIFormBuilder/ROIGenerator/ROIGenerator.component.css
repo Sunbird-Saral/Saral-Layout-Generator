@@ -1,0 +1,57 @@
+.roi-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4DEEED;
+  }
+  
+  .roi-edit-button li button {
+    height: 50px;
+    width: 100px;
+    top: 10%;
+    left: 88vw;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #52A08D;
+    color: #FFFFFF;
+    margin: 20px;
+    border-radius: 5px;
+  }
+  
+  .roi-edit-button li button:hover {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  .roi-edit-button {
+    position: relative;
+    display: list-item;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  }
+  
+  .roi-gen-btn-disabled {
+    height: 50px;
+    width: 100px;
+    padding: 8px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: #CCCCCC; 
+    color: #666666;
+    cursor: not-allowed;
+  }
+  
+  .roi-gen-btn {
+    height: 50px;
+    width: 100px;
+    top: 5vw;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #E7B10A;
+    color: white;
+    margin: 20px;
+    border-radius: 5px;
+  }

@@ -126,7 +126,6 @@ const handleExportComplete = (dstImg, imgData) => {
 }
 
   return (
-    <div className='form-container'>
       <div ref={boundaryRef} className='outer-area'>
       <div  id="print-this" className='area'>
       {boxes.map((box) => (
@@ -170,7 +169,6 @@ const handleExportComplete = (dstImg, imgData) => {
       <BlackDotComponent  blackdots={blackdots} updateblackdots={updateSharedState}/>
     </div>
       </div>
-    </div>
     
   );
 };

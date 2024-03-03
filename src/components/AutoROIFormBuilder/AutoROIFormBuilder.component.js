@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Stepper from 'react-stepper-horizontal';
 import RectangleDiv from '../bigcomponent/RectangleDiv';
 import Alert from './Alert/Alert.component';
-import ROIMarker from './ROIMarker';
-import './styles.css'
+import ROIGenerator from './ROIGenerator/ROIGenerator.component';
+import './AutoROIFormBuilder.component.css'
 
-function FormBuilderRoiGen() {
+function AutoROIFormBuilder() {
   const [ activeStep, setActiveStep ] = useState(0);
   const [formConfig, setFormConfig] = useState({});
   const [dst, setdstImage] = useState('');
@@ -43,13 +43,13 @@ function FormBuilderRoiGen() {
   function getSectionComponent() {
     switch(activeStep) {
       case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson}/>;
-      case 1: return <ROIMarker srcImage={dst} imgData={imgData} formConfigJson={formConfig} notifyError={setAlert}/>;
+      case 1: return <ROIGenerator srcImage={dst} imgData={imgData} formConfigJson={formConfig} notifyError={setAlert}/>;
       default: return null;
     }
   }
 
   return (
-    <div>
+    <div className='container'>
       <h1 className='title'>Welcome to FormROIzen</h1>
       <Stepper
         activeColor="green"
@@ -70,4 +70,4 @@ function FormBuilderRoiGen() {
   );
 }
 
-export default FormBuilderRoiGen;
+export default AutoROIFormBuilder;

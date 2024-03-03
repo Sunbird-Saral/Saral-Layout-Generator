@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import './FormField.component.css'
 
-const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, setFormJson, fieldOrder, handleFieldCancel}) => {
+const FormField = ({ isOpen, onClose, onChangeTextStyle, textStyle, setFormJson, fieldOrder, handleFieldCancel}) => {
   const [selectedWeight, setSelectedWeight] = useState(typeof textStyle !== 'undefined' ? textStyle.fontWeight : 'normal');
   const [fieldStyle, setFieldStyle] = useState({'extractionMethod':{}, 'cellIndex': fieldOrder});
   const [customSize, setCustomSize] = useState(
@@ -215,4 +216,4 @@ const FormTemplateCapture = ({ isOpen, onClose, onChangeTextStyle, textStyle, se
   );
 };
 
-export default FormTemplateCapture;
+export default FormField;

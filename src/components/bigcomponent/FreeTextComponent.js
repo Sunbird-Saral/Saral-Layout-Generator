@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 import EditableFreeText from './EditableFreeText';
 import WeightPopup from './WeightPopup';
 import './FreeTextComponent.css';
-import FormTemplateCapture from '../AutoROIFormBuilder/FormTemplateCapture';
+import FormField from '../AutoROIFormBuilder/FormField/FormField.component';
 
 const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
   const [fields, setFields] = useState([]);
@@ -155,7 +155,7 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
             />
           )}
           {isFieldSetPopupOpen && type === "InputField" && (
-            <FormTemplateCapture
+            <FormField
               isOpen={isFieldSetPopupOpen}
               onClose={closeFieldSetPopup}
               onChangeTextStyle={(weight, size, value) => handleInputTextChange(weight, size, value, field.id)} 

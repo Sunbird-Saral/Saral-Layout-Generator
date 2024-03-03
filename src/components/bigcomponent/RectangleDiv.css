@@ -1,11 +1,3 @@
-.form-container {
-  position: relative;
-  width: 100vw;
-  height: 80vh;
-  justify-content: center;
-  align-items: center;
-  background-color: #4DEEED;
-}
 .area{
   position: relative;
   width: 1300px;
@@ -13,6 +5,10 @@
   background-color:white;
   border: 1px solid #CCCCCC;
   margin: 0 auto;
+}
+
+.outer-area {
+  margin-top: 10px;
 }
 
 .tool-area{

@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import cv from "@techstark/opencv-js";
+import './ROIGenerator.component.css'
 
-const ROIMarker = ({srcImage, imgData, formConfigJson, notifyError}) => {
+const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
   const canvasRef = useRef(null);
   const [img, setImage] = useState('');
   const [isImgLoaded, setImgLoaded] = useState(false);
@@ -293,4 +294,4 @@ const ROIMarker = ({srcImage, imgData, formConfigJson, notifyError}) => {
   );
 };
 
-export default ROIMarker;
+export default ROIGenerator;
