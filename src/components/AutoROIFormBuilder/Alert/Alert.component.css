@@ -1,9 +1,9 @@
 .alert {
-    width: 50vw;
+    width: 30vw;
     padding: 20px;
     background-color: #f44336;
     color: white;
-    margin: 10px auto 0;
+    margin: 10px 65vw 0;
     border: 2px outset rgb(145, 144, 144);
     border-radius: 5px;
   }
