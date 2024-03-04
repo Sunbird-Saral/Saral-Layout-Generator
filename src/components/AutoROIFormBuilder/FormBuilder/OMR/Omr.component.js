@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import './OmrComponent.css'
-import OmrResizePopup from './OmrResizePopup';
+import './Omr.component.css'
+import OmrResizePopup from './OmrResizePopup/OmrResizePopup.component';
 const OmrComponent = ({ boundaryRef }) => {
   const [omrs, setOmrs] = useState([]);
   const omrRefs = React.useRef({});

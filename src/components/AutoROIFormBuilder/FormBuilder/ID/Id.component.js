@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import './IdComponent.css';
-import IdPopup from './IdPopup';
+import './Id.component.css';
+import IdPopup from './IdPopup/IdPopup.component';
 const IdComponent = ({ boundaryRef }) => {
   const [inputs, setInputs] = useState([]);
   const inputRefs = React.useRef({});

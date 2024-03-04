@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Stepper from 'react-stepper-horizontal';
-import RectangleDiv from '../bigcomponent/RectangleDiv';
+import FormBuilder from './FormBuilder/FormBuilder.component';
 import Alert from './Alert/Alert.component';
 import ROIGenerator from './ROIGenerator/ROIGenerator.component';
 import './AutoROIFormBuilder.component.css'
@@ -42,7 +42,7 @@ function AutoROIFormBuilder() {
 
   function getSectionComponent() {
     switch(activeStep) {
-      case 0: return <RectangleDiv handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson}/>;
+      case 0: return <FormBuilder handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson}/>;
       case 1: return <ROIGenerator srcImage={dst} imgData={imgData} formConfigJson={formConfig} notifyError={setAlert}/>;
       default: return null;
     }

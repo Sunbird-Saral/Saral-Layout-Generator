@@ -33,7 +33,20 @@
   
 .roll {
     margin:0;
-  }
+}
+
+.roll td {
+  padding: 5px;
+  border: 1px solid #ccc;
+  text-align: center;
+  position: relative;
+  display: table-cell;
+  vertical-align: inherit;
+}
+
+table {
+  border-collapse: collapse;
+}
   
 .add-cell-btn {
     position: absolute;

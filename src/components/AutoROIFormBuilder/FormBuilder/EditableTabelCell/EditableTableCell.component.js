@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './EditableTableCell.component.css'
 
 const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize }) => {
   const [selectedWeight, setSelectedWeight] = useState('normal');

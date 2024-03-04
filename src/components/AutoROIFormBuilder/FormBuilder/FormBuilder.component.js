@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import './RectangleDiv.css';
-import DownloadPDF from './DownloadPDF';
-import OmrComponent from './OmrComponent';
-import IdComponent from './IdComponent';
-import FreeTextComponent from './FreeTextComponent';
-import BlackDotComponent from './BlackDotComponent';
-import EditableTableCell from './EditableTableCell';
-import Dropdown from '../AutoROIFormBuilder/Dropdown/Dropdown.component';
-const RectangleDiv = ({handleDesignComplete, setActiveStep, setFormJson}) => {
+import './FormBuilder.component.css';
+import DownloadPDF from './DownloadPDF/DownloadPDF.component';
+import OmrComponent from './OMR/Omr.component';
+import IdComponent from './ID/Id.component';
+import FreeTextComponent from './FreeText/FreeText.component';
+import BlackDotComponent from './BlackDot/BlackDot.component';
+import EditableTableCell from './EditableTabelCell/EditableTableCell.component';
+import Dropdown from '../Dropdown/Dropdown.component';
+const FormBuilder = ({handleDesignComplete, setActiveStep, setFormJson}) => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
@@ -173,4 +173,4 @@ const handleExportComplete = (dstImg, imgData) => {
   );
 };
 
-export default RectangleDiv;
+export default FormBuilder;

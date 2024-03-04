@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import EditableFreeText from './EditableFreeText';
-import WeightPopup from './WeightPopup';
-import './FreeTextComponent.css';
-import FormField from '../AutoROIFormBuilder/FormField/FormField.component';
+import EditableFreeText from './EditableFreeText/EditableFreeText.component';
+import WeightPopup from './WeightPopup/WeightPopup.component';
+import './FreeText.component.css';
+import FormField from '../FormField/FormField.component';
 
 const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
   const [fields, setFields] = useState([]);
