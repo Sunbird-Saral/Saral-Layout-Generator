@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './IdPopup.component.css'
 const IdPopup = ({ input, onClose, onWidthChange, onHeightChange }) => {
   return (
     <div className="popup-overlay">

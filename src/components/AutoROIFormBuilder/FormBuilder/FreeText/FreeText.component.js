@@ -135,8 +135,8 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
                 onTextChange={(weight, size) => handleTextChange(weight, size, field.id)} 
                 onSave={(newName) => handleFieldNameChange(field.id, newName)}
               />
-              <div style={{ opacity: draggingFieldId === field.id ? 1 : 0 }} className='horizontal'></div>
               <div style={{ opacity: draggingFieldId === field.id ? 1 : 0 }} className='vertical'></div>
+              <div style={{ opacity: draggingFieldId === field.id ? 1 : 0 }} className='horizontal'></div>
             </div>
           </Draggable>
           <div

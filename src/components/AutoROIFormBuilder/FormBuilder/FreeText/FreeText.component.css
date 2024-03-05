@@ -1,5 +1,5 @@
 .vertical {
-    position: fixed; 
+    position: absolute; 
     background-color:rgb(78, 186, 78); 
     opacity: 1;
     transition: opacity 0.3s ease;
@@ -15,9 +15,9 @@
     opacity: 1; 
     transition: opacity 0.3s ease; 
     width: 0.5px;
-    height: 600px;
-    left:10%; 
-  
+    height: 500px;
+    left:14%; 
+    top: -200px
   }
   .field-box{
     padding: 0;
