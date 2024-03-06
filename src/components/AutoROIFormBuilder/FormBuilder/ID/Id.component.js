@@ -228,7 +228,7 @@ const IdComponent = ({ boundaryRef }) => {
         />
       )}
       <button onClick={addBoxes} className="add-box-btn">
-        Add InputBox
+        Add Input Box
       </button>
     </>
   );

@@ -6,7 +6,7 @@ import './HomePage.css'; // Create and import the CSS file for styling if needed
 const HomePage = () => {
     return (
       <div className="home-container">
-        <h1 style={{color:'white'}}>FormROIzen</h1>
+        <h1 style={{color:'white'}}>Sunbird FormROIzen</h1>
         <div className="dropdown-menu">
           <Link to="/main">
             <button className='others'>Go to toolbox</button>

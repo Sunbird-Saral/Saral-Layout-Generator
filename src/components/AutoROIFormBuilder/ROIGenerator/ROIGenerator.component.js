@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import cv from "@techstark/opencv-js";
 import './ROIGenerator.component.css'
+import PublishROI from './PublishROI/PublishROI.component';
 
 const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
   const canvasRef = useRef(null);
@@ -12,6 +13,7 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
   const [isFinalRoiListReady, setIsFinalRoiListReady] = useState(false);
   const [roiDim, setRoiDim] = useState([]);
   const [roiList, setRoiList] = useState([]);
+  const [roiJson, setRoiJson] = useState({});
   const [mode, setMode] = useState('SELECT');
 
   const drawROI = (ctx, x, y, width, height) => {
@@ -176,12 +178,12 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
      });
 
      setRoiList(finalRoiList);
-     console.log('finalRoiList', finalRoiList);
+     generateROIJson();
      setIsFinalRoiListReady(true);
   }
 
-  const downloadJSON = (data) => {
-    const json = JSON.stringify(data, null, 2);
+  const downloadJSON = () => {
+    const json = JSON.stringify(roiJson, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -248,7 +250,7 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
         notifyError('ROI marking is not correct. please reset and mark properly again')
       } else {
         finaliseRoIIndex(mroi_list)
-        downloadJSON(mroi_list)
+        setRoiJson(mroi_list);
       }
   }
 
@@ -283,7 +285,13 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
     </li>
     <li>Finalize ROI<button onClick={finishROIMarking}>Finish ROI Marking</button> </li>
     </ol>
-    <p>Generate ROI Json<button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={generateROIJson} disabled={!isFinalRoiListReady}>Generate</button></p>
+    <p>Generate ROI Json:
+      <div className='handle-roi-json'>
+        <button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={downloadJSON} disabled={!isFinalRoiListReady}>Download</button>
+        <strong className='publish-roi'> or </strong>
+        <PublishROI isDisabled={!isFinalRoiListReady} roiJson={roiJson} className="publish-roi" ></PublishROI>
+      </div>
+    </p>
     </div>
     <div>
       <canvas ref={canvasRef} id="srcImgCanvas" onMouseDown={handleMouseDown}

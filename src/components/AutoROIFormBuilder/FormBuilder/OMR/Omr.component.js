@@ -165,7 +165,7 @@ const OmrComponent = ({ boundaryRef }) => {
       )}
 
       <button onClick={addOmr} className="add-omr-btn">
-        Add OMR Btn
+        Add OMR
       </button>
     </>
   );

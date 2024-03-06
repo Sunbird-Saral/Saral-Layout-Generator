@@ -169,7 +169,7 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
       ))}
 
       <button onClick={addField} className="add-free-btn">
-        {type}
+        Add {type =='InputField'? 'Label': 'Text'}
       </button>
     </>
   );
