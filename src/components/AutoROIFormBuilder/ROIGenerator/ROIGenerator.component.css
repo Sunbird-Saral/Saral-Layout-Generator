@@ -19,8 +19,14 @@
     margin: 20px;
     border-radius: 5px;
   }
+
+  .roi-edit-button li button.roi-btn-disabled {
+    background-color: #CCCCCC; 
+    color: #666666;
+    cursor: not-allowed;
+  }
   
-  .roi-edit-button li button:hover {
+  .roi-edit-button li button.none:hover {
     background-color: #04AA6D;
     color: white;
   }

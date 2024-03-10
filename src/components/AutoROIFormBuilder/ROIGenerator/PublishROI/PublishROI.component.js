@@ -5,7 +5,6 @@ const PublishROI = ({isDisabled, roiJson, className='none'}) => {
   const [url, setUrl] = useState('')
 
   const handleROIPublish = () => {
-    console.log('url is ', url, roiJson)
   }
   return (
     <div className={isDisabled ? `disabled-input ${className}`: className}>

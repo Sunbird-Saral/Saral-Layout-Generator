@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const WeightPopup = ({ isOpen, onClose, onChangeWeightAndSize, textStyle }) => {
-  console.log(textStyle);
   const [selectedWeight, setSelectedWeight] = useState(typeof textStyle !== 'undefined' ? textStyle.fontWeight : 'normal');
   const [customSize, setCustomSize] = useState(
     typeof textStyle !== 'undefined' && !isNaN(parseInt(textStyle.fontSize?.slice(0, -1), 10))

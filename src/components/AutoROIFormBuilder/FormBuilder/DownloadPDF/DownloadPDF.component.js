@@ -67,7 +67,6 @@ const DownloadPDF = ({
       height: captureHeight,
     }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
-      console.log("imgData", imgData);
       let image = new Image();
       image.src = imgData;
       image.onload = () => {
@@ -86,7 +85,6 @@ const DownloadPDF = ({
   const processImage = (image, imgData) => {
     // Load the image
     const src = cv.imread(image);
-    console.log("imageSrc", src);
     //const dst = new cv.Mat.zeros(src.rows, src.cols, cv.CV_8U);
     const circles = new cv.Mat();
     const gray = new cv.Mat();
@@ -105,8 +103,6 @@ const DownloadPDF = ({
       40,
       50
     );
-
-    console.log("circles", circles.cols);
 
     // Find circles that correspond to corners (for simplicity, assuming there are 4 circles)
     let cornerCircles = [];

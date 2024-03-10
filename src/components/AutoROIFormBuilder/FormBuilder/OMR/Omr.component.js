@@ -85,7 +85,6 @@ const OmrComponent = ({ boundaryRef }) => {
   const handleMouseEnterOmr = (omr) => {
     const omrContainer = omrRefs.current[omr.id];
     const removeButton = omrContainer.querySelector('.remove-omr-btn');
-    console.log(removeButton);
     removeButton.style.opacity = 1;
   };
 
