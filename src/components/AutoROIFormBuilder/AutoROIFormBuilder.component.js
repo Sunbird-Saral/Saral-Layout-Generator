@@ -3,6 +3,7 @@ import Stepper from 'react-stepper-horizontal';
 import FormBuilder from './FormBuilder/FormBuilder.component';
 import Alert from './Alert/Alert.component';
 import ROIGenerator from './ROIGenerator/ROIGenerator.component';
+import PublishROI from './PublishROI/PublishROI.component';
 import './AutoROIFormBuilder.component.css'
 
 function AutoROIFormBuilder() {
@@ -10,7 +11,9 @@ function AutoROIFormBuilder() {
   const [formConfig, setFormConfig] = useState({});
   const [dst, setdstImage] = useState('');
   const [imgData, setimgData] = useState('');
-  const [alert, setAlert] = useState('')
+  const [alert, setAlert] = useState('');
+  const [selectedOption, setSelectedOption] = useState('Landscape');
+  const [roiJson, setRoiJson] = useState({});
 
   function handleDesignComplete (dstImg, imgData, callBack) {
     if(Object.keys(formConfig).length == 0) {
@@ -27,6 +30,12 @@ function AutoROIFormBuilder() {
     setActiveStep(activeStep + 1);
   }
 
+  function publishROI(roijson) {
+    console.log("roi", roijson);
+    setRoiJson(roijson);
+    setActiveStep(activeStep + 1);
+  }
+
   const setFormJson = (json) => {
     setFormConfig({...formConfig, ...json})
   }
@@ -37,13 +46,15 @@ function AutoROIFormBuilder() {
 
   const steps = [
     { title: 'Design Layout' },
-    { title: 'Mark ROI' }
+    { title: 'Generate ROI' },
+    { title: 'Sync ROI to saral backend'}
   ];
 
   function getSectionComponent() {
     switch(activeStep) {
-      case 0: return <FormBuilder handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson}/>;
-      case 1: return <ROIGenerator srcImage={dst} imgData={imgData} formConfigJson={formConfig} notifyError={setAlert}/>;
+      case 0: return <FormBuilder handleDesignComplete={handleDesignComplete} setActiveStep={setNextStep} setFormJson={setFormJson} selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>;
+      case 1: return <ROIGenerator srcImage={dst} imgData={imgData} formConfigJson={formConfig} notifyError={setAlert} selectedOption={selectedOption} publishROI={publishROI}/>;
+      case 2: return <PublishROI roiJson={roiJson}></PublishROI>
       default: return null;
     }
   }

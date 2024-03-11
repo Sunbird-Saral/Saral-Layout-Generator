@@ -7,7 +7,7 @@ import FreeTextComponent from './FreeText/FreeText.component';
 import BlackDotComponent from './BlackDot/BlackDot.component';
 import EditableTableCell from './EditableTabelCell/EditableTableCell.component';
 import Dropdown from '../Dropdown/Dropdown.component';
-const FormBuilder = ({handleDesignComplete, setActiveStep, setFormJson}) => {
+const FormBuilder = ({handleDesignComplete, setActiveStep, setFormJson, selectedOption, setSelectedOption}) => {
   const [boxes, setBoxes] = useState([{ key:Date.now(), x: 45, y: 45, width: 40, height: 30,textsize:20 }]);
 
   const boundaryRef = React.useRef(null);
@@ -53,7 +53,7 @@ const FormBuilder = ({handleDesignComplete, setActiveStep, setFormJson}) => {
   const [initialPos,   setInitialPos] = React.useState(null);
   const [initialSize, setInitialSize] = React.useState(null);
   const [isDesignComplete, setDesignComplete] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Landscape');
+  
 
   const options = ['Landscape', 'Potrait'];
 

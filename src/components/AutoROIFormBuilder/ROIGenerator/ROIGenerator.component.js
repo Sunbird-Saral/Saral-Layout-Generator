@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import cv from "@techstark/opencv-js";
 import './ROIGenerator.component.css'
-import PublishROI from './PublishROI/PublishROI.component';
+import { Link, useLocation } from 'react-router-dom';
 
-const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
+const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError, selectedOption, publishROI}) => {
   const canvasRef = useRef(null);
   const [img, setImage] = useState(srcImage);
   const [isROIMarkingInit, setROIMarkingInit] = useState(false);
@@ -15,6 +15,8 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
   const [roiList, setRoiList] = useState([]);
   const [roiJson, setRoiJson] = useState({});
   const [mode, setMode] = useState('SELECT');
+  const [formName, setFormName] = useState('');
+  const location = useLocation();
 
   const drawROI = (ctx, x, y, width, height) => {
     const canvas = canvasRef.current;
@@ -92,7 +94,12 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     cv.imshow('srcImgCanvas', srcImage)
-  }, [srcImage]);
+    const searchParams = new URLSearchParams(location.search);
+    const inputValueFromUrl = searchParams.get('formName');
+    if (inputValueFromUrl) {
+        setFormName(inputValueFromUrl);
+    }
+  }, [srcImage, location]);
 
   const detectContours = () => {
     let imgl = srcImage.clone()
@@ -198,7 +205,7 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'roi.json';
+    a.download = `${formName}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -207,8 +214,20 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
 
   const generateROIJson = (froiList) => {
     let mroi_list = {
+      "layout": {
+        "version": "1.0",
+        "name": `${formName}`,
+        "pages": "1",
+        "threshold": {
+            "experimentalOMRDetection": false,
+            "minWidth": 0,
+            "minHeight": 0,
+            "detectionRadius": 12,
+            "verticalScanLayout": (selectedOption == "Potrait")
+        },
       "cells":[]
     }
+  }
     let index = 0;
     let roiIndex = 0;
     for(let key in formConfigJson) {
@@ -253,7 +272,7 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
                 index = index + 1;
             }
         }
-        mroi_list["cells"].splice(val["cellIndex"], 0, cellData)
+        mroi_list["layout"]["cells"].splice(val["cellIndex"], 0, cellData)
       }
 
       if(froiList.length !== roiIndex) {
@@ -267,12 +286,16 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
 
   function finaliseRoIIndex(mroi_list) {
   let roiindex = 0;
-  for(let cells in mroi_list["cells"]){
+  for(let cells in mroi_list["layout"]["cells"]){
     for(let roi in cells["rois"]){
       roiindex = roiindex + 1;
       roi["roiId"] = roiindex.toString();
     }
   }
+  }
+
+  function handleROIPublish() {
+    publishROI(roiJson)
   }
 
   return (
@@ -300,7 +323,7 @@ const ROIGenerator = ({srcImage, imgData, formConfigJson, notifyError}) => {
       <div className='handle-roi-json'>
         <button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={downloadJSON} disabled={!isFinalRoiListReady}>Download</button>
         <strong className='publish-roi'> or </strong>
-        <PublishROI isDisabled={!isFinalRoiListReady} roiJson={roiJson} className="publish-roi" ></PublishROI>
+        <button className={isFinalRoiListReady ? 'roi-gen-btn': 'roi-gen-btn-disabled'} onClick={handleROIPublish} disabled={!isFinalRoiListReady}>Publish to backend</button>
       </div>
     </p>
     </div>
