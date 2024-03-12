@@ -37,7 +37,19 @@ function AutoROIFormBuilder() {
   }
 
   const setFormJson = (json) => {
-    setFormConfig({...formConfig, ...json})
+    let isSame = false;
+    for(let k in formConfig) {
+      let compk = Object.keys(json)[0];
+      if(k == compk) {
+        isSame = true;
+        formConfig[k]['count'] = formConfig[k]['count'] + json[compk]['count'];
+        formConfig[k]['extractionMethod'] = {...formConfig[k]['extractionMethod'], ...json[compk]['extractionMethod']}
+      }
+    }
+
+    if(!isSame) {
+      setFormConfig({...formConfig, ...json})
+    }
   }
 
   const closeAlertBox = () => {
