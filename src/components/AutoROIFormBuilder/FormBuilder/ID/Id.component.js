@@ -2,26 +2,63 @@ import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import './Id.component.css';
 import IdPopup from './IdPopup/IdPopup.component';
-const IdComponent = ({ boundaryRef }) => {
+import FormField from '../FormField/FormField.component';
+
+const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
   const [inputs, setInputs] = useState([]);
   const inputRefs = React.useRef({});
   const [draggingInputId, setDraggingInputId] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupInputId, setPopupInputId] = useState(null);
+  const [isFieldSetPopupOpen, setIsFieldSetPopupOpen] = useState(false);
+  const [expectedIDCount, setexpectedIDCount] = useState(0);
+  const [currentIDCount, setCurrentIdCount] = useState(0);
+
+  const handleFormJson = (json) => {
+      console.log('json here', json, expectedIDCount)
+      setCurrentIdCount((prevCount)=> prevCount+1)
+      setInputs((prevInputs) => [
+        ...prevInputs,
+        {
+          id: Date.now(),
+          top: 200,
+          left: 1110,
+          name: `input ${prevInputs.length + 1}`,
+          size: 1,
+          width: 20,
+          height: 20,
+        },
+      ]);
+      let count = parseInt(Object.values(json)[0]['count'])
+      setexpectedIDCount((prevCount) => {
+          return prevCount + count
+      })
+      setFormJson(json)
+  }
+
+  const closeFieldSetPopup = () => {
+    setIsFieldSetPopupOpen(false);
+  };
 
   const addBoxes = () => {
-    setInputs((prevInputs) => [
-      ...prevInputs,
-      {
-        id: Date.now(),
-        top: 200,
-        left: 1110,
-        name: `input ${prevInputs.length + 1}`,
-        size: 1,
-        width: 20,
-        height: 20,
-      },
-    ]);
+    console.log('id counts', currentIDCount, expectedIDCount)
+    if(currentIDCount >= expectedIDCount) {
+      setIsFieldSetPopupOpen(true);
+    } else {
+      setCurrentIdCount((prevCount)=> prevCount+1)
+      setInputs((prevInputs) => [
+        ...prevInputs,
+        {
+          id: Date.now(),
+          top: 200,
+          left: 1110,
+          name: `input ${prevInputs.length + 1}`,
+          size: 1,
+          width: 20,
+          height: 20,
+        },
+      ]);
+    }
   };
 
   const removeField = (setFields, fieldId) => {
@@ -66,20 +103,21 @@ const IdComponent = ({ boundaryRef }) => {
   };
 
   const addCells = (setInputs, inputId) => {
-    setInputs((prevFields) =>
+    console.log('id counts', currentIDCount, expectedIDCount)
+    if(currentIDCount >= expectedIDCount) {
+      alert('Max input field number reached, Add a new one');
+    } else {
+      setCurrentIdCount((prevCount)=> prevCount+1)
+      setInputs((prevFields) =>
       prevFields.map((input) => {
         if (input.id === inputId) {
-          if (input.size + 1 > 20) {
-            alert('The maximum value of input box size is 20!');
-            return { ...input, size: 20 };
-          } else {
             return { ...input, size: input.size + 1 };
-          }
         } else {
           return input;
         }
       })
     );
+    }
   };
 
   const removeCells = (setInputs, inputId) => {
@@ -227,6 +265,16 @@ const IdComponent = ({ boundaryRef }) => {
           onHeightChange={(newHeight) => handleHeightChange(newHeight)}
         />
       )}
+      {isFieldSetPopupOpen && (
+            <FormField
+              isOpen={isFieldSetPopupOpen}
+              onClose={closeFieldSetPopup}
+              setFormJson={handleFormJson}
+              fieldOrder = {fieldOrder}
+              type = 'TEXT'
+            />
+          )}
+      {(expectedIDCount - currentIDCount) > 0 && <span className="span-msg">Add {expectedIDCount - currentIDCount} more of Input fields</span>}      
       <button onClick={addBoxes} className="add-box-btn">
         Add Input Box
       </button>

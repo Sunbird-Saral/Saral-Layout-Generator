@@ -3,37 +3,19 @@ import Draggable from 'react-draggable';
 import EditableFreeText from './EditableFreeText/EditableFreeText.component';
 import WeightPopup from './WeightPopup/WeightPopup.component';
 import './FreeText.component.css';
-import FormField from '../FormField/FormField.component';
 
-const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
+const FreeTextComponent = ({ boundaryRef }) => { 
   const [fields, setFields] = useState([]);
-  const [InputFieldCount, setInputFieldCount] = useState(0);
   const fieldRefs = React.useRef({});
   const [draggingFieldId, setDraggingFieldId] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupFieldId, setPopupFieldId] = useState(null);
-  const [isFieldSetPopupOpen, setIsFieldSetPopupOpen] = useState(false);
 
   const addField = () => {
-    let id =  Date.now()
-    if(type == 'InputField') {
-      setInputFieldCount((preCount)=>preCount+1);
-      id = InputFieldCount;
-    }
     setFields((prevFields) => [
       ...prevFields,
-      { id: id, top: 150, left: 1110, name: `Field ${prevFields.length + 1}` },
+      { id: Date.now(), top: 150, left: 1110, name: `Field ${prevFields.length + 1}` },
     ]);
-    setIsFieldSetPopupOpen(true);
-  };
-
-  const handleFieldCancel = (fieldId) => {
-    setInputFieldCount((preCount)=>preCount-1);
-    removeField(setFields, fieldId)
-  }
-
-  const closeFieldSetPopup = () => {
-    setIsFieldSetPopupOpen(false);
   };
 
   const removeField = (setFields, fieldId) => {
@@ -92,23 +74,6 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
     );
   };
 
-  const handleInputTextChange = (weight, size, value, fieldId) => {
-    setFields((prevFields) =>
-      prevFields.map((field) =>
-        field.id === fieldId
-          ? {
-              ...field,
-              name: value,
-              textStyle: {
-                fontWeight: weight === 'bold' ? 'bold' : 'normal',
-                fontSize: size==='undefined'?'16px':size,
-              },
-            }
-          : field
-      )
-    );
-  };
-
   return (
     <>
       {fields.map((field) => (
@@ -146,7 +111,7 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
           >
             &#10005;
           </div>
-          {isPopupOpen && popupFieldId === field.id && type === "FreeText" && (
+          {isPopupOpen && popupFieldId === field.id && (
             <WeightPopup
               isOpen={isPopupOpen}
               onClose={closePopup}
@@ -154,22 +119,11 @@ const FreeTextComponent = ({ boundaryRef, type, setFormJson}) => {
               textStyle={field.textStyle}
             />
           )}
-          {isFieldSetPopupOpen && type === "InputField" && (
-            <FormField
-              isOpen={isFieldSetPopupOpen}
-              onClose={closeFieldSetPopup}
-              onChangeTextStyle={(weight, size, value) => handleInputTextChange(weight, size, value, field.id)} 
-              textStyle={field.textStyle}
-              setFormJson={setFormJson}
-              fieldOrder = {InputFieldCount}
-              handleFieldCancel = {() => handleFieldCancel(field.id)}
-            />
-          )}
         </div>
       ))}
 
       <button onClick={addField} className="add-free-btn">
-        Add {type =='InputField'? 'Label': 'Text'}
+        Add Text
       </button>
     </>
   );
