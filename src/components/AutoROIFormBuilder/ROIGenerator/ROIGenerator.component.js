@@ -74,7 +74,6 @@ const ROIGenerator = ({
       if (mode == "DELETE") {
         
         for (let [i, roi] of roiList.entries()) {
-          console.log('currentX', currentX, roi)
           if (
             0 <= currentX - roi.x &&
             currentX - roi.x <= 15 &&
@@ -95,7 +94,7 @@ const ROIGenerator = ({
         setRoiList([...roiList, { x, y, width, height }]);
         const point1 = new cv.Point(currentX - width, currentY - height);
         const point2 = new cv.Point(currentX, currentY);
-        cv.rectangle(img, point1, point2, [0, 255, 0, 255], 1);
+        cv.rectangle(img, point1, point2, [0, 255, 0, 255], 2);
       } else {
         drawROI(ctx, startX, startY, width, height);
         setRoiDim([width + 3, height + 3]);
@@ -171,7 +170,7 @@ const ROIGenerator = ({
       ) {
         const point1 = new cv.Point(rect.x, rect.y);
         const point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
-        cv.rectangle(dst, point1, point2, [0, 255, 0, 255], 1);
+        cv.rectangle(dst, point1, point2, [0, 255, 0, 255], 2);
         froiList.push(rect);
       }
     }
@@ -247,7 +246,6 @@ const ROIGenerator = ({
   };
 
   const generateROIJson = (froiList) => {
-    console.log('formConfigJson', formConfigJson)
     let mroi_list = {
       layout: {
         version: "1.0",

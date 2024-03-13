@@ -15,7 +15,6 @@ const OmrComponent = ({ boundaryRef, setFormJson, fieldOrder }) => {
   const [currentIDCount, setCurrentIdCount] = useState(0);
 
   const handleFormJson = (json) => {
-    console.log("json here", json, expectedIDCount);
     setCurrentIdCount((prevCount) => prevCount + 1);
     setOmrs((prevomrs) => [
       ...prevomrs,
@@ -40,7 +39,6 @@ const OmrComponent = ({ boundaryRef, setFormJson, fieldOrder }) => {
   };
 
   const addOmr = () => {
-    console.log("id counts", currentIDCount, expectedIDCount);
     if (currentIDCount >= expectedIDCount) {
       setIsFieldSetPopupOpen(true);
     } else {
@@ -60,6 +58,7 @@ const OmrComponent = ({ boundaryRef, setFormJson, fieldOrder }) => {
   };
 
   const removeOmr = (setOmrs, fieldId) => {
+    setCurrentIdCount((prevCount) => prevCount - 1);
     setOmrs((prevomrs) => prevomrs.filter((field) => field.id !== fieldId));
   };
 

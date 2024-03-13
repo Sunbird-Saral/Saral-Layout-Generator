@@ -31,6 +31,7 @@ const PublishROI = ({ roiJson }) => {
         },
         body: JSON.stringify({ schoolId: username, password }),
       });
+
       const data = await response.json();
       if (response.ok) {
         let roiPayload = {
@@ -40,8 +41,9 @@ const PublishROI = ({ roiJson }) => {
         setRequestData(roiPayload)
         setToken(data.token);
         setLoggedIn(true);
+        setError("");
       } else {
-        setError(data.message);
+        setError(data.error? data.error: "Server error");
       }
     } catch (error) {
       setError("Failed to log in");
@@ -61,6 +63,7 @@ const PublishROI = ({ roiJson }) => {
       const data = await response.json();
       if (response.ok) {
         setResponse("success");
+        setError("");
       } else {
         setResponse("error");
         setError(data.message);

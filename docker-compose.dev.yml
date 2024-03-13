@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: sunbird-formroizen
+    restart: always
+    image: sunbird-formroizen:1.0-latest
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "0.0.0.0:3006:3006"

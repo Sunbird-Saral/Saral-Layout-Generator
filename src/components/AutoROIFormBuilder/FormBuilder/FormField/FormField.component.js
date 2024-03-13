@@ -239,6 +239,9 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                   </label>
                 </li>
               )}
+              {errors.formate && (
+              <span className="error-msg">{errors.extractionMethod}</span>
+              )}
             </ol>
           </label>
           <label>

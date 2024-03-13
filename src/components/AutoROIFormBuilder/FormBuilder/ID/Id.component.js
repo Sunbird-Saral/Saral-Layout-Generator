@@ -15,7 +15,6 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
   const [currentIDCount, setCurrentIdCount] = useState(0);
 
   const handleFormJson = (json) => {
-      console.log('json here', json, expectedIDCount)
       setCurrentIdCount((prevCount)=> prevCount+1)
       setInputs((prevInputs) => [
         ...prevInputs,
@@ -41,7 +40,6 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
   };
 
   const addBoxes = () => {
-    console.log('id counts', currentIDCount, expectedIDCount)
     if(currentIDCount >= expectedIDCount) {
       setIsFieldSetPopupOpen(true);
     } else {
@@ -62,6 +60,7 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
   };
 
   const removeField = (setFields, fieldId) => {
+    setCurrentIdCount((prevCount)=> prevCount-1)
     setFields((prevFields) => prevFields.filter((field) => field.id !== fieldId));
   };
 
@@ -103,7 +102,6 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
   };
 
   const addCells = (setInputs, inputId) => {
-    console.log('id counts', currentIDCount, expectedIDCount)
     if(currentIDCount >= expectedIDCount) {
       alert('Max input field number reached, Add a new one');
     } else {
@@ -121,6 +119,7 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
   };
 
   const removeCells = (setInputs, inputId) => {
+    setCurrentIdCount((prevCount)=> prevCount-1)
     setInputs((prevFields) =>
       prevFields.map((input) => {
         if (input.id === inputId) {

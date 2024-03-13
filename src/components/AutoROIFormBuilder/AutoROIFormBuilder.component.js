@@ -31,7 +31,6 @@ function AutoROIFormBuilder() {
   }
 
   function publishROI(roijson) {
-    console.log("roi", roijson);
     setRoiJson(roijson);
     setActiveStep(activeStep + 1);
   }
