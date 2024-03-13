@@ -17,7 +17,7 @@ const HomePage = () => {
         </lable>
         <input type="text" id="formName" value={formName} onChange={handleInputChange}></input>
         <div className="dropdown-menu">
-          <Link to={`/main?formName=${encodeURIComponent(formName)}`}>
+          <Link to={`/formroizen-toolbox?formName=${encodeURIComponent(formName)}`}>
             <button className='others'>Go to toolbox</button>
           </Link>
         </div>

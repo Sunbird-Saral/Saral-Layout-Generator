@@ -12,7 +12,12 @@ html{
     margin: 100px auto 0;
     border: 2px outset #43b8ea;
     border-radius: 5px;
-    color: white
+  }
+
+  .home-container>h1{
+    color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
   }
   
   .dropdown-menu {

@@ -72,7 +72,7 @@ function AutoROIFormBuilder() {
 
   return (
     <div className='container'>
-      <h1 className='title'>Welcome to FormROIzen</h1>
+      <h1 className='title'>FormROIzen Toolbox</h1>
       <Stepper
         activeColor="green"
         defaultColor="orange"

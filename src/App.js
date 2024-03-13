@@ -9,7 +9,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/main" element={<AutoROIFormBuilder />} />
+        <Route path="/formroizen-toolbox" element={<AutoROIFormBuilder />} />
       </Routes>
     </Router>
   );
