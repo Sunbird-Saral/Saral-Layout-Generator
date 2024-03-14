@@ -18,17 +18,21 @@ COPY . .
 # Building our application
 RUN npm run build
 
-# Fetching the latest nginx image
-FROM nginx
+EXPOSE 3000
 
-# Copying built assets from builder
-COPY --from=builder /app/build /usr/share/nginx/html
+CMD ["npm", "run", "serve"]
 
-# Copying our nginx.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# # Fetching the latest nginx image
+# FROM nginx
 
-# Expose port
-EXPOSE 80
+# # Copying built assets from builder
+# COPY --from=builder /app/build /usr/share/nginx/html
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# # Copying our nginx.conf
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# # Expose port
+# EXPOSE 80
+
+# # Start nginx
+# CMD ["nginx", "-g", "daemon off;"]
