@@ -2,7 +2,6 @@
   "name": "sunbird-saral",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
   "dependencies": {
     "@techstark/opencv-js": "4.8.0-release.1",
     "@testing-library/jest-dom": "^5.16.5",
