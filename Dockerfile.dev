@@ -10,6 +10,8 @@ RUN npm i
 
 COPY . .
 
+ENV PORT=3006
+
 EXPOSE 3006
 
 CMD [ "npm", "start" ]
