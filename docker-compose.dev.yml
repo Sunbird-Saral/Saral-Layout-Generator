@@ -11,7 +11,7 @@ services:
         condition: on-failure
 
     ports:
-    - "3006:3006"
+    - "8080:80"
 
     networks:
       - app
