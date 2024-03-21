@@ -6,7 +6,7 @@ import AutoROIFormBuilder from './components/AutoROIFormBuilder/AutoROIFormBuild
 
 const App = () => {
   return (
-    <Router>
+    <Router basename="/webapp">
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/formroizen-toolbox" element={<AutoROIFormBuilder />} />

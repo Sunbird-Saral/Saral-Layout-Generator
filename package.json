@@ -2,12 +2,13 @@
   "name": "sunbird-saral",
   "version": "0.1.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "/webapp",
   "dependencies": {
     "@techstark/opencv-js": "4.8.0-release.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "express": "^4.18.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "pdfjs-dist": "^4.0.379",
@@ -25,7 +26,7 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "serve": "serve -s ./build"
+    "serverup": "node server.js"
   },
   "devDependencies": {
     "react-app-rewired": "^2.2.1"

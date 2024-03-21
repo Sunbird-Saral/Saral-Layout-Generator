@@ -3,6 +3,7 @@ FROM node:16.20-alpine AS builder
 
 # Declaring env
 ENV NODE_ENV development
+ENV PORT=3000
 
 # Setting up the work directory
 WORKDIR /app
@@ -18,9 +19,9 @@ COPY . .
 # Building our application
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE $PORT
 
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "serverup"]
 
 # # Fetching the latest nginx image
 # FROM nginx

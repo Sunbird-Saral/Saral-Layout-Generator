@@ -226,7 +226,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       <input
                         className="checkboxOption"
                         type="number"
-                        value={fieldStyle["extractionMethod"]["CELL_OMR"]}
+                        value={fieldStyle["extractionMethod"]["CELL_OMR"] || 1}
                         onChange={(e) =>
                           handleFieldStyle(
                             "CELL_OMR",
@@ -236,11 +236,11 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                         }
                       />
                     </label>
+                    {errors.formate && (
+              <span className="error-msg">{errors.extractionMethod}</span>
+              )}
                   </label>
                 </li>
-              )}
-              {errors.formate && (
-              <span className="error-msg">{errors.extractionMethod}</span>
               )}
             </ol>
           </label>
