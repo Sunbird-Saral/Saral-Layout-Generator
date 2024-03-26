@@ -1,0 +1,41 @@
+.vertical {
+    position: absolute; 
+    background-color:rgb(78, 186, 78); 
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    width: 600px; 
+    height: 0.5px;
+    bottom:15%;
+    left: -300px; 
+}
+  
+  .horizontal {
+    position: absolute;
+    background-color:rgb(78, 186, 78); 
+    opacity: 1; 
+    transition: opacity 0.3s ease; 
+    width: 0.5px;
+    height: 500px;
+    left:14%; 
+    top: -200px
+  }
+  .field-box{
+    padding: 0;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: red;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }

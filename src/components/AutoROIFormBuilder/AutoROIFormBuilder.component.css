@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.step-button{
+  position: relative;
+  left:23vw;
+  padding-top: 5px;
+  color: white;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+.error-msg {
+  display: block;
+  margin-left: 180px;
+  color: red;
+  font-size: small;
+}
