@@ -1,0 +1,41 @@
+#!groovy
+node('server_build_slave') {
+
+   try {
+            stage('Checkout'){
+               checkout scm
+            }
+            stage('compress build folder')
+                           withCredentials([usernamePassword(credentialsId: 'anuvaad-docker-hub-credentials', passwordVariable: 'dockerhub_pass', usernameVariable: 'dockerhub_user')])
+                           {
+                                          sh '''
+                                          if [ -f "$(pwd)/build" ]
+                                          then
+                                          sudo rm -rf $(pwd)/build
+                                          fi
+                                          if [  $( docker ps -q -f status=exited --filter "name=$JOB_BASE_NAME" ) ]
+                                          then
+                                          docker rm "$JOB_BASE_NAME"
+                                          fi
+                                          commit_id=${BUILD_ID}-$(git rev-parse --short HEAD)
+                                          echo $commit_id> commit_id.txt  
+
+                                          docker build -t $image_name:$image_tag -f Dockerfile.dev .
+                                          '''
+                           }
+            stage('Docker deploy')
+withCredentials([usernamePassword(credentialsId: 'anuvaad-docker-hub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+	       sh '''
+		environment=$(echo "$JOB_BASE_NAME" | rev | cut -d'-' -f 1 | rev)
+		sudo docker service rm saralpoc_sunbird-formroizen
+		sudo docker stack deploy -c docker-compose.dev.yml saralpoc
+		sudo docker service update saralpoc_gateway --force
+		'''
+		}
+            }
+
+   catch (err) {
+      currentBuild.result = "FAILURE"
+      throw err
+   }
+}
