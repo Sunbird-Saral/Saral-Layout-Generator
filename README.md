@@ -43,6 +43,10 @@ Upon entering the Main Page, the interface offers a clear view:
 ![Screenshot](readme_images/landing_page.png)
 
 Let's delve into a demo of creating a template from scratch. Click on 'Go to toolbox':
+- Toolbox facilitates three step process to allow Saral adapt new form.
+  1. Design Layout: Allows user to design form.
+  2. Generate ROI: Allows user to auto-mark ROI and generate ROI json file.
+  3. Sync ROI to saral backend: Allows user to push generated ROI to Saral backend.
 
 ![Screenshot](readme_images/toolbox.png)
 
@@ -52,79 +56,109 @@ Key points to note:
 2. A small box at the top left corner marks the initial cell of the template.
 3. buttons on the right facilitate the addition of various objects.
 4. Horizontal and vertical lines while dragging the components to help in alignment .
-5. The 'Export PDF' option generates a downloadable PDF of the template.
-6. The 'Generate ROI' button gets enabled once you export designed template pdf and navigates user to new screen where he can generate ROIs.
+5. Select "Form orientation" either as "Landscape" or "Potrait", default is "Landscape".
+5. The "Export PDF" option generates a downloadable PDF of the template.
+6. The "Generate ROI" button gets enabled once you export designed template pdf and navigates user to new screen where he can generate ROIs.
 
 ## How It Works
 
 ### Step-1: Design Layout:
 The template is built using the starting cell. Resize cells by dragging their edges. Add cells by clicking the plus button and specifying direction.
 
-- **Cell Features**
-
-Each cell boasts the following functionalities:
-
-\- Resize to the right or down by dragging edges.
-\- Add a new cell of similar size to the right or down.
-\- Double-click to edit and add text.
-\- Triple-click to modify basic text properties like boldness and text size.
+**Cell Features**
+- Each cell boasts the following functionalities:
+    - Resize to the right or down by dragging edges.
+    - Add a new cell of similar size to the right or down, click '+' symbol by hovering over edges.
+    - Delete cell by hovering on top right corner 'X' symbol.
 
 Example:
 
 ![Start](readme_images/cellgif.gif)
 
-Let's explore the button options:
+**Let's explore the button options:**
 
-- **Add OMR**
-
-Click to insert an OMR filling component. 
-Features:
-\- Red cross button for removal (on hover).
-\- Drag the OMR anywhere on the canvas.
-\- Scroll to adjust pixel size.
-\- Double Click to open a popup asking to resize and change color of the OMR.
-
-
-![OMR](readme_images/omrgif.gif)
-
-- **Add Input Box**
-
-This creates a horizontal row of input boxes for example IDs, Class, Section, etc. 
-Features:
-\- Delete button (top right) for component removal.
-\- Increase/decrease the number of cells in the row.
-\- Scroll to adjust pixel size.
-\- Double Click to open a popup asking to resize the width and height of Input Box.
-
-![Input Box](readme_images/inputbox.gif)
-
-- **Add Free Text**
-
-Create free text components for headlines, instructions, etc. Features:
-
-\- Drag the text field.
-\- Double-click to edit text.
-\- Triple-click for advanced text options like fontsize , fontweight.
-
-![Text](readme_images/text.gif)
+**Add OMR**
+- Click to insert an OMR filling component.
+- You will be presented with a popup asking below details which helps system to know the structure of Form being created:
+    - Field Name: What Field name(label) in form does this OMR field belongs to.
+    - Field Type: OMR
+    - Field Length: Defines how many OMR options are required.
+    - Field Order: Defines sequence of field in the form.
+    - On clicking on Apply, a red message will be shown below "Add OMR" button to indicate how many OMRs needs to be added based on Field Length count defined above.
+    ![OMR](readme_images/omrgifpop.gif)
+- OMR element features:
+    - Red cross button for removal (on hover).
+    - Drag the OMR anywhere on the canvas.
+    - Mouse scroll to resize.
+    - Double Click to open a popup asking to resize and change color of the OMR.
+    ![OMR](readme_images/omrgiffeature.gif)
 
 
-- **Export PDF**
+**Add Input Box**
+- This creates a horizontal row of input boxes for example IDs, Class, Section, etc.
+- You will be presented with a popup asking below details which helps system to know the structure of Form being created:
+    - Field Name: What Field name(label) in form does this OMR field belongs to.
+    - Field Type: Alphabet/Numeric/Alphanumeric
+    - Field Length: Defines how many input boxes are required.
+    - Field Order: Defines sequence of field in the form.
+    - On clicking on Apply, a red message will be shown below "Add Input Box" button to indicate how many Input Boxes needs to be added based on Field Length count defined above.
+    ![Input Box](readme_images/inputboxpop.gif)
+- Input box element features:
+    - Delete button (top right) for component removal.
+    - Increase/decrease the number of cells in the row.
+    - Scroll to adjust pixel size.
+    - Double Click to open a popup asking to resize the width and height of Input Box.
+    ![Input Box](readme_images/inputboxfeature.gif)
 
-After creating the template, export it as a PDF. Four dots in the corners mark the ROI scanning boundary.
-
-Let's create a simple template:
-
-![Template](readme_images/screenshot4.png)
-
-Post-creation:
-
-![Web](readme_images/screenshot5.png)
-
-Exported PDF:
-
-![PDF](readme_images/screenshot6.png)
+**Add Text**
+- Create free text components for headlines, instructions, etc. Features:
+- Text element features:
+    - Drag the text field.
+    - Double-click to edit text.
+    - Triple-click for advanced text options like fontsize , fontweight.
+    ![Text](readme_images/text.gif)
 
 
+**Export PDF**
+- After creating the template, export it as a PDF by Clicking on "Export PDF". Four dots in the corners mark the ROI scanning boundary. This will download the PDF file and enables next step "Generate ROI"
+- Example:
+    ![PDF export](readme_images/pdfexport.png)
+    ![Template](readme_images/screenshot4.png)
+
+### Step-2: Generate ROI:
+- This step allows user to generate ROI(Region of Intrest) which later be uploaded to Saral backend, so that Saral can be used to scan generated form PDF in previous step.
+- Below are steps on how to use:
+
+    **Mark Reference ROI**: User needs to let tool know what parts of form he wants to mark by marking initial selection ex: inputbox/OMR.
+    - Below are steps to do it:
+        - Drag the mouse pointer from one corner of the region of interest (ROI) to another to outline it.
+        - Release the mouse button to confirm the selection.
+        - Press "Mark ROI" to start auto select similar type of ROI marked.
+        - Repeat above for each different input box or region of interest until all required areas are marked and automatically selected.
+
+    **Review selected ROIs**:
+    - After marking and auto-selecting all ROIs, review them to ensure accuracy and completeness.
+    - Below are some of action you can take while reviewing auto-marked ROIs.
+        - **Press Delete ROIs**: 
+            - If any ROI needs to be removed, press the "Delete ROIs" button.
+            - Click on the left corner of the marked box to deselect the ROI.
+        
+        - **Press Add ROIs**:
+            - To add new ROIs, press the "Add ROIs" button.
+            - Repeat the process for all required ROI by dragging the mouse pointer from one corner of the region of interest (ROI) to another to outline it.
+        
+        - **Press Reset ROIs to start over**:
+            - If needed, press the "Reset ROIs" button to clear all marked ROIs and start the marking process from the beginning.
+
+        - **Finalize ROI**:
+            - Once all required ROIs are marked, reviewed, and adjusted as necessary, finalize the ROI marking process.
+            - Click on the "Finish ROI Marking" button to confirm the selection and proceed to the next step.
+
+    **Generate ROI Json**:
+    - After finishing the ROI marking process, click on the appropriate button to generate the ROI data in JSON format.
+    - This JSON data can then be used for further processing or analysis.
+
+Example:
+![Generate ROI](readme_images/roimarking.gif)
 #### Note 
 Embrace the professionalism of Sunbird Saral in your template endeavors!

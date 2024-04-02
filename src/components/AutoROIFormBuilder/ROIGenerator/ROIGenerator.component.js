@@ -160,18 +160,33 @@ const ROIGenerator = ({
       const color = new cv.Scalar(0, 255, 0, 255); // Blue color
       const contour = contours.get(i);
       let rect = cv.boundingRect(contour);
-      let min_width = roiDim[0] - 7;
-      let min_height = roiDim[1] - 7;
+      let min_width = roiDim[0] - 10;
+      let min_height = roiDim[1] - 10;
       if (
         min_width <= rect.width &&
         rect.width <= roiDim[0] &&
         min_height <= rect.height &&
         rect.height <= roiDim[1]
       ) {
-        const point1 = new cv.Point(rect.x, rect.y);
-        const point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
-        cv.rectangle(dst, point1, point2, [0, 255, 0, 255], 2);
-        froiList.push(rect);
+        let duplicate = false;
+        for (let [i, roi] of froiList.entries()) {
+          if (
+            -5 <= (rect.x - roi.x) &&
+            (rect.x - roi.x) <= 5 && 
+            -5 <= (rect.y - roi.y) &&
+            (rect.y - roi.y) <= 5
+          ) {
+            duplicate = true;
+            break;
+          }
+        }
+
+        if(!duplicate) {
+          const point1 = new cv.Point(rect.x, rect.y);
+          const point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
+          cv.rectangle(dst, point1, point2, [0, 255, 0, 255], 2);
+          froiList.push(rect);
+        }
       }
     }
     setRoiList([...roiList, ...froiList]);
@@ -364,7 +379,7 @@ const ROIGenerator = ({
                 >
                   Delte ROIs
                 </button>
-                .Click on right corner of the marked boxs to deselect ROI.
+                .Click on left corner of the marked boxs to deselect ROI.
               </li>
               <li>
                 Press
