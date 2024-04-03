@@ -37,7 +37,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
       !fieldStyle["extractionMethod"] ||
       Object.keys(fieldStyle["extractionMethod"]).length == 0
     ) {
-      errors["extractionMethod"] = "Field Type is required";
+      errors["extractionMethod"] = "Field Type is required or Field Length cannot be 0";
     }
     if (!fieldStyle["cellIndex"] || fieldStyle["cellIndex"] == 0) {
       errors["cellIndex"] = "Field Order is required";
@@ -226,7 +226,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       <input
                         className="checkboxOption"
                         type="number"
-                        value={fieldStyle["extractionMethod"]["CELL_OMR"] || 1}
+                        value={fieldStyle["extractionMethod"]["CELL_OMR"] || 0}
                         onChange={(e) =>
                           handleFieldStyle(
                             "CELL_OMR",
@@ -236,7 +236,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                         }
                       />
                     </label>
-                    {errors.formate && (
+                    {errors.extractionMethod && (
               <span className="error-msg">{errors.extractionMethod}</span>
               )}
                   </label>

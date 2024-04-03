@@ -20,12 +20,23 @@ The project is developed using a combination of JavaScript, React, and basic HTM
 
 ## Getting Started
 
-To embark on your Sunbird Saral journey, follow these steps:
-
-1. Clone the repository: `git clone https://github.com/your-username/sunbird-saral.git`
-2. Navigate to the project directory: `cd sunbird-saral`
+### Running locally
+1. Clone the repository: `git clone https://github.com/Sunbird-Saral/Saral-Layout-Generator.git`
+2. Navigate to the project directory: `cd Saral-Layout-Generator`
 3. Install the necessary dependencies: `npm install`
 4. Launch the development server: `npm start`
+
+### Run as docker container
+1. Clone the repository: `git clone https://github.com/Sunbird-Saral/Saral-Layout-Generator.git`
+2. Navigate to the project directory: `cd Saral-Layout-Generator`
+3. Build docker: `docker build -f Dockerfile.dev -t sunbird-formroizen:1.0-latest .`
+4. Run docker container: `docker run --name sunbird-formroizen -p 3006:3006 -it sunbird-formroizen:1.0-latest`
+
+### Deploy as staging/dev environment on EC2 with docker swarm
+1. Clone the repository: `git clone https://github.com/Sunbird-Saral/Saral-Layout-Generator.git`
+2. Navigate to the project directory: `cd Saral-Layout-Generator`
+3. Build docker: `docker build -f Dockerfile.dev -t sunbird-formroizen:1.0-latest .`
+4. Create docker service stack: `docker stack deploy -c docker-compose.dev.yml your_service_name`
 
 ## Features
 
@@ -126,39 +137,48 @@ Example:
     ![Template](readme_images/screenshot4.png)
 
 ### Step-2: Generate ROI:
-- This step allows user to generate ROI(Region of Intrest) which later be uploaded to Saral backend, so that Saral can be used to scan generated form PDF in previous step.
-- Below are steps on how to use:
+- This step allows user to generate ROI(Region of Intrest) which later will be uploaded to Saral backend, so that Saral can be used to scan generated form PDF in previous step.
 
-    **Mark Reference ROI**: User needs to let tool know what parts of form he wants to mark by marking initial selection ex: inputbox/OMR.
-    - Below are steps to do it:
-        - Drag the mouse pointer from one corner of the region of interest (ROI) to another to outline it.
-        - Release the mouse button to confirm the selection.
-        - Press "Mark ROI" to start auto select similar type of ROI marked.
-        - Repeat above for each different input box or region of interest until all required areas are marked and automatically selected.
+**Below are steps on how to use:**
 
-    **Review selected ROIs**:
-    - After marking and auto-selecting all ROIs, review them to ensure accuracy and completeness.
-    - Below are some of action you can take while reviewing auto-marked ROIs.
-        - **Press Delete ROIs**: 
-            - If any ROI needs to be removed, press the "Delete ROIs" button.
-            - Click on the left corner of the marked box to deselect the ROI.
-        
-        - **Press Add ROIs**:
-            - To add new ROIs, press the "Add ROIs" button.
-            - Repeat the process for all required ROI by dragging the mouse pointer from one corner of the region of interest (ROI) to another to outline it.
-        
-        - **Press Reset ROIs to start over**:
-            - If needed, press the "Reset ROIs" button to clear all marked ROIs and start the marking process from the beginning.
+**Mark Reference ROI**: User needs to let tool know what parts of form he wants to mark by marking initial selection ex: inputbox/OMR.
+- Below are steps to do it:
+    - Drag the mouse pointer from one corner of the region of interest (ROI) to another to outline it.
+    - Release the mouse button to confirm the selection.
+    - Press "Mark ROI" to start auto select similar type of ROI marked.
+    - Repeat above for each different input box or region of interest until all required areas are marked and automatically selected.
 
-        - **Finalize ROI**:
-            - Once all required ROIs are marked, reviewed, and adjusted as necessary, finalize the ROI marking process.
-            - Click on the "Finish ROI Marking" button to confirm the selection and proceed to the next step.
+**Review selected ROIs**:
+- After marking and auto-selecting all ROIs, review them to ensure accuracy and completeness.
+- Below are some of action you can take while reviewing auto-marked ROIs.
+    - **Press Delete ROIs**: 
+        - If any ROI needs to be removed, press the "Delete ROIs" button.
+        - Click on the left corner of the marked box to deselect the ROI.
+    
+    - **Press Add ROIs**:
+        - To add new ROIs, press the "Add ROIs" button.
+        - Repeat the process for all required ROI by dragging the mouse pointer from one corner of the region of interest (ROI) to another to outline it.
+    
+    - **Press Reset ROIs to start over**:
+        - If needed, press the "Reset ROIs" button to clear all marked ROIs and start the marking process from the beginning.
 
-    **Generate ROI Json**:
-    - After finishing the ROI marking process, click on the appropriate button to generate the ROI data in JSON format.
-    - This JSON data can then be used for further processing or analysis.
+    - **Finalize ROI**:
+        - Once all required ROIs are marked, reviewed, and adjusted as necessary, finalize the ROI marking process.
+        - Click on the "Finish ROI Marking" button to confirm the selection and proceed to the next step.
+
+**Generate ROI Json**:
+- After finishing the ROI marking process, click on the appropriate button to generate the ROI data in JSON format.
+- This JSON data can then be used for further processing or analysis.
 
 Example:
 ![Generate ROI](readme_images/roimarking.gif)
-#### Note 
-Embrace the professionalism of Sunbird Saral in your template endeavors!
+
+### Step-3: Sync ROI to saral backend:
+- This step allows admin user to dynamically post/sync generated ROI json to saral backend, such that it becomes available for users to scan new forms.
+
+**Below are steps on how to use it:**
+- From Generate ROI page click on "Publish to backend" to go to new screen.
+- Login to your Saral backend by providing baseUrl(saral backend api server url) userId and password.
+- Once login is successful, click on "Post ROI to saral backend" to sync generated ROI to backend
+![Sync ROI](readme_images/posttobackend.gif)
+

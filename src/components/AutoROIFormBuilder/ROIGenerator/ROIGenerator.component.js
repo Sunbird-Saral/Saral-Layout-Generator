@@ -377,7 +377,7 @@ const ROIGenerator = ({
                   onClick={deleteROI}
                   disabled={!isROIMarkingInit}
                 >
-                  Delte ROIs
+                  Delete ROIs
                 </button>
                 .Click on left corner of the marked boxs to deselect ROI.
               </li>

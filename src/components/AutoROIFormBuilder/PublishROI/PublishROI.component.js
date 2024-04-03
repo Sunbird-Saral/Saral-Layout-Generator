@@ -35,7 +35,10 @@ const PublishROI = ({ roiJson }) => {
       const data = await response.json();
       if (response.ok) {
         let roiPayload = {
-          schemaName: formName,
+          //schemaName: formName,
+          subject: "0",
+          classId: "0",
+          type: formName,
           roi: roiJson
         }
         setRequestData(roiPayload)
@@ -52,7 +55,7 @@ const PublishROI = ({ roiJson }) => {
 
   const handleCallApi = async () => {
     try {
-      const response = await fetch(`${apiUrl}/v2/roi`, {
+      const response = await fetch(`${apiUrl}/roi`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
