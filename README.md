@@ -51,7 +51,7 @@ The project is developed using a combination of JavaScript, React, and basic HTM
 
 Upon entering the Main Page, the interface offers a clear view:
 
-![Screenshot](readme_images/landing_page.png)
+![Screenshot](readme_images/landing_page.PNG)
 
 Let's delve into a demo of creating a template from scratch. Click on 'Go to toolbox':
 - Toolbox facilitates three step process to allow Saral adapt new form.
@@ -59,7 +59,7 @@ Let's delve into a demo of creating a template from scratch. Click on 'Go to too
   2. Generate ROI: Allows user to auto-mark ROI and generate ROI json file.
   3. Sync ROI to saral backend: Allows user to push generated ROI to Saral backend.
 
-![Screenshot](readme_images/toolbox.png)
+![Screenshot](readme_images/toolbox.PNG)
 
 Key points to note:
 
