@@ -64,6 +64,9 @@ The project is developed using a combination of JavaScript, React, and basic HTM
 2. Navigate to the project directory: `cd Saral-Layout-Generator`
 3. Build docker: `docker build -f Dockerfile.dev -t sunbird-formroizen:1.0-latest .`
 4. Create docker service stack: `docker stack deploy -c docker-compose.dev.yml your_service_name`
+5. Configure a nginx gateway service deployed under same docker stack as reverse proxy.
+
+**Note:** To deploy to production and if the requirement is to support large scale users consider deploying docker on kubernetes
 
 ## Features
 
