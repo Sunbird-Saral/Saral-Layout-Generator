@@ -6,6 +6,8 @@ Project Sunbird FormROIzen aims to revolutionize the process of creating layouts
 
 - [Introduction](#introduction)
 - [Technical Overview](#technical-overview)
+- [Tech Stack](#tech-stack)
+- [Dependency Softwares to install](#dependency-softwares-to-install)
 - [Getting Started](#getting-started)
 - [Features](#features)
 - [Demo](#demo)
@@ -17,6 +19,31 @@ Project Sunbird FormROIzen addresses the challenges of manual layout design and 
 ## Technical Overview
 
 The project is developed using a combination of JavaScript, React, and basic HTML/CSS. The frontend is built with React to ensure a dynamic and responsive user interface. The template creation logic is orchestrated using JavaScript and ReactJS. The auto-ROI marking capability is built using Opencvjs and javascript. The project incorporates various libraries and technologies to streamline template customization, ROI json generation and pdf temeplate download.
+
+## Tech Stack
+
+- NodeJs
+- ReactJs
+- JavaScript
+- OpencvJs
+
+## Dependency Softwares to install
+- NodeJS (Recommended version v16.9.1 LTS) 
+    - Windows: Refer https://nodejs.org/en/blog/release/v16.13.0
+
+    - Linux:
+    ```
+    cd ~
+    curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+    sudo bash nodesource_setup.sh
+    sudo apt-get install nodejs
+    node -v
+    ```
+    - After install verify nodejs version is 16 by typing “node -v” in CLI
+- Docker
+    - After install verify mongodb is properly installed by typing “docker --version” in CLI
+- Git
+    - After install verify mongodb is properly installed by typing “git --version” in CLI
 
 ## Getting Started
 
