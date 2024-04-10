@@ -23,16 +23,7 @@ node('saral-poc') {
                                           docker build -t $image_name:$image_tag -f Dockerfile.dev .
                                           '''
                            }
-//             stage('Docker deploy')
-// withCredentials([usernamePassword(credentialsId: 'anuvaad-docker-hub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-// 	       sh '''
-// 		environment=$(echo "$JOB_BASE_NAME" | rev | cut -d'-' -f 1 | rev)
-// 		sudo docker service rm saralpoc_sunbird-formroizen
-// 		sudo docker stack deploy -c docker-compose.dev.yml saralpoc
-// 		sudo docker service update saralpoc_gateway --force
-// 		'''
-// 		}
-//             }
+   }
 
    catch (err) {
       currentBuild.result = "FAILURE"
