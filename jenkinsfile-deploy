@@ -13,14 +13,14 @@ node('saral-poc') {
                                           then
                                           sudo rm -rf $(pwd)/build
                                           fi
-                                          if [  $( docker ps -q -f status=exited --filter "name=$JOB_BASE_NAME" ) ]
+                                          if [  $( sudo docker ps -q -f status=exited --filter "name=$JOB_BASE_NAME" ) ]
                                           then
-                                          docker rm "$JOB_BASE_NAME"
+                                          sudo docker rm "$JOB_BASE_NAME"
                                           fi
                                           commit_id=${BUILD_ID}-$(git rev-parse --short HEAD)
                                           echo $commit_id> commit_id.txt  
 
-                                          docker build -t $image_name:$image_tag -f Dockerfile.dev .
+                                          sudo docker build -t $image_name:$image_tag -f Dockerfile.dev .
                                           '''
                            }
    }
