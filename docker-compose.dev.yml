@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   sunbird-formroizen:
-    image: sunbird-formroizen:1.0-latest
+    image: sunbird-formroizen:1.0.0-latest
     deploy:
       replicas: 1
       update_config:
