@@ -41,9 +41,9 @@ The project is developed using a combination of JavaScript, React, and basic HTM
     ```
     - After install verify nodejs version is 16 by typing “node -v” in CLI
 - Docker
-    - After install verify mongodb is properly installed by typing “docker --version” in CLI
+    - After install verify Docker is properly installed by typing “docker --version” in CLI
 - Git
-    - After install verify mongodb is properly installed by typing “git --version” in CLI
+    - After install verify Git is properly installed by typing “git --version” in CLI
 
 ## Getting Started
 
