@@ -265,7 +265,7 @@ const ROIGenerator = ({
       layout: {
         version: "1.0",
         name: `${formName}`,
-        pages: "1",
+        //pages: "1",
         threshold: {
           experimentalOMRDetection: false,
           minWidth: 0,
@@ -285,7 +285,7 @@ const ROIGenerator = ({
       let j = 0;
       let cellData = {
         cellId: val["cellIndex"].toString(),
-        page: "1",
+        //page: "1",
         rois: [],
         render: {
           index: val["cellIndex"],
