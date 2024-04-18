@@ -1,0 +1,40 @@
+#!groovy
+node('saral-poc') {
+
+   try {
+            stage('Checkout'){
+               checkout scm
+            }
+            stage('compress build folder')
+                           withCredentials([usernamePassword(credentialsId: 'anuvaad-docker-hub-credentials', passwordVariable: 'dockerhub_pass', usernameVariable: 'dockerhub_user')])
+                           {
+                                          sh '''
+                                          if [ -f "$(pwd)/build" ]
+                                          then
+                                          sudo rm -rf $(pwd)/build
+                                          fi
+                                          if [  $( sudo docker ps -q -f status=exited --filter "name=$JOB_BASE_NAME" ) ]
+                                          then
+                                          sudo docker rm "$JOB_BASE_NAME"
+                                          fi
+                                          commit_id=${BUILD_ID}-$(git rev-parse --short HEAD)
+                                          echo $commit_id> commit_id.txt  
+
+                                          sudo docker build -t $image_name:$image_tag -f Dockerfile.dev .
+                                          '''
+                           }
+            stage('Docker deploy')
+withCredentials([usernamePassword(credentialsId: 'anuvaad-docker-hub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+	       sh '''
+		sudo docker service rm saralpoc_sunbird-formroizen
+		sudo docker stack deploy -c docker-compose.dev.yml --with-registry-auth --resolve-image=always saralpoc
+		sudo docker service update saralpoc_gateway --force
+		'''
+		}
+            }
+
+   catch (err) {
+      currentBuild.result = "FAILURE"
+      throw err
+   }
+}

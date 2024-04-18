@@ -158,8 +158,11 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
 
   const handleMouseEnterID = (omr) => {
     const IDContainer = inputRefs.current[omr.id];
-    const removeButton = IDContainer.querySelector('.remove-id-btn');
-    removeButton.style.opacity = 1;
+    if(omr.size <= 1) {
+      const removeButton = IDContainer.querySelector('.remove-id-btn');
+      removeButton.style.opacity = 1;
+    }
+    
     const removeID = IDContainer.querySelector('.add-cell-btn');
     removeID.style.opacity = 1;
     const addID = IDContainer.querySelector('.remove-cell-btn');
