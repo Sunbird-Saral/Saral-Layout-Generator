@@ -8,12 +8,12 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
   });
   const [errors, setErrors] = useState({});
 
-  const handleFieldStyle = (value, type, isCountValue = null) => {
+  const handleFieldStyle = (value, type, isCountValue = null, isChecked=null) => {
     let obj = {};
     if (type == "formate") {
       obj["fieldName"] = value.toUpperCase();
     }
-    if (isCountValue != null) {
+    if (isCountValue != null && isChecked) {
       let nobj = {};
       nobj[value] = parseInt(isCountValue);
       let count = 0;
@@ -22,10 +22,13 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
         count = count + obj[type][i];
       }
       obj["count"] = count;
+    } else if(isChecked === false) {
+      delete fieldStyle[type][value];
     } else {
       obj[type] = value;
     }
     setFieldStyle({ ...fieldStyle, ...obj });
+    console.log("isChecked",isChecked, { ...fieldStyle, ...obj })
   };
 
   const validateForm = () => {
@@ -92,11 +95,12 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                           "BLOCK_LETTER_CLASSIFICATION"
                         ]
                       }
-                      onChange={() =>
+                      onChange={(e) =>
                         handleFieldStyle(
                           "BLOCK_LETTER_CLASSIFICATION",
                           "extractionMethod",
-                          1
+                          1,
+                          e.target.checked
                         )
                       }
                     />
@@ -106,16 +110,18 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                     <input
                       className="checkboxOption"
                       type="number"
+                      min="0"
                       value={
                         fieldStyle["extractionMethod"][
                           "BLOCK_LETTER_CLASSIFICATION"
-                        ]
+                        ] || 0
                       }
                       onChange={(e) =>
                         handleFieldStyle(
                           "BLOCK_LETTER_CLASSIFICATION",
                           "extractionMethod",
-                          e.target.value
+                          e.target.value,
+                          true
                         )
                       }
                     />
@@ -132,11 +138,12 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       checked={
                         fieldStyle["extractionMethod"]["NUMERIC_CLASSIFICATION"]
                       }
-                      onChange={() =>
+                      onChange={(e) =>
                         handleFieldStyle(
                           "NUMERIC_CLASSIFICATION",
                           "extractionMethod",
-                          1
+                          1,
+                          e.target.checked
                         )
                       }
                     />
@@ -145,16 +152,18 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       <input
                         className="checkboxOption"
                         type="number"
+                        min="0"
                         value={
                           fieldStyle["extractionMethod"][
                             "NUMERIC_CLASSIFICATION"
-                          ]
+                          ] || 0
                         }
                         onChange={(e) =>
                           handleFieldStyle(
                             "NUMERIC_CLASSIFICATION",
                             "extractionMethod",
-                            e.target.value
+                            e.target.value,
+                            true
                           )
                         }
                       />
@@ -174,11 +183,12 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                           "BLOCK_ALPHANUMERIC_CLASSIFICATION"
                         ]
                       }
-                      onChange={() =>
+                      onChange={(e) =>
                         handleFieldStyle(
                           "BLOCK_ALPHANUMERIC_CLASSIFICATION",
                           "extractionMethod",
-                          1
+                          1,
+                          e.target.checked
                         )
                       }
                     />
@@ -187,16 +197,18 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       <input
                         className="checkboxOption"
                         type="number"
+                        min="0"
                         value={
                           fieldStyle["extractionMethod"][
                             "BLOCK_ALPHANUMERIC_CLASSIFICATION"
-                          ]
+                          ] || 0
                         }
                         onChange={(e) =>
                           handleFieldStyle(
                             "BLOCK_ALPHANUMERIC_CLASSIFICATION",
                             "extractionMethod",
-                            e.target.value
+                            e.target.value,
+                            true
                           )
                         }
                       />
@@ -217,8 +229,9 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       type="checkbox"
                       value="CELL_OMR"
                       checked="true"
-                      onChange={() =>
-                        handleFieldStyle("CELL_OMR", "extractionMethod", 1)
+                      onChange={(e) =>
+                        handleFieldStyle("CELL_OMR", "extractionMethod", 1,
+                        e.target.checked)
                       }
                     />
                     <label>
@@ -226,12 +239,14 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
                       <input
                         className="checkboxOption"
                         type="number"
+                        min="0"
                         value={fieldStyle["extractionMethod"]["CELL_OMR"] || 0}
                         onChange={(e) =>
                           handleFieldStyle(
                             "CELL_OMR",
                             "extractionMethod",
-                            e.target.value
+                            e.target.value,
+                            true
                           )
                         }
                       />
