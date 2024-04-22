@@ -23,6 +23,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
       }
       obj["count"] = count;
     } else if(isChecked === false) {
+      fieldStyle.count = fieldStyle.count - fieldStyle[type][value];
       delete fieldStyle[type][value];
     } else {
       obj[type] = value;

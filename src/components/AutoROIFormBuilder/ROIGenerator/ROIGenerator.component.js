@@ -160,8 +160,8 @@ const ROIGenerator = ({
       const color = new cv.Scalar(0, 255, 0, 255); // Blue color
       const contour = contours.get(i);
       let rect = cv.boundingRect(contour);
-      let min_width = roiDim[0] - 10;
-      let min_height = roiDim[1] - 10;
+      let min_width = roiDim[0] - 7;
+      let min_height = roiDim[1] - 7;
       if (
         min_width <= rect.width &&
         rect.width <= roiDim[0] &&

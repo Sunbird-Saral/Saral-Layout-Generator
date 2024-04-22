@@ -88,8 +88,8 @@ const FormBuilder = ({
 
     ne = Math.floor(ne / 10);
     ne = ne * 10;
-    if (box.y + ne > 1230) {
-      ne = 1230 - box.y;
+    if (box.y + ne > 1010) {
+      ne = 1010 - box.y;
     }
     resizable.style.width = `${ne}px`;
     for (let i = 0; i < boxes.length; i++) {
