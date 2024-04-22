@@ -29,7 +29,6 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
       obj[type] = value;
     }
     setFieldStyle({ ...fieldStyle, ...obj });
-    console.log("isChecked",isChecked, { ...fieldStyle, ...obj })
   };
 
   const validateForm = () => {
