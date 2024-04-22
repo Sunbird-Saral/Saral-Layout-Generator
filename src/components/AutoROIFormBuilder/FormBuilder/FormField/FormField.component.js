@@ -13,7 +13,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
     if (type == "formate") {
       obj["fieldName"] = value.toUpperCase();
     }
-    if (isCountValue != null && isChecked) {
+    if (isCountValue != null && isCountValue !=0 && isChecked) {
       let nobj = {};
       nobj[value] = parseInt(isCountValue);
       let count = 0;
@@ -22,7 +22,7 @@ const FormField = ({ isOpen, onClose, setFormJson, fieldOrder, type }) => {
         count = count + obj[type][i];
       }
       obj["count"] = count;
-    } else if(isChecked === false) {
+    } else if(isChecked === false || isCountValue == 0) {
       fieldStyle.count = fieldStyle.count - fieldStyle[type][value];
       delete fieldStyle[type][value];
     } else {

@@ -303,12 +303,7 @@ const ROIGenerator = ({
       let newVal = val["count"] + roiIndex;
       for (let i = 0; i < froiList.length; i++) {
         if (roiIndex < newVal && roiIndex >= previousi) {
-          j = j + 1;
           let extractionMethod = Object.keys(extractionMethods)[0];
-          if (j > extractionMethods[extractionMethod]) {
-            j = 0;
-            delete extractionMethods[extractionMethod];
-          }
           let roiData = {
             annotationTags: key + "_" + i.toString(),
             extractionMethod: Object.keys(extractionMethods)[0],
@@ -319,6 +314,11 @@ const ROIGenerator = ({
           cellData["rois"].push(roiData);
           roiIndex = roiIndex + 1;
           index = index + 1;
+          j = j + 1;
+          if (j >= extractionMethods[extractionMethod]) {
+            j = 0;
+            delete extractionMethods[extractionMethod];
+          }
         }
       }
       mroi_list["layout"]["cells"].splice(val["cellIndex"], 0, cellData);
