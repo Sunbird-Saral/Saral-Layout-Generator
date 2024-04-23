@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css'; // Create and import the CSS file for styling if needed
 
 
 const HomePage = () => {
+    const [formName, setFormName] = useState('newForm');
+
+    const handleInputChange = (e) => {
+      setFormName(e.target.value);
+    };
     return (
       <div className="home-container">
-        <h1 style={{color:'white'}}>Sunbird Saral</h1>
+        <h1>Welcome to Sunbird FormROIzen</h1>
+        <p style={{fontSize: 'large', fontWeight: 'bold', color: 'black'}}>Start designing a new form !!!</p>
+        <lable id="formlabel">Enter Form Name:
+        </lable>
+        <input type="text" id="formName" value={formName} onChange={handleInputChange}></input>
         <div className="dropdown-menu">
-
-          {/* <Link to="/attendance">
-            <button className='others'>Go to Student Question Table</button>
-          </Link>
-          <Link to="/personal">
-            <button className='others'>Go to Personal Details Form</button>
-          </Link> */}
-          <Link to="/main">
-            <button className='others'>Go to User configurable </button>
+          <Link to={`/formroizen-toolbox?formName=${encodeURIComponent(formName)}`}>
+            <button className='others'>Go to toolbox</button>
           </Link>
         </div>
       </div>

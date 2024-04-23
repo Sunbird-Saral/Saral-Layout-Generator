@@ -1,0 +1,12 @@
+.download-button {
+    height: 50px;
+    width: 100px;
+    top: 3vw;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #E7B10A;
+    color: white;
+    margin: 20px;
+    border-radius: 5px;
+    position: relative;
+}
