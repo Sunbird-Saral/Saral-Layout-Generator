@@ -212,3 +212,8 @@ Example:
 - Once login is successful, click on "Post ROI to saral backend" to sync generated ROI to backend
 ![Sync ROI](readme_images/posttobackend.gif)
 
+**NOTE:** 
+- Once the ROI is synced to backend you can start scanning new form via Saral APP using [minimal mode](https://saral.sunbird.org/learn/features/minimal-mode) feature of the APP. 
+- To achieve the same a corresponding exam needs to be created in Saral backend with "type" as form name provided "classsId" and "sectionId" set to 0.
+
+

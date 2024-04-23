@@ -160,8 +160,8 @@ const ROIGenerator = ({
       const color = new cv.Scalar(0, 255, 0, 255); // Blue color
       const contour = contours.get(i);
       let rect = cv.boundingRect(contour);
-      let min_width = roiDim[0] - 10;
-      let min_height = roiDim[1] - 10;
+      let min_width = roiDim[0] - 7;
+      let min_height = roiDim[1] - 7;
       if (
         min_width <= rect.width &&
         rect.width <= roiDim[0] &&
@@ -303,12 +303,7 @@ const ROIGenerator = ({
       let newVal = val["count"] + roiIndex;
       for (let i = 0; i < froiList.length; i++) {
         if (roiIndex < newVal && roiIndex >= previousi) {
-          j = j + 1;
           let extractionMethod = Object.keys(extractionMethods)[0];
-          if (j > extractionMethods[extractionMethod]) {
-            j = 0;
-            delete extractionMethods[extractionMethod];
-          }
           let roiData = {
             annotationTags: key + "_" + i.toString(),
             extractionMethod: Object.keys(extractionMethods)[0],
@@ -319,6 +314,11 @@ const ROIGenerator = ({
           cellData["rois"].push(roiData);
           roiIndex = roiIndex + 1;
           index = index + 1;
+          j = j + 1;
+          if (j >= extractionMethods[extractionMethod]) {
+            j = 0;
+            delete extractionMethods[extractionMethod];
+          }
         }
       }
       mroi_list["layout"]["cells"].splice(val["cellIndex"], 0, cellData);

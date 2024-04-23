@@ -123,12 +123,7 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
     setInputs((prevFields) =>
       prevFields.map((input) => {
         if (input.id === inputId) {
-          if (input.size - 2 < 0) {
-            alert('The minimum value of input box size is 1!');
-            return { ...input, size: 1 };
-          } else {
             return { ...input, size: input.size - 1 };
-          }
         } else {
           return input;
         }
@@ -161,12 +156,13 @@ const IdComponent = ({ boundaryRef, setFormJson, fieldOrder}) => {
     if(omr.size <= 1) {
       const removeButton = IDContainer.querySelector('.remove-id-btn');
       removeButton.style.opacity = 1;
+    } else {
+      const addID = IDContainer.querySelector('.remove-cell-btn');
+      addID.style.opacity = 1;
     }
     
     const removeID = IDContainer.querySelector('.add-cell-btn');
     removeID.style.opacity = 1;
-    const addID = IDContainer.querySelector('.remove-cell-btn');
-    addID.style.opacity = 1;
   };
 
   const handleMouseLeaveID = (omr) => {
