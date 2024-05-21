@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import "./FormBuilder.component.css";
 import DownloadPDF from "./DownloadPDF/DownloadPDF.component";
@@ -7,6 +8,7 @@ import FreeTextComponent from "./FreeText/FreeText.component";
 import BlackDotComponent from "./BlackDot/BlackDot.component";
 import EditableTableCell from "./EditableTabelCell/EditableTableCell.component";
 import Dropdown from "../Dropdown/Dropdown.component";
+
 const FormBuilder = ({
   handleDesignComplete,
   setActiveStep,
@@ -19,20 +21,17 @@ const FormBuilder = ({
   ]);
 
   const boundaryRef = React.useRef(null);
-
   const [blackdots, setBlackdots] = useState([]);
   const [fieldOrder, setFieldOrder] = useState(1);
 
   const handleFormConfigSet = (json) => {
-    setFieldOrder((prevCount) => prevCount + 1)
-    setFormJson(json)
-  }
+    setFieldOrder((prevCount) => prevCount + 1);
+    setFormJson(json);
+  };
 
   const updateSharedState = (newValue) => {
     setBlackdots(newValue);
   };
-
-  // main table
 
   const addbox = (oldbox, where) => {
     const newbox = {
@@ -49,23 +48,26 @@ const FormBuilder = ({
     if (where === "bottom") {
       newbox.x += oldbox.height;
     }
+    if (where === "left") {
+      newbox.y -= oldbox.width;
+    }
+    if (where === "top") {
+      newbox.x -= oldbox.height;
+    }
 
     setBoxes((prevBoxes) => [...prevBoxes, newbox]);
   };
+
   const removeDiv = (currentbox) => {
-    let newlist = [];
-    for (let i = 0; i < boxes.length; i++) {
-      if (currentbox.key === boxes[i].key) continue;
-      newlist.push(boxes[i]);
-    }
+    let newlist = boxes.filter((box) => box.key !== currentbox.key);
     setBoxes(newlist);
   };
 
-  const [initialPos, setInitialPos] = React.useState(null);
-  const [initialSize, setInitialSize] = React.useState(null);
+  const [initialPos, setInitialPos] = useState(null);
+  const [initialSize, setInitialSize] = useState(null);
   const [isDesignComplete, setDesignComplete] = useState(false);
 
-  const options = ["Landscape", "Potrait"];
+  const options = ["Landscape", "Portrait"];
 
   const handleSelect = (option) => {
     setSelectedOption(option);
@@ -73,19 +75,16 @@ const FormBuilder = ({
 
   const initial = (e, box) => {
     let resizable = document.getElementsByClassName("box " + box.key)[0];
-
     setInitialPos(e.clientX);
     setInitialSize(resizable.offsetWidth);
   };
 
   const resize = (e, box) => {
     let resizable = document.getElementsByClassName("box " + box.key)[0];
-
     resizable.style.width = `${
       parseInt(initialSize) + parseInt(e.clientX - initialPos)
     }px`;
     let ne = parseInt(resizable.style.width);
-
     ne = Math.floor(ne / 10);
     ne = ne * 10;
     if (box.y + ne > 1010) {
@@ -97,13 +96,11 @@ const FormBuilder = ({
         boxes[i].width = ne;
       }
     }
-
     setBoxes(boxes);
   };
 
   const initialdown = (e, box) => {
     let resizable = document.getElementsByClassName("box " + box.key)[0];
-
     setInitialPos(e.clientY);
     setInitialSize(resizable.offsetHeight);
   };
@@ -120,7 +117,6 @@ const FormBuilder = ({
       ne = 670 - box.x;
     }
     resizable.style.height = `${ne}px`;
-    // let curr;
     for (let i = 0; i < boxes.length; i++) {
       if (boxes[i] === box) {
         boxes[i].height = ne;
@@ -131,7 +127,7 @@ const FormBuilder = ({
 
   const handleExportComplete = (dstImg, imgData) => {
     handleDesignComplete(dstImg, imgData, (isNoError) => {
-      if (typeof isNoError == "boolean") {
+      if (typeof isNoError === "boolean") {
         setDesignComplete(true);
       }
     });
@@ -153,14 +149,12 @@ const FormBuilder = ({
             }}
           >
             <EditableTableCell initialValue={""} />
-
             <div
               id="Draggable"
               draggable="true"
               onDragStart={(event) => initial(event, box)}
               onDrag={(event) => resize(event, box)}
             />
-
             <div
               id="Draggable2"
               draggable="true"
@@ -186,20 +180,40 @@ const FormBuilder = ({
             >
               +
             </button>
+            <button
+              onClick={() => addbox(box, "left")}
+              className="add-button left"
+            >
+              +
+            </button>
+            <button
+              onClick={() => addbox(box, "top")}
+              className="add-button top"
+            >
+              +
+            </button>
           </div>
         ))}
         <div className="tool-area">
           <strong>Form orientation:</strong>
           <p
             className={`${
-              selectedOption == "Landscape" ? "rotate" : "none"
+              selectedOption === "Landscape" ? "rotate" : "none"
             } orientation`}
           >
             📝
           </p>
           <Dropdown options={options} onSelect={handleSelect}></Dropdown>
-          <OmrComponent boundaryRef={boundaryRef} setFormJson={handleFormConfigSet} fieldOrder={fieldOrder}/>
-          <IdComponent boundaryRef={boundaryRef} setFormJson={handleFormConfigSet} fieldOrder={fieldOrder}/>
+          <OmrComponent
+            boundaryRef={boundaryRef}
+            setFormJson={handleFormConfigSet}
+            fieldOrder={fieldOrder}
+          />
+          <IdComponent
+            boundaryRef={boundaryRef}
+            setFormJson={handleFormConfigSet}
+            fieldOrder={fieldOrder}
+          />
           <FreeTextComponent boundaryRef={boundaryRef} type="FreeText" />
           <DownloadPDF
             boxes={boxes}
